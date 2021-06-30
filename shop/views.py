@@ -8,9 +8,13 @@ from django.urls import reverse
 
 # Create your views here.
 
+def home(request):
+    return render(request, 'shop/frontend/home.html')
+
 class CategoryList(ListView):
 
     model = Category
+    template_name= "shop/admin/category_list.html"
 
 class CategoryDetail(DetailView):
 
@@ -18,6 +22,7 @@ class CategoryDetail(DetailView):
 
 class CategoryCreate(CreateView):  
     model = Category
+    template_name= "shop/admin/category_form.html"
 
     #specify the fields to be displayed
 
@@ -32,6 +37,7 @@ class CategoryUpdate(UpdateView):
 
     model = Category
     fields = ['name'] 
+    template_name= "shop/admin/category_form.html"
     success_url = '/categories'
 
 class CategoryDelete(DeleteView):
