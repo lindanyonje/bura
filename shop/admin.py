@@ -6,7 +6,6 @@ from .models import *
 admin.site.register(Customer)
 admin.site.register(CustomerAddress)
 admin.site.register(Seller)
-admin.site.register(Admin)
 admin.site.register(Category)
 admin.site.register(Product)
 admin.site.register(Feedback)
