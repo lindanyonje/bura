@@ -17,34 +17,52 @@
 
 <body>
 
-     <!--Navigation Bar-->
+  <div class="wrapper">
 
-     {% include 'shop/admin/layouts/admin_nav.html' %}
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      
+      {% include 'shop/admin/layouts/sidebar.html' %}
 
-     <!--End navigation Bar-->
+    </nav>
 
-      <!--sidebar-->
+    <!-- Page Content -->
+    <div id="content" class="container-fluid">
 
-    {% include 'shop/admin/layouts/sidebar.html' %}
+      {% include 'shop/admin/layouts/admin_nav.html' %}
 
-    <!--end sidebar-->
+
+      {% block content%}
  
  
-     <div class="container-fluid mb-5 content">
-       {% block content%}
- 
- 
-       {% endblock content %}
-     </div>
+      {% endblock content %}
 
-     
+    </div>
 
 
 
- 
+</div> 
+
+
+
+
+
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
 
+
+    <script>
+
+      $(document).ready(function () {
+
+           $('#sidebarCollapse').on('click', function () {
+           $('#sidebar').toggleClass('active');
+
+        });
+
+      });  
+
+    </script>
 </body>
 </html>
