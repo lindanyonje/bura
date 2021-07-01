@@ -5,10 +5,10 @@
 <div class="container">
 
     <div class="row my-5">
-        <h5 class="text-dark">Category</h5>
+        <h5 class="text-dark">Sellers</h5>
         <button class="btn btn-dark ml-auto" data-toggle="modal"
-        data-target="#categoryModal">
-        <i class ="fa fa-plus" aria-hidden="true"> New Category </i>
+        data-target="#sellerModal">
+        <i class ="fa fa-plus" aria-hidden="true"> New Seller </i>
     </button>
             
     </div>
@@ -20,7 +20,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h4 class="card-title">All categories</h4>
+                    <h4 class="card-title">All sellers</h4>
         
                 </div>
     
@@ -37,6 +37,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone_number</th>
+                                <th>Status</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
@@ -48,10 +49,11 @@
                                    <td>{{object.name}}</td>
                                    <td>{{object.email}}</td>
                                    <td>{{object.phone_number}}</td>
+                                   <td>{{object.status}}</td>
                                    <td>{{object.created_at}}</td>
                                    <td>
                                        
-                                       <a href="{% url 'category_update' object.id %}"
+                                       <a href="{% url 'seller_update' object.id %}"
                                         class="btn btn-dark btn-sm">
                                          <i class="fa fa-edit"></i>
                                        </a>
@@ -83,11 +85,11 @@
 </div>
 
 <!-- Modals -->
-<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title title" id="exampleModalLabel">New Category</h5>
+                <h5 class="modal-title title" id="exampleModalLabel">New Seller</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -97,7 +99,7 @@
                 <!-- @csrf -->
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Enter Category Name</label>
+                        <label>Enter Seller Name</label>
                         <input type="text" class="form-control" placeholder="Name" name="name">
                     </div>
                     <div class="form-group">
@@ -105,8 +107,8 @@
                         <input type="text" class="form-control" placeholder="Description" name="description">
                     </div>
                     <div class="form-group">
-                        <label>Parent Customer</label>
-                        <select class="form-control input-sm" name="category_id">
+                        <label>Parent Seller</label>
+                        <select class="form-control input-sm" name="seller_id">
                             <option value="">--select--</option>
                         </select>
                     </div>

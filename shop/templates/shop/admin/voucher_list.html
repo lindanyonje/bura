@@ -5,10 +5,10 @@
 <div class="container">
 
     <div class="row my-5">
-        <h5 class="text-dark">Category</h5>
+        <h5 class="text-dark">Categories</h5>
         <button class="btn btn-dark ml-auto" data-toggle="modal"
-        data-target="#categoryModal">
-        <i class ="fa fa-plus" aria-hidden="true"> New Category </i>
+        data-target="#voucherModal">
+        <i class ="fa fa-plus" aria-hidden="true"> New Voucher </i>
     </button>
             
     </div>
@@ -20,7 +20,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h4 class="card-title">All categories</h4>
+                    <h4 class="card-title">All vouchers</h4>
         
                 </div>
     
@@ -34,9 +34,9 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone_number</th>
+                                <th>Product_id</th>
+                                <th>Voucher_amount</th>
+                                <th>Voucher_tag</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
@@ -45,13 +45,13 @@
                             {% for object in object_list %}
                                <tr>
                                    <td>{{object.id}}</td>
-                                   <td>{{object.name}}</td>
-                                   <td>{{object.email}}</td>
-                                   <td>{{object.phone_number}}</td>
+                                   <!-- <td>{{object.product_id}}</td> -->
+                                   <td>{{object.voucher_amount}}</td>
+                                   <td>{{object.voucher_tag}}</td>
                                    <td>{{object.created_at}}</td>
                                    <td>
                                        
-                                       <a href="{% url 'category_update' object.id %}"
+                                       <a href="{% url 'voucher_update' object.id %}"
                                         class="btn btn-dark btn-sm">
                                          <i class="fa fa-edit"></i>
                                        </a>
@@ -83,7 +83,7 @@
 </div>
 
 <!-- Modals -->
-<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -97,7 +97,7 @@
                 <!-- @csrf -->
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Enter Category Name</label>
+                        <label>Enter the Voucher Name</label>
                         <input type="text" class="form-control" placeholder="Name" name="name">
                     </div>
                     <div class="form-group">
@@ -105,8 +105,8 @@
                         <input type="text" class="form-control" placeholder="Description" name="description">
                     </div>
                     <div class="form-group">
-                        <label>Parent Customer</label>
-                        <select class="form-control input-sm" name="category_id">
+                        <label>Parent voucher</label>
+                        <select class="form-control input-sm" name="voucher_id">
                             <option value="">--select--</option>
                         </select>
                     </div>

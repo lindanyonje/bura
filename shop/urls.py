@@ -3,6 +3,13 @@ from . import views
 from shop.views import CategoryDelete, CategoryUpdate, CategoryList,CategoryDetail ,CategoryCreate
 from shop.views import SellerDelete, SellerUpdate, SellerList, SellerDetail,SellerCreate
 from shop.views import ProductDelete, ProductUpdate,ProductList, ProductDetail,ProductCreate
+from shop.views import OfferDelete, OfferUpdate, OfferList, OfferDetail,OfferCreate
+from shop.views import VoucherDelete, VoucherUpdate,VoucherList, VoucherDetail,VoucherCreate
+from shop.views import OrderDelete, OrderUpdate,OrderList, OrderDetail,OrderCreate
+from shop.views import PaymentDelete, PaymentUpdate,PaymentList, PaymentDetail,PaymentCreate
+from shop.views import CustomerDelete, CustomerUpdate,CustomerList, CustomerDetail,CustomerCreate
+
+
 
 urlpatterns=[
     path('', views.home, name="home"),
@@ -21,8 +28,30 @@ urlpatterns=[
     path('create/Product', ProductCreate.as_view(),name= 'Product_create'),
     path('update/Product/<pk>/',ProductUpdate.as_view(),name='Product_update'),
     path('delete/Product/<pk>/',ProductDelete.as_view(),name='Product_delete'),
-    
-
-
+    path('offers/',OfferList.as_view(),name="Offer_list"),
+    path('offer/detail/<pk>',OfferDetail.as_view(),name= 'Offer_detail'),
+    path('create/offer', OfferCreate.as_view(),name= 'Offer_create'),
+    path('update/offer/<pk>/',OfferUpdate.as_view(),name='Offer_update'),
+    path('delete/offer/<pk>/',OfferDelete.as_view(),name='Offer_delete'),
+    path('vouchers/',VoucherList.as_view(),name="Voucher_list"),
+    path('voucher/detail/<pk>',VoucherDetail.as_view(),name= 'Voucher_detail'),
+    path('create/voucher', VoucherCreate.as_view(),name= 'Voucher_create'),
+    path('update/voucher/<pk>/',VoucherUpdate.as_view(),name='Voucher_update'),
+    path('delete/voucher/<pk>/',VoucherDelete.as_view(),name='Voucher_delete'),
+    path('orders/',OrderList.as_view(),name="Order_list"),
+    path('order/detail/<pk>',OrderDetail.as_view(),name= 'Order_detail'),
+    path('create/order', OrderCreate.as_view(),name= 'Order_create'),
+    path('update/order/<pk>/',OrderUpdate.as_view(),name='Order_update'),
+    path('delete/order/<pk>/',OrderDelete.as_view(),name='Order_delete'),
+    path('payments/',PaymentList.as_view(),name="Payment_list"),
+    path('payment/detail/<pk>',PaymentDetail.as_view(),name= 'Payment_detail'),
+    path('create/payment', PaymentCreate.as_view(),name= 'Payment_create'),
+    path('update/payment/<pk>/',PaymentUpdate.as_view(),name='Payment_update'),
+    path('delete/payment/<pk>/',PaymentDelete.as_view(),name='Payment_delete'),
+    path('customers/',CustomerList.as_view(),name="Customer_list"),
+    path('customer/detail/<pk>',CustomerDetail.as_view(),name= 'Customer_detail'),
+    path('create/customer', CustomerCreate.as_view(),name= 'Customer_create'),
+    path('update/customer/<pk>/',CustomerUpdate.as_view(),name='Customer_update'),
+    path('delete/customer/<pk>/',CustomerDelete.as_view(),name='Customer_delete'),
 
 ]
