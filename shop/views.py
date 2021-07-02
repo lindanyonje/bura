@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer
 from django.views import View
@@ -5,6 +6,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -92,7 +94,7 @@ class  SellerDetail(DetailView):
 
 class  SellerCreate(CreateView):  
     model =  Seller
-    template_name= "shop/admin/seller_list.html"
+    template_name= "shop/admin/seller_form.html"
 
     #specify the fields to be displayed
 
@@ -294,7 +296,17 @@ class CustomerUpdate(UpdateView):
 class CustomerDelete(DeleteView):
 
     model =Customer
-    success_url = '/customers'  
+    success_url = '/customers'
+
+
+def deleteCategory(request):
+    Category_id= request.POST.get('id',None)
+    category=Category.objects.get(id= Category_id)
+    category.delete()
+    data= {
+        'deleted':True
+    }
+    return JsonResponse(data)
 
 
 
