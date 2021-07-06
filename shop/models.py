@@ -28,6 +28,9 @@ class Seller(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Category(models.Model):
     name=models.CharField(max_length=100, null=False, blank=False)
@@ -44,7 +47,7 @@ class Product(models.Model):
     cost=models.IntegerField(null= False, blank= False)
     quantity=models.IntegerField(null= False, blank= False)
     description=models.TextField(null=False, blank=False)
-    image=models.CharField(max_length=100, null=False, blank=False)
+    image=models.FileField(upload_to='images')
     featured=models.BooleanField(default=False)
     status=models.CharField(max_length=100, null=False, blank=True, default='Unverified')
     category_id=models.ForeignKey('category',on_delete=models.CASCADE,blank=True,null=True)
@@ -52,6 +55,8 @@ class Product(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
 
 
 class Feedback(models.Model):

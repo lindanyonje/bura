@@ -7,6 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse
 from django.http import JsonResponse
+from django .contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -14,7 +15,8 @@ def home(request):
     return render(request, 'shop/frontend/home.html')
 
 class CategoryList(ListView):
-
+    
+    login_required= True
     model = Category
     template_name= "shop/admin/category_list.html"
 
@@ -23,6 +25,8 @@ class CategoryDetail(DetailView):
     model = Category
 
 class CategoryCreate(CreateView):  
+
+    login_required= True
     model = Category
     template_name= "shop/admin/category_form.html"
 
@@ -37,6 +41,7 @@ class CategoryCreate(CreateView):
 
 class CategoryUpdate(UpdateView):
 
+    login_required= True
     model = Category
     fields = ['name'] 
     template_name= "shop/admin/category_form.html"
@@ -44,6 +49,7 @@ class CategoryUpdate(UpdateView):
 
 class CategoryDelete(DeleteView):
 
+    login_required= True
     model = Category
     success_url = '/categories'
 
@@ -51,48 +57,58 @@ class CategoryDelete(DeleteView):
 
 class ProductList(ListView):
 
+    login_required= True
     model =Product
     template_name= "shop/admin/product_list.html"
 
 class ProductDetail(DetailView):
 
+    login_required= True
     model = Product
 
-class ProductCreate(CreateView):  
+class ProductCreate(CreateView): 
+
+    login_required= True 
     model = Product
+    template_name= "shop/admin/product_form.html"
 
     #specify the fields to be displayed
 
-    fields = ['name']
-    template_name= "shop/admin/product_list.html"
+    fields = '__all__'
 
     #function to ridirect user
 
     def get_success_url(self):
-        return reverse('Product_list')
+        return reverse('Product')
 
 class ProductUpdate(UpdateView):
 
+    login_required= True
     model = Product
     fields = ['name'] 
     success_url = '/products'
 
 class ProductDelete(DeleteView):
 
+    login_required= True
     model = Product
     success_url = '/products'
 
 
 class  SellerList(ListView):
 
+    login_required= True
     model =  Seller
     template_name= "shop/admin/seller_list.html"
 
 class  SellerDetail(DetailView):
 
+    login_required= True
     model =  Seller
 
-class  SellerCreate(CreateView):  
+class  SellerCreate(CreateView): 
+
+    login_required= True 
     model =  Seller
     template_name= "shop/admin/seller_form.html"
 
@@ -107,6 +123,7 @@ class  SellerCreate(CreateView):
 
 class SellerUpdate(UpdateView):
 
+    login_required= True
     model = Seller
     fields = ['name'] 
     template_name= "shop/admin/seller_form.html"
@@ -114,6 +131,7 @@ class SellerUpdate(UpdateView):
 
 class  SellerDelete(DeleteView):
 
+    login_required= True
     model =  Seller
     success_url = '/sellers'
 
@@ -121,14 +139,18 @@ class  SellerDelete(DeleteView):
 
 class OfferList(ListView):
 
+    login_required= True
     model = Offer
     template_name= "shop/admin/offer_list.html"
 
 class OfferDetail(DetailView):
 
+    login_required= True
     model = Offer
 
 class OfferCreate(CreateView):  
+
+    login_required= True
     model = Offer
     template_name= "shop/admin/offer_form.html"
 
@@ -143,6 +165,7 @@ class OfferCreate(CreateView):
 
 class OfferUpdate(UpdateView):
 
+    login_required= True
     model = Offer
     fields = ['name'] 
     template_name= "shop/admin/offer_form.html"
@@ -150,6 +173,7 @@ class OfferUpdate(UpdateView):
 
 class OfferDelete(DeleteView):
 
+    login_required= True
     model = Offer
     success_url = '/offers'  
 
@@ -157,14 +181,18 @@ class OfferDelete(DeleteView):
 
 class VoucherList(ListView):
 
+    login_required= True
     model = Voucher
     template_name= "shop/admin/voucher_list.html"
 
 class VoucherDetail(DetailView):
 
+    login_required= True
     model = Voucher
 
-class VoucherCreate(CreateView):  
+class VoucherCreate(CreateView):
+
+    login_required= True  
     model = Voucher
     template_name= "shop/admin/voucher_form.html"
 
@@ -179,13 +207,15 @@ class VoucherCreate(CreateView):
 
 class VoucherUpdate(UpdateView):
 
-    model = Voucher
+    
+    login_required= Truemodel = Voucher
     fields = ['name'] 
     template_name= "shop/admin/voucher_form.html"
     success_url = '/offers'
 
 class VoucherDelete(DeleteView):
 
+    login_required= True
     model = Voucher
     success_url = '/vouchers'  
 
@@ -194,14 +224,17 @@ class VoucherDelete(DeleteView):
 
 class OrderList(ListView):
 
-    model =Order
+    login_required= Truemodel =Order
     template_name= "shop/admin/order_list.html"
 
 class OrderDetail(DetailView):
 
+    login_required= True
     model = Order
 
-class OrderCreate(CreateView):  
+class OrderCreate(CreateView): 
+
+    login_required= True 
     model = Order
     template_name= "shop/admin/oder_form.html"
 
@@ -216,13 +249,15 @@ class OrderCreate(CreateView):
 
 class OrderUpdate(UpdateView):
 
-    model = Order
+    login_required= True
+    odel = Order
     fields = ['name'] 
     template_name= "shop/admin/order_form.html"
     success_url = '/oders'
 
 class OrderDelete(DeleteView):
 
+    login_required= True
     model = Order
     success_url = '/orders'  
 
@@ -230,14 +265,18 @@ class OrderDelete(DeleteView):
 
 class PaymentList(ListView):
 
+    login_required= True
     model =Payment
     template_name= "shop/admin/payment_list.html"
 
 class PaymentDetail(DetailView):
 
+    login_required= True
     model = Payment
 
-class PaymentCreate(CreateView):  
+class PaymentCreate(CreateView):
+
+    login_required= True  
     model = Payment
     template_name= "shop/admin/payment_form.html"
 
@@ -252,6 +291,7 @@ class PaymentCreate(CreateView):
 
 class PaymentUpdate(UpdateView):
 
+    login_required= True
     model = Payment
     fields = ['name'] 
     template_name= "shop/admin/payment_form.html"
@@ -259,6 +299,7 @@ class PaymentUpdate(UpdateView):
 
 class PaymentDelete(DeleteView):
 
+    login_required= True
     model =Payment
     success_url = '/payments'  
 
@@ -266,14 +307,18 @@ class PaymentDelete(DeleteView):
 
 class CustomerList(ListView):
 
+    login_required= True
     model = Customer
     template_name= "shop/admin/customer_list.html"
 
 class CustomerDetail(DetailView):
 
+    login_required= True
     model =  Customer
 
 class  CustomerCreate(CreateView):  
+
+    login_required= True
     model =  Customer
     template_name= "shop/admin/customer_form.html"
 
@@ -288,6 +333,7 @@ class  CustomerCreate(CreateView):
 
 class CustomerUpdate(UpdateView):
 
+    login_required= True
     model =  Customer
     fields = ['name'] 
     template_name= "shop/admin/customer_form.html"
@@ -295,9 +341,11 @@ class CustomerUpdate(UpdateView):
 
 class CustomerDelete(DeleteView):
 
+    login_required= True
     model =Customer
     success_url = '/customers'
 
+@login_required
 
 def deleteCategory(request):
     Category_id= request.POST.get('id',None)

@@ -29,12 +29,15 @@
 
   <div class="wrapper">
 
-    <!-- Sidebar -->
-    <nav id="sidebar">
-      
-      {% include 'shop/admin/layouts/sidebar.html' %}
+    {% if user.is_authenticated %}
 
-    </nav>
+      <!-- Sidebar -->
+      <nav id="sidebar">
+        
+        {% include 'shop/admin/layouts/sidebar.html' %}
+
+      </nav>
+    {% endif %}  
 
     <!-- Page Content -->
     <div id="content" class="container-fluid">
@@ -46,6 +49,8 @@
  
  
       {% endblock content %}
+
+  
 
     </div>
 
