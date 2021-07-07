@@ -1,0 +1,57 @@
+{% extends 'shop/admin/layouts/admin_master.html' %}
+
+{% block content%}
+
+
+<a href="{% url 'product_detail' object.id %}">
+
+    <div class="container">
+
+        <div class ="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <img src="nikeshoes.jpg" class="img-thumbnail" alt="Nike Shoes">
+
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+    
+            <div class="col-lg-8">
+    
+                <div class="card">
+    
+                    <div class="card-body">
+    
+                        <i class="fa fa-star" aria-hidden="true"></i>
+    
+                        <p> Nike Shoes </p>
+                        <p> Ksh 15000 </p>
+    
+                    </div>
+
+                    <div class="btn-group">
+
+                        <button type="button" class="btn btn-info" >Add to cart</button>
+                        
+                    </div>
+
+                    <div class="btn-group">
+
+                        <button type="button" class="btn btn-secondary">Buy Now</button>
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</a>
+
+
+{% endblock %}
