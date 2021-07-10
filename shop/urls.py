@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+
+from django.conf.urls.static import static
 from shop.views import CategoryDelete, CategoryUpdate, CategoryList,CategoryDetail ,CategoryCreate
 from shop.views import SellerDelete, SellerUpdate, SellerList, SellerDetail,SellerCreate
 from shop.views import ProductDelete, ProductUpdate,ProductList, ProductDetail,ProductCreate
@@ -56,3 +59,6 @@ urlpatterns=[
     path('ajax/delete/category',views.deleteCategory,name="ajax_delete_category"),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

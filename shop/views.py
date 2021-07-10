@@ -12,7 +12,13 @@ from django .contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
-    return render(request, 'shop/frontend/home.html')
+
+    context = {}
+
+    context['products'] = Product.objects.all()[:3]
+    context['categories'] = Category.objects.all()
+
+    return render(request, 'shop/frontend/home.html', context)
 
 class CategoryList(ListView):
     
