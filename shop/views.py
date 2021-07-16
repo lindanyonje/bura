@@ -71,6 +71,8 @@ class ProductDetail(DetailView):
 
     login_required= True
     model = Product
+    template_name= "shop/admin/product_detail.html"
+
 
 class ProductCreate(CreateView): 
 
@@ -91,8 +93,10 @@ class ProductUpdate(UpdateView):
 
     login_required= True
     model = Product
-    fields = ['name'] 
+    fields = '__all__'
     success_url = '/products'
+    template_name= "shop/admin/product_form.html"
+
 
 class ProductDelete(DeleteView):
 
