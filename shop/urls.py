@@ -57,6 +57,12 @@ urlpatterns=[
     path('update/customer/<pk>/',CustomerUpdate.as_view(),name='Customer_update'),
     path('delete/customer/<pk>/',CustomerDelete.as_view(),name='Customer_delete'),
     path('ajax/delete/category',views.deleteCategory,name="ajax_delete_category"),
+    path('ajax/delete/Seller',views.deleteSeller,name="ajax_delete_seller"),
+    path('ajax/delete/product',views.deleteProduct,name="ajax_delete_product"),
+
+
+    
+
 
 ]
 

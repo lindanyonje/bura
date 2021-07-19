@@ -1,0 +1,47 @@
+{% extends 'shop/admin/layouts/admin_master.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify justify-content-center my-5">
+
+        <div class="col-lg-6">
+
+            <div class="card">
+                <div class="card-header"> 
+                    <h5 class="card-title">Create or Update Customer</h5>
+    
+                </div>
+                <div class="card-body">
+    
+                    <form method="POST" enctype="multipart/form-data">
+                        <!-- Security token -->
+    
+                        {% csrf_token %}
+    
+                        <!-- Using the formset -->
+    
+                        {{ form.as_p }}
+    
+                        <div class="row justify-content-center">
+    
+                            <input type="submit" class="btn btn-primary w-50 my-3" value="Submit">
+                        </div>
+    
+                        
+                    </form>
+    
+                </div>
+            </div>
+            
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

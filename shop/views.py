@@ -124,7 +124,7 @@ class  SellerCreate(CreateView):
 
     #specify the fields to be displayed
 
-    fields = ['name']
+    fields ='__all__'
 
     #function to ridirect user
 
@@ -261,7 +261,7 @@ class OrderUpdate(UpdateView):
 
     login_required= True
     odel = Order
-    fields = ['name'] 
+    fields = '__all__'
     template_name= "shop/admin/order_form.html"
     success_url = '/oders'
 
@@ -367,6 +367,23 @@ def deleteCategory(request):
     return JsonResponse(data)
 
 
+def deleteSeller(request):
+    Seller_id= request.POST.get('id',None)
+    seller=Seller.objects.get(id= Seller_id)
+    seller.delete()
+    data= {
+        'deleted':True
+    }
 
+    return  JsonResponse(data)
 
-        
+def deleteProduct(request):
+
+    Product_id= request.POST.get('id',None)
+    product=Product.objects.get(id=Product_id)
+    product.delete()
+    data= {
+        'deleted':True
+    }
+
+    return JsonResponse(data)
