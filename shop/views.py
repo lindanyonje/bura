@@ -103,6 +103,8 @@ class ProductDelete(DeleteView):
     login_required= True
     model = Product
     success_url = '/products'
+    template_name= "shop/admin/product_confirm_delete.html"
+
 
 
 class  SellerList(ListView):
@@ -234,7 +236,8 @@ class VoucherDelete(DeleteView):
 
 class OrderList(ListView):
 
-    login_required= Truemodel =Order
+    login_required= True
+    model =Order
     template_name= "shop/admin/order_list.html"
 
 class OrderDetail(DetailView):
@@ -325,6 +328,8 @@ class CustomerDetail(DetailView):
 
     login_required= True
     model =  Customer
+    template_name= "shop/admin/customer_details.html"
+
 
 class  CustomerCreate(CreateView):  
 

@@ -34,20 +34,20 @@
 
                     <p><strong>Product Name:</strong> {{object.name}}</p>
 
-                    <p><strong>Seller Name:</strong> {{seller.name}</p>
+                    <p><strong>Seller Name:</strong> {{object.seller_id}}</p>
 
                     <p><strong>Cost:</strong> {{product.cost}}</p>
 
                     {# Do the same for cost, seller then add a row with buttons #}
                     
-                    <a href="{% url 'product_detail' object.id %}"
+                    <a href="{% url 'product_update' object.id %}"
                                         class="btn btn-dark btn-sm">
                                          <i class="fa fa-edit"> Edit Product </i>
                                        </a>
-                                       <button onclick ="deleteProduct('{{object.id}}')"
+                                       <a href="{% url 'Product_delete' object.id %}"
                                          class="btn btn-danger btn-sm">
                                          <i class="fa fa-trash"> Delete Product </i>
-                                      </button>
+                                    </a>
 
         
                 </div>

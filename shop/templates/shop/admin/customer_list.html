@@ -46,7 +46,10 @@
                                    <td>{{object.name}}</td>
                                    <td>{{object.created_at}}</td>
                                    <td>
-                                       
+                                    <a href="{% url 'Customer_detail' object.id %}"
+                                    class="btn btn-dark btn-sm">
+                                     <i class="fa fa-eye"></i>
+                                   </a>
                                     <button onclick ="deleteCustomer('{{object.id}}')"
                                     class="btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
