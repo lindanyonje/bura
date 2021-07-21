@@ -5,10 +5,11 @@
 <div class="container">
 
     <div class="row my-5">
-        <h5 class="text-dark">Orders</h5>
-        <button class="btn btn-dark ml-auto" data-toggle="modal"
-        data-target="#orderModal">
-        <i class ="fa fa-plus" aria-hidden="true"> New Order </i>
+
+        <a href="{% url 'Order_create' %}" class="btn btn-dark ml-auto" >
+            <i class ="fa fa-plus" aria-hidden="true"> New Order </i>
+        </a>
+                
     </button>
             
     </div>

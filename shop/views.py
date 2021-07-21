@@ -117,6 +117,7 @@ class  SellerDetail(DetailView):
 
     login_required= True
     model =  Seller
+    template_name= "shop/admin/seller_form.html"
 
 class  SellerCreate(CreateView): 
 
@@ -145,6 +146,7 @@ class  SellerDelete(DeleteView):
 
     login_required= True
     model =  Seller
+    template_name= "shop/admin/seller_form.html"
     success_url = '/sellers'
 
     
@@ -244,6 +246,7 @@ class OrderDetail(DetailView):
 
     login_required= True
     model = Order
+    template_name= "shop/admin/order_form.html"
 
 class OrderCreate(CreateView): 
 
@@ -272,6 +275,7 @@ class OrderDelete(DeleteView):
 
     login_required= True
     model = Order
+    template_name= "shop/admin/order_form.html"
     success_url = '/orders'  
 
 
@@ -358,6 +362,7 @@ class CustomerDelete(DeleteView):
 
     login_required= True
     model =Customer
+    template_name= "shop/admin/customer_form.html"
     success_url = '/customers'
 
 @login_required

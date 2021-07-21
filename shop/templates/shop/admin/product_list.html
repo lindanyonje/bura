@@ -5,12 +5,11 @@
 <div class="container">
 
     <div class="row my-5">
-        <h5 class="text-dark">Products</h5>
-        <button class="btn btn-dark ml-auto" data-toggle="modal"
-        data-target="#productModal">
-        <i class ="fa fa-plus" aria-hidden="true"> New Product </i>
-    </button>
-            
+
+        <a href="{% url 'Product_create' %}" class="btn btn-dark ml-auto" >
+            <i class ="fa fa-plus" aria-hidden="true"> New Product </i>
+        </a>
+                
     </div>
 
     <div class="row justify-content-center my-5">
@@ -148,7 +147,7 @@
 </div>
 
 {% endblock %}
-
+<!-- 
 {% block scripts %}
 
 <script>
@@ -206,5 +205,5 @@
 
 
 
-{% endblock %}
+{% endblock %} -->
 
