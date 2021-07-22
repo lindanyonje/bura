@@ -8,11 +8,12 @@
 
         <h3>{{object.name}}</h3>
 
+        <!-- <p>{{object.category_id}}</p> -->
+
     </div>
 
     <div class="row justify-content-center">
 
-        
         <div class="col-lg-6 col-md-12 h-100 ">
 
             <div class="card h-100 border-0 shadow-sm">
@@ -25,19 +26,23 @@
 
                     <p><strong>Seller Name:</strong> {{object.name}}</p>
 
-                    <p><strong>Email:</strong> {{seller.email}}</p>
-
-                    <p><strong>Phone Number:</strong> {{object.phone_number}}</p>
+                    <p><strong>Seller Number:</strong> {{object.phone_number}}</p>
 
                     <p><strong>Business Number:</strong> {{object.business_number}}</p>
 
+                    <p><strong>Seller Email:</strong> {{object.email}}</p>
+
                     <p><strong>Seller Status:</strong> {{object.status}}</p>
 
-    
+                    <!-- <p><strong>Seller Url:</strong> {{object.external_url}}</p> -->
+
+
+
+                    {# Do the same for cost, seller then add a row with buttons #}
                     
                     <a href="{% url 'Seller_update' object.id %}"
                                         class="btn btn-dark btn-sm">
-                                         <i class="fa fa-edit"> Edit Seller</i>
+                                         <i class="fa fa-edit"> Edit Seller </i>
                                        </a>
                                        <a href="{% url 'Seller_delete' object.id %}"
                                          class="btn btn-danger btn-sm">
@@ -54,7 +59,7 @@
 
     </div>
 
-    <div class="row my-5">
+    <!-- <div class="row my-5">
 
         <div class="card">
 
@@ -68,7 +73,7 @@
 
         </div>
 
-    </div>
+    </div> -->
 
 </div>
 
