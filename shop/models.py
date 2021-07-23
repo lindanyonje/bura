@@ -10,6 +10,9 @@ class Customer(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
 class CustomerAddress(models.Model):
     customer_id=models.ForeignKey('customer',on_delete=models.CASCADE,blank=True,null=True)
     address=models.TextField(null=False, blank=False)
@@ -83,6 +86,9 @@ class Order(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.order_number
+
 class Cart(models.Model):
     order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True)
     product_id=models.ForeignKey('product',on_delete=models.CASCADE,blank=True,null=True)
@@ -97,6 +103,10 @@ class Payment(models.Model):
     invoice_number=models.CharField(max_length=100, null=False, blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.invoice_number
+
 
 class Delivery(models.Model):
     order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True)

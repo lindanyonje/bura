@@ -15,10 +15,30 @@ def home(request):
 
     context = {}
 
+
     context['products'] = Product.objects.all()[:3]
     context['categories'] = Category.objects.all()
 
     return render(request, 'shop/frontend/home.html', context)
+
+def adminDashboard(request):
+
+    ##Declaring a dictionary used to package the data we shall
+    ##send to the frontend html template for display.
+
+    context = {}
+
+    context['product_count'] =  Product.objects.all().count()
+    context['order_count'] =  Order.objects.all().count()
+    context['payment_count'] =  Payment.objects.all().count()
+    context['payments'] =  Payment.objects.all()[:10]
+    context['pending_orders'] =  Order.objects.filter(status ="Pending")
+
+
+
+    return render(request, 'shop/admin/dashboard.html', context)
+
+
 
 class CategoryList(ListView):
     
@@ -117,7 +137,7 @@ class  SellerDetail(DetailView):
 
     login_required= True
     model =  Seller
-    template_name= "shop/admin/seller_form.html"
+    template_name= "shop/admin/seller_details.html"
 
 class  SellerCreate(CreateView): 
 

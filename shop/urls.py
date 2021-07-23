@@ -3,7 +3,7 @@ from . import views
 from django.conf import settings
 
 from django.conf.urls.static import static
-from shop.views import CategoryDelete, CategoryUpdate, CategoryList,CategoryDetail ,CategoryCreate
+from shop.views import CategoryDelete, CategoryUpdate, CategoryList,CategoryDetail ,CategoryCreate, adminDashboard
 from shop.views import SellerDelete, SellerUpdate, SellerList, SellerDetail,SellerCreate
 from shop.views import ProductDelete, ProductUpdate,ProductList, ProductDetail,ProductCreate
 from shop.views import OfferDelete, OfferUpdate, OfferList, OfferDetail,OfferCreate
@@ -16,6 +16,7 @@ from shop.views import CustomerDelete, CustomerUpdate,CustomerList, CustomerDeta
 
 urlpatterns=[
     path('', views.home, name="home"),
+    path('dashboard/',views.adminDashboard,name="dashboard"),
     path('categories/',CategoryList.as_view(),name="Category_List"),
     path('category/detail/<pk>',CategoryDetail.as_view(),name= 'category_detail'),
     path('create/category', CategoryCreate.as_view(),name= 'category_create'),
