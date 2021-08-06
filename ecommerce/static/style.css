@@ -200,9 +200,9 @@ a[data-toggle="collapse"] {
     border-left: 5px solid orange;
   }
 
-  /* .login-image{
+  .login-image{
     float: left;
     padding: 5px;  
-    height: 30px;
-    width: 30px;
-} */
+    height: 15px;
+    width: 15px;
+}

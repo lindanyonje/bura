@@ -99,6 +99,7 @@ class ProductCreate(CreateView):
     login_required= True 
     model = Product
     template_name= "shop/admin/product_form.html"
+    success_url = '/categories'
 
     #specify the fields to be displayed
 
@@ -272,7 +273,9 @@ class OrderCreate(CreateView):
 
     login_required= True 
     model = Order
-    template_name= "shop/admin/oder_form.html"
+    template_name= "shop/admin/order_form.html"
+    success_url = '/orders'
+
 
     #specify the fields to be displayed
 
@@ -332,7 +335,7 @@ class PaymentUpdate(UpdateView):
     model = Payment
     fields = ['name'] 
     template_name= "shop/admin/payment_form.html"
-    success_url = '/oders'
+    success_url = '/payments'
 
 class PaymentDelete(DeleteView):
 
