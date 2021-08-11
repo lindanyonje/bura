@@ -97,7 +97,7 @@ class Cart(models.Model):
     updated_at= models.DateTimeField(auto_now_add=True) 
 
 class Payment(models.Model):
-    order_id= models.ForeignKey('customer',on_delete=models.CASCADE,blank=True,null=True)
+    order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True)
     amount=models.IntegerField(null= True, blank= True)
     description=models.TextField(null=True, blank=True)
     invoice_number=models.CharField(max_length=100, null=False, blank=True)

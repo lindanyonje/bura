@@ -60,10 +60,10 @@ class CategoryCreate(CreateView):
 
     fields = ['name']
 
-    #function to ridirect user
+    #function to redirect user
 
     def get_success_url(self):
-        return reverse('category_list')
+        return reverse('Category_List') #uses the path name
 
 class CategoryUpdate(UpdateView):
 
@@ -71,7 +71,7 @@ class CategoryUpdate(UpdateView):
     model = Category
     fields = ['name'] 
     template_name= "shop/admin/category_form.html"
-    success_url = '/categories'
+    success_url = '/categories' #this uses the path url
 
 class CategoryDelete(DeleteView):
 
@@ -233,7 +233,7 @@ class VoucherCreate(CreateView):
 
     #specify the fields to be displayed
 
-    fields = ['name']
+    fields = '__all__'
 
     #function to ridirect user
 
@@ -244,7 +244,7 @@ class VoucherUpdate(UpdateView):
 
     
     login_required= Truemodel = Voucher
-    fields = ['name'] 
+    fields = '__all__' 
     template_name= "shop/admin/voucher_form.html"
     success_url = '/offers'
 
@@ -279,7 +279,7 @@ class OrderCreate(CreateView):
 
     #specify the fields to be displayed
 
-    fields = ['name']
+    fields = '__all__'
 
     #function to ridirect user
 
@@ -322,7 +322,7 @@ class PaymentCreate(CreateView):
 
     #specify the fields to be displayed
 
-    fields = ['name']
+    fields = ['order_id', 'amount', 'description', 'invoice_number']
 
     #function to ridirect user
 
@@ -385,7 +385,7 @@ class CustomerDelete(DeleteView):
 
     login_required= True
     model =Customer
-    template_name= "shop/admin/customer_form.html"
+    template_name= "shop/admin/customer_confirm_delete.html"
     success_url = '/customers'
 
 @login_required

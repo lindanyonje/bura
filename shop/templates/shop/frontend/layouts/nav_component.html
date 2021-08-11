@@ -21,7 +21,7 @@
          <li class="nav-item"><a class="nav-link"href="#">Shop</a></li>
          {% if user.is_authenticated %}
 
-                    <li class="nav-item"><span class="btn btn-outline-light border-0 mx-2"> Welcome {{ user.get_username }}</span></li>
+                    <li class="nav-item"><a href="{% url 'dashboard' %}" class="btn btn-outline-light border-0 mx-2"> Welcome {{ user.get_username }}</a></li>
                     <li><a class="btn btn-light" href="{% url 'logout' %}?next={{request.path}}">Logout</a></li>
 
                 {% else %}

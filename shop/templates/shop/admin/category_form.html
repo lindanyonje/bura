@@ -24,7 +24,15 @@
     
                         <!-- Using the formset -->
     
-                        {{ form.as_p }}
+                        {% for field in form.visible_fields %}
+    
+                        <div class="form-group">
+                            {{field.label_tag}}
+                            {% render_field field class="form-control" %}
+
+                        </div>
+
+                        {% endfor %}
     
                         <div class="row justify-content-center">
     
