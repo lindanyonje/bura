@@ -1,3 +1,4 @@
+from django.db.models.fields import Field
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer
@@ -53,6 +54,7 @@ class CategoryDetail(DetailView):
 class CategoryCreate(CreateView):  
 
     login_required= True
+    fields= ['parent_id']
     model = Category
     template_name= "shop/admin/category_form.html"
 
@@ -289,10 +291,10 @@ class OrderCreate(CreateView):
 class OrderUpdate(UpdateView):
 
     login_required= True
-    odel = Order
+    model = Order
     fields = '__all__'
     template_name= "shop/admin/order_form.html"
-    success_url = '/oders'
+    success_url = '/orders'
 
 class OrderDelete(DeleteView):
 
@@ -333,7 +335,7 @@ class PaymentUpdate(UpdateView):
 
     login_required= True
     model = Payment
-    fields = ['name'] 
+    fields = '__all__'
     template_name= "shop/admin/payment_form.html"
     success_url = '/payments'
 
@@ -362,6 +364,7 @@ class  CustomerCreate(CreateView):
 
     login_required= True
     model =  Customer
+    fields=' __all__'
     template_name= "shop/admin/customer_form.html"
 
     #specify the fields to be displayed
@@ -377,7 +380,7 @@ class CustomerUpdate(UpdateView):
 
     login_required= True
     model =  Customer
-    fields = ['name'] 
+    fields = '__all__'
     template_name= "shop/admin/customer_form.html"
     success_url = '/customers'
 

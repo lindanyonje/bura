@@ -1,5 +1,7 @@
 {% extends 'shop/admin/layouts/admin_master.html' %}
 
+{% load widget_tweaks %}
+
 {% block content %}
 
 <div class="container">
@@ -22,12 +24,15 @@
     
                         <!-- Using the formset -->
     
-                        {{ form.as_p }}
+                        {% for field in form.visible_fields %}
     
-                        <div class="row justify-content-center">
-    
-                            <input type="submit" class="btn btn-primary w-50 my-3" value="Submit">
+                        <div class="form-group">
+                            {{field.label_tag}}
+                            {% render_field field class="form-control" %}
+
                         </div>
+
+                        {% endfor %}
     
                         
                     </form>
