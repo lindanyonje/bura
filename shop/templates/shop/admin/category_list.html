@@ -43,7 +43,8 @@
                             {% for object in object_list %}
                                <tr id="category_id_{{object.id}}">
                                    <td>{{object.id}}</td>
-                                   <td>{{object.name}}</td>    
+                                   <td>{{object.name}}</td>  
+                                   <td>{{object.parent_id}}</td>  
                                    <td>{{object.created_at}}</td>
                                    
                                    <td>

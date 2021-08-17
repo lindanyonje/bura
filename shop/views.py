@@ -54,13 +54,12 @@ class CategoryDetail(DetailView):
 class CategoryCreate(CreateView):  
 
     login_required= True
-    fields= ['parent_id']
     model = Category
     template_name= "shop/admin/category_form.html"
 
     #specify the fields to be displayed
 
-    fields = ['name']
+    fields = '__all__'
 
     #function to redirect user
 
@@ -71,7 +70,7 @@ class CategoryUpdate(UpdateView):
 
     login_required= True
     model = Category
-    fields = ['name'] 
+    fields = '__all__'
     template_name= "shop/admin/category_form.html"
     success_url = '/categories' #this uses the path url
 
@@ -193,7 +192,7 @@ class OfferCreate(CreateView):
 
     #specify the fields to be displayed
 
-    fields = ['name']
+    fields = '__all__'
 
     #function to ridirect user
 
@@ -204,7 +203,7 @@ class OfferUpdate(UpdateView):
 
     login_required= True
     model = Offer
-    fields = ['name'] 
+    fields = '__all__'
     template_name= "shop/admin/offer_form.html"
     success_url = '/offers'
 
@@ -232,6 +231,7 @@ class VoucherCreate(CreateView):
     login_required= True  
     model = Voucher
     template_name= "shop/admin/voucher_form.html"
+    success_url = '/vouchers'
 
     #specify the fields to be displayed
 
@@ -321,6 +321,8 @@ class PaymentCreate(CreateView):
     login_required= True  
     model = Payment
     template_name= "shop/admin/payment_form.html"
+    success_url = '/payments'
+
 
     #specify the fields to be displayed
 
@@ -368,8 +370,6 @@ class  CustomerCreate(CreateView):
     template_name= "shop/admin/customer_form.html"
 
     #specify the fields to be displayed
-
-    fields = ['name']
 
     #function to ridirect user
 
