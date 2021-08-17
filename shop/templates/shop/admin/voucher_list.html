@@ -41,11 +41,12 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {% for object in object_list %}
                                <tr>
                                    <td>{{object.id}}</td>
-                                   <!-- <td>{{object.product_id}}</td> -->
+                                   <td>{{object.product_id}}</td>
                                    <td>{{object.voucher_amount}}</td>
                                    <td>{{object.voucher_tag}}</td>
                                    <td>{{object.created_at}}</td>
@@ -55,7 +56,7 @@
                                         class="btn btn-dark btn-sm">
                                          <i class="fa fa-edit"></i>
                                        </a>
-                                       <a href="#"
+                                       <a href="{% url 'Voucher_delete' object.id %}"
                                         class="btn btn-danger btn-sm">
                                          <i class="fa fa-trash"></i>
                                        </a>
@@ -83,6 +84,7 @@
 </div>
 
 <!-- Modals -->
+
 <div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -100,10 +102,7 @@
                         <label>Enter the Voucher Name</label>
                         <input type="text" class="form-control" placeholder="Name" name="name">
                     </div>
-                    <div class="form-group">
-                        <label>Enter the description (optional)</label>
-                        <input type="text" class="form-control" placeholder="Description" name="description">
-                    </div>
+                
                     <div class="form-group">
                         <label>Parent voucher</label>
                         <select class="form-control input-sm" name="voucher_id">

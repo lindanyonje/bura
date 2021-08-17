@@ -232,7 +232,7 @@ class VoucherCreate(CreateView):
     login_required= True  
     model = Voucher
     template_name= "shop/admin/voucher_form.html"
-    success_url = '/vouchers'
+    success_url = 'vouchers/'
 
     #specify the fields to be displayed
 
@@ -249,7 +249,7 @@ class VoucherUpdate(UpdateView):
     login_required= Truemodel = Voucher
     fields = '__all__' 
     template_name= "shop/admin/voucher_form.html"
-    success_url = '/offers'
+    success_url = 'vouchers/'
 
 class VoucherDelete(DeleteView):
 
@@ -301,7 +301,7 @@ class OrderDelete(DeleteView):
 
     login_required= True
     model = Order
-    template_name= "shop/admin/order_form.html"
+    template_name= "shop/admin/order_confirm_delete.html"
     success_url = '/orders'  
 
 
@@ -346,6 +346,7 @@ class PaymentDelete(DeleteView):
 
     login_required= True
     model =Payment
+    template_name= "shop/admin/payment_confirm_delete.html"
     success_url = '/payments'  
 
 
