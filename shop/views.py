@@ -146,6 +146,7 @@ class  SellerCreate(CreateView):
     login_required= True 
     model =  Seller
     template_name= "shop/admin/seller_form.html"
+    success_url = '/sellers'
 
     #specify the fields to be displayed
 
@@ -160,7 +161,7 @@ class SellerUpdate(UpdateView):
 
     login_required= True
     model = Seller
-    fields = ['name'] 
+    fields = '__all__' 
     template_name= "shop/admin/seller_form.html"
     success_url = '/sellers'
 
