@@ -169,7 +169,7 @@ class  SellerDelete(DeleteView):
 
     login_required= True
     model =  Seller
-    template_name= "shop/admin/seller_form.html"
+    template_name= "shop/admin/seller_confirm_delete.html"
     success_url = '/sellers'
 
     
@@ -184,6 +184,7 @@ class OfferDetail(DetailView):
 
     login_required= True
     model = Offer
+    template_name= "shop/admin/offer_details.html"
 
 class OfferCreate(CreateView):  
 
@@ -212,6 +213,7 @@ class OfferDelete(DeleteView):
 
     login_required= True
     model = Offer
+    template_name="shop/admin/offer_confirm_delete.html"
     success_url = '/offers'  
 
 
@@ -368,7 +370,7 @@ class  CustomerCreate(CreateView):
 
     login_required= True
     model =  Customer
-    fields=' __all__'
+    fields='__all__'
     template_name= "shop/admin/customer_form.html"
 
     #specify the fields to be displayed
