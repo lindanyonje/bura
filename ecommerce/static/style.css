@@ -206,3 +206,13 @@ a[data-toggle="collapse"] {
     height: 15px;
     width: 15px;
 }
+
+
+.btn {
+    transition-duration: 0.4s;
+  }
+  
+  .btn:hover {
+    background-color: #4CAF50; /* Green */
+    color:white;
+  }
