@@ -9,6 +9,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
+from django.forms import forms
+from .forms import NameForm
+
 
 # Create your views here.
 
@@ -38,6 +41,25 @@ def adminDashboard(request):
 
 
     return render(request, 'shop/admin/dashboard.html', context)
+
+def category_id(request):  
+    
+    context = {}
+
+    context['products'] = Product.objects.all()[:3]
+
+     return render(request,'Category_products.html', context)
+
+
+
+def product_id(request):  
+    
+    context = {}
+
+    context['product_count'] =  Product.objects.all().count()
+
+     return render(request, 'detail-product.html', context)
+
 
 
 
