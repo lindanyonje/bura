@@ -10,7 +10,6 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
 from django.forms import forms
-from .forms import NameForm
 
 
 # Create your views here.
@@ -42,13 +41,21 @@ def adminDashboard(request):
 
     return render(request, 'shop/admin/dashboard.html', context)
 
+def getCategoryProducts(request, id):
+
+    c_id = id
+    context = {}
+    context['products'] = Product.objects.filter(category_id = c_id)
+
+    return render(request, 'shop/frontend/category_products.html', context)
+
 def category_id(request):  
     
     context = {}
 
     context['products'] = Product.objects.all()[:3]
 
-     return render(request,'Category_products.html', context)
+    return render(request,'Category_products.html', context)
 
 
 
@@ -58,7 +65,7 @@ def product_id(request):
 
     context['product_count'] =  Product.objects.all().count()
 
-     return render(request, 'detail-product.html', context)
+    return render(request, 'detail-product.html', context)
 
 
 

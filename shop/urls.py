@@ -60,7 +60,7 @@ urlpatterns=[
     path('ajax/delete/category',views.deleteCategory,name="ajax_delete_category"),
     path('ajax/delete/Seller',views.deleteSeller,name="ajax_delete_seller"),
     path('ajax/delete/product',views.deleteProduct,name="ajax_delete_product"),
-
+    path('category/products/<id>', views.getCategoryProducts, name="category_products"),
 
     
 
