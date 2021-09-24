@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig', #Registering your app
     'widget_tweaks',
+    
 ]
     
 
@@ -72,6 +73,8 @@ TEMPLATES = [
         },
     },
 ]
+
+WISHLIST_ITEM_MODEL = 'my_webshop.Product'
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 

@@ -14,7 +14,7 @@ class Customer(models.Model):
         return self.name
 
 class CustomerAddress(models.Model):
-    customer_id=models.ForeignKey('customer',on_delete=models.CASCADE,blank=True,null=True)
+    customer_id=models.ForeignKey('Customer',on_delete=models.CASCADE,blank=True,null=True)
     address=models.TextField(null=False, blank=False)
     pin=models.CharField(max_length=100, null=True, blank=True)
     created_at=models.DateTimeField(auto_now_add=True)

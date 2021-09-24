@@ -1,7 +1,7 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer
+from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -48,24 +48,17 @@ def getCategoryProducts(request, id):
     context['products'] = Product.objects.filter(category_id = c_id)
 
     return render(request, 'shop/frontend/category_products.html', context)
+def getProduct(request, id):
 
-def category_id(request):  
-    
-    context = {}
+    product = Product.objects.get(pk = id)
 
-    context['products'] = Product.objects.all()[:3]
+    context = {
+        'product' : product,
+        'related_products' : Product.objects.filter(category_id = product.id),
+        'reviews' : Review.objects.filter(product_id = product.id)
+    }
 
-    return render(request,'Category_products.html', context)
-
-
-
-def product_id(request):  
-    
-    context = {}
-
-    context['product_count'] =  Product.objects.all().count()
-
-    return render(request, 'detail-product.html', context)
+    return render(request, 'shop/frontend/detail_product.html', context)
 
 
 
@@ -424,6 +417,140 @@ class CustomerDelete(DeleteView):
     template_name= "shop/admin/customer_confirm_delete.html"
     success_url = '/customers'
 
+
+
+class ReviewList(ListView):
+
+    login_required= True
+    model =Review
+    template_name= "shop/admin/review_list.html"
+
+class ReviewDetail(DetailView):
+
+    login_required= True
+    model = Review
+    template_name= "shop/admin/review_form.html"
+
+class ReviewCreate(CreateView): 
+
+    login_required= True 
+    model = Review
+    template_name= "shop/admin/review_form.html"
+    success_url = '/orders'
+
+
+    #specify the fields to be displayed
+
+    fields = '__all__'
+
+    #function to ridirect user
+
+    def get_success_url(self):
+        return reverse('review_list')
+
+class ReviewUpdate(UpdateView):
+
+    login_required= True
+    model = Review
+    fields = '__all__'
+    template_name= "shop/admin/review_form.html"
+    success_url = '/reviews'
+
+class ReviewDelete(DeleteView):
+
+    login_required= True
+    model = Review
+    template_name= "shop/admin/review_confirm_delete.html"
+    success_url = '/reviews'  
+
+
+class CartList(ListView):
+
+    login_required= True
+    model = Cart
+    template_name= "shop/admin/cart_list.html"
+
+class CartDetail(DetailView):
+
+    login_required= True
+    model =  Cart
+    template_name= "shop/admin/cart_details.html"
+
+
+class  CartCreate(CreateView):  
+
+    login_required= True
+    model =  Cart
+    fields='__all__'
+    template_name= "shop/admin/cart_form.html"
+
+    #specify the fields to be displayed
+
+    #function to ridirect user
+
+    def get_success_url(self):
+        return reverse('cart_list')
+
+class CartUpdate(UpdateView):
+
+    login_required= True
+    model =  Cart
+    fields = '__all__'
+    template_name= "shop/admin/cart_form.html"
+    success_url = '/cart'
+
+class CartDelete(DeleteView):
+
+    login_required= True
+    model =Cart
+    template_name= "shop/admin/cart_confirm_delete.html"
+    success_url = '/cart'
+
+
+
+# class WishlistList(ListView):
+
+#     login_required= True
+#     model = Wishlist
+#     template_name= "shop/admin/wishlist_list.html"
+
+# class WishlistDetail(DetailView):
+
+#     login_required= True
+#     model = wishlist
+
+# class WishlistCreate(CreateView):
+
+#     login_required= True  
+#     model = Wishlist
+#     template_name= "shop/admin/wishlist_form.html"
+#     success_url = 'wishlists/'
+
+#     #specify the fields to be displayed
+
+#     fields = '__all__'
+
+#     #function to ridirect user
+
+#     def get_success_url(self):
+#         return reverse('wishlist_list')
+
+# class WishlistUpdate(UpdateView):
+
+    
+#     login_required= Truemodel = Wishlist
+#     fields = '__all__' 
+#     template_name= "shop/admin/wishlist_form.html"
+#     success_url = 'wishlists/'
+
+# class WishlistDelete(DeleteView):
+
+#     login_required= True
+#     model = Voucher
+#     success_url = '/wishlists'  
+
+
+
 @login_required
 
 def deleteCategory(request):
@@ -454,5 +581,68 @@ def deleteProduct(request):
     data= {
         'deleted':True
     }
+
+    return JsonResponse(data)
+
+def deleteReview(request):
+
+    customer_id= request.POST.get('id',None)
+    product_id= request.POST.get('id',None)
+    Review=Review.objects.get(id=Review_id)
+    Review.delete()
+    data= {
+        'deleted':True
+    }
+
+    return JsonResponse(data)    
+
+
+def deleteCart(request):
+
+    product_id= request.POST.get('id',None)
+    order_id= request.POST.get('id',None)
+    product=Product.objects.get(id=Product_id)
+    product.delete()
+    data= {
+        'deleted':True
+    }
+
+    return JsonResponse(data)     
+
+# def deleteWishlist(request):
+#     product_id= request.POST.get('id',None)
+#     wishlist=wishlist.objects.get(id= Category_id)
+#     wishlist.delete()
+#     data= {
+#         'deleted':True
+#     }
+#     return JsonResponse(data)
+
+def addToCart(request):
+
+    product_id = request.POST.get("product_id", None)
+    quantity = request.POST.get("quantity", None)
+    print(product_id)
+
+    product = Product.objects.get(pk = product_id)
+
+    Cart.objects.create(product_id = product, quantity = quantity)
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+def addToWishlist(request):
+
+    product_id = request.POST.get("product_id", None)
+    quantity = request.POST.get("quantity", None)
+    print(product_id)
+
+    product = Product.objects.get(pk = product_id)
+
+    Wishlist.objects.create(product_id = product, quantity = quantity)
+
+    data ={}
 
     return JsonResponse(data)

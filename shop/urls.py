@@ -3,14 +3,7 @@ from . import views
 from django.conf import settings
 
 from django.conf.urls.static import static
-from shop.views import CategoryDelete, CategoryUpdate, CategoryList,CategoryDetail ,CategoryCreate, adminDashboard
-from shop.views import SellerDelete, SellerUpdate, SellerList, SellerDetail,SellerCreate
-from shop.views import ProductDelete, ProductUpdate,ProductList, ProductDetail,ProductCreate
-from shop.views import OfferDelete, OfferUpdate, OfferList, OfferDetail,OfferCreate
-from shop.views import VoucherDelete, VoucherUpdate,VoucherList, VoucherDetail,VoucherCreate
-from shop.views import OrderDelete, OrderUpdate,OrderList, OrderDetail,OrderCreate
-from shop.views import PaymentDelete, PaymentUpdate,PaymentList, PaymentDetail,PaymentCreate
-from shop.views import CustomerDelete, CustomerUpdate,CustomerList, CustomerDetail,CustomerCreate
+from shop.views import *
 
 # you can use * to import all views instead of importing each one
 
@@ -57,10 +50,21 @@ urlpatterns=[
     path('create/customer', CustomerCreate.as_view(),name= 'Customer_create'),
     path('update/customer/<pk>/',CustomerUpdate.as_view(),name='Customer_update'),
     path('delete/customer/<pk>/',CustomerDelete.as_view(),name='Customer_delete'),
+    path('reviews/',ReviewList.as_view(),name="Reviews"),
+    path('create/review', ReviewCreate.as_view(),name= 'review_create'),
+    path('update/review/<pk>/',ReviewUpdate.as_view(),name='review_update'),
+    path('delete/review/<pk>/',ReviewDelete.as_view(),name='review_delete'),
     path('ajax/delete/category',views.deleteCategory,name="ajax_delete_category"),
     path('ajax/delete/Seller',views.deleteSeller,name="ajax_delete_seller"),
     path('ajax/delete/product',views.deleteProduct,name="ajax_delete_product"),
+    path('ajax/delete/review',views.deleteReview,name="ajax_delete_review"),
     path('category/products/<id>', views.getCategoryProducts, name="category_products"),
+
+    ##Frontend urls
+    path('products/<id>/details', views.getProduct, name="front_product_details"),
+    path('add/to/cart', views.addToCart, name="add_cart"),
+    path('add/to/wishlist', views.addToWishlist, name="add_wishlist"),
+    
 
     
 
