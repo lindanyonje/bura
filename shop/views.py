@@ -636,12 +636,13 @@ def addToCart(request):
 def addToWishlist(request):
 
     product_id = request.POST.get("product_id", None)
-    quantity = request.POST.get("quantity", None)
+    # customer_id = request.POST.get("customer_id", None)
     print(product_id)
 
     product = Product.objects.get(pk = product_id)
+    # customer = Customer.objects.get(pk = customer_id)
 
-    Wishlist.objects.create(product_id = product, quantity = quantity)
+    Wishlist.objects.create(product_id = product)
 
     data ={}
 
