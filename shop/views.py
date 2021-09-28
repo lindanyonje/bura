@@ -597,26 +597,33 @@ def deleteReview(request):
     return JsonResponse(data)    
 
 
-def deleteCart(request):
+def deleteCart(self, product):
+    """
+    Remove a product from the cart.
+    """
+    product_id = str(product.id)
+    if product_id in self.cart:
+        # Subtract 1 from the quantity
+        self.cart[product_id]['quantity'] -= 1
+        # If the quantity is now 0, then delete the item
+        if self.cart[product_id]['quantity'] == 0:
+            del self.cart[product_id]
+        self.save()
 
-    product_id= request.POST.get('id',None)
-    order_id= request.POST.get('id',None)
-    product=Product.objects.get(id=Product_id)
-    product.delete()
-    data= {
-        'deleted':True
-    }
 
-    return JsonResponse(data)     
 
-# def deleteWishlist(request):
-#     product_id= request.POST.get('id',None)
-#     wishlist=wishlist.objects.get(id= Category_id)
-#     wishlist.delete()
-#     data= {
-#         'deleted':True
-#     }
-#     return JsonResponse(data)
+def deleteWishlist(self, product):
+    """
+    Remove a product from the wishlist.
+    """
+    product_id = str(product.id)
+    if product_id in self.wishlist:
+        # Subtract 1 from the quantity
+        self.wishlist[product_id]['quantity'] -= 1
+        # If the quantity is now 0, then delete the item
+        if self.wishlist[product_id]['quantity'] == 0:
+            del self.wishlist[product_id]
+        self.save()
 
 def addToCart(request):
 

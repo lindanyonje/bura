@@ -48,13 +48,13 @@
                                    <td>{{object.created_at}}</td>
                             
                                    <td>
-                                    <a href="{% url 'product_detail' object.id %}"
+                                    <a href="{% url 'add_cart' object.id %}"
                                     class="btn btn-outline-dark btn-sm">
-                                     <i class="fa fa-eye"></i>
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                    </a>
-                                       <a href="{% url 'product_update' object.id %}"
+                                       <a href="{% url'ajax_delete_cart' object.id %}"
                                         class="btn btn-dark btn-sm">
-                                         <i class="fa fa-edit"></i>
+                                         <i class="fa fa-trash"></i>
                                        </a>
 
                                    </td>  
