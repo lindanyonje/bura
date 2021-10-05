@@ -48,6 +48,7 @@ def getCategoryProducts(request, id):
     context['products'] = Product.objects.filter(category_id = c_id)
 
     return render(request, 'shop/frontend/category_products.html', context)
+
 def getProduct(request, id):
 
     product = Product.objects.get(pk = id)
@@ -61,6 +62,38 @@ def getProduct(request, id):
     return render(request, 'shop/frontend/detail_product.html', context)
 
 
+class CheckOut(View):
+
+    def post(self, request):
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+        customer = request.session.get('customer')
+        cart = request.session.get('cart')
+        products = Products.get_products_by_id(list(cart.keys()))
+        print(address, phone, customer, cart, products)
+  
+        for product in products:
+            print(cart.get(str(product.id)))
+            order = Order(customer=Customer(id=customer),
+                          product=product,
+                          price=product.price,
+                          address=address,
+                          phone=phone,
+                          quantity=cart.get(str(product.id)))
+            order.save()
+        request.session['cart'] = {}
+  
+        return redirect('cart')
+
+
+  
+class OrderView(View):
+  
+    def get(self, request):
+        customer = request.session.get('customer')
+        orders = Order.get_orders_by_customer(customer)
+        print(orders)
+        return render(request, 'orders.html', {'orders': orders})
 
 
 class CategoryList(ListView):
@@ -436,7 +469,7 @@ class ReviewCreate(CreateView):
     login_required= True 
     model = Review
     template_name= "shop/admin/review_form.html"
-    success_url = '/orders'
+    success_url = '/reviews'
 
 
     #specify the fields to be displayed
@@ -508,46 +541,46 @@ class CartDelete(DeleteView):
 
 
 
-# class WishlistList(ListView):
+class WishlistList(ListView):
 
-#     login_required= True
-#     model = Wishlist
-#     template_name= "shop/admin/wishlist_list.html"
+    login_required= True
+    model = Wishlist
+    template_name= "shop/admin/wishlist_list.html"
 
-# class WishlistDetail(DetailView):
+class WishlistDetail(DetailView):
 
-#     login_required= True
-#     model = wishlist
+    login_required= True
+    model = Wishlist
 
-# class WishlistCreate(CreateView):
+class WishlistCreate(CreateView):
 
-#     login_required= True  
-#     model = Wishlist
-#     template_name= "shop/admin/wishlist_form.html"
-#     success_url = 'wishlists/'
+    login_required= True  
+    model = Wishlist
+    template_name= "shop/admin/wishlist_form.html"
+    success_url = 'wishlists/'
 
-#     #specify the fields to be displayed
+    #specify the fields to be displayed
 
-#     fields = '__all__'
+    fields = '__all__'
 
-#     #function to ridirect user
+    #function to ridirect user
 
-#     def get_success_url(self):
-#         return reverse('wishlist_list')
+    def get_success_url(self):
+        return reverse('wishlist_list')
 
-# class WishlistUpdate(UpdateView):
+class WishlistUpdate(UpdateView):
 
     
-#     login_required= Truemodel = Wishlist
-#     fields = '__all__' 
-#     template_name= "shop/admin/wishlist_form.html"
-#     success_url = 'wishlists/'
+    login_required= Truemodel = Wishlist
+    fields = '__all__' 
+    template_name= "shop/admin/wishlist_form.html"
+    success_url = 'wishlists/'
 
-# class WishlistDelete(DeleteView):
+class WishlistDelete(DeleteView):
 
-#     login_required= True
-#     model = Voucher
-#     success_url = '/wishlists'  
+    login_required= True
+    model = Voucher
+    success_url = '/wishlists'  
 
 
 
@@ -612,6 +645,28 @@ def deleteCart(self, product):
 
 
 
+def addToCart(request):
+
+    product_id = request.POST.get("product_id", None)
+    quantity = request.POST.get("quantity", None)
+    print(product_id)
+
+    # product = Product.objects.get(pk = product_id)
+    
+
+    Cart.objects.create(product_id = product, quantity = quantity)
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+def get_cart(request):
+    return render(request, 'cart.html', {'cart': Cart(request)})    
+
+
+
+
 def deleteWishlist(self, product):
     """
     Remove a product from the wishlist.
@@ -625,28 +680,14 @@ def deleteWishlist(self, product):
             del self.wishlist[product_id]
         self.save()
 
-def addToCart(request):
-
-    product_id = request.POST.get("product_id", None)
-    quantity = request.POST.get("quantity", None)
-    print(product_id)
-
-    product = Product.objects.get(pk = product_id)
-
-    Cart.objects.create(product_id = product, quantity = quantity)
-
-    data ={}
-
-    return JsonResponse(data)
-
-
 def addToWishlist(request):
 
     product_id = request.POST.get("product_id", None)
     # customer_id = request.POST.get("customer_id", None)
     print(product_id)
 
-    product = Product.objects.get(pk = product_id)
+    # product = Product.objects.get(pk = product_id)
+    
     # customer = Customer.objects.get(pk = customer_id)
 
     Wishlist.objects.create(product_id = product)
@@ -654,3 +695,7 @@ def addToWishlist(request):
     data ={}
 
     return JsonResponse(data)
+
+
+def get_wishlist(request):
+    return render(request, 'wishlist.html', {'wishlist': Wishlist(request)})        
