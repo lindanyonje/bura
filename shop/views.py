@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
 from django.forms import forms
+from django.shortcuts import get_object_or_404
+
 
 
 # Create your views here.
@@ -52,6 +54,7 @@ def getCategoryProducts(request, id):
 def getProduct(request, id):
 
     product = Product.objects.get(pk = id)
+    
 
     context = {
         'product' : product,
@@ -61,6 +64,15 @@ def getProduct(request, id):
 
     return render(request, 'shop/frontend/detail_product.html', context)
 
+def get_cart(request):
+    cart_items = Cart.objects.all()
+    return render(request, 'shop/frontend/cart.html', {'cart': cart_items})    
+
+
+def get_wishlist(request):
+    wishlist = Wishlist.objects.all()
+
+    return render(request, 'shop/frontend/wishlist.html', {'wishlist': wishlist})   
 
 class CheckOut(View):
 
@@ -651,8 +663,9 @@ def addToCart(request):
     quantity = request.POST.get("quantity", None)
     print(product_id)
 
-    # product = Product.objects.get(pk = product_id)
+    product = Product.objects.get(pk = product_id)
     
+
 
     Cart.objects.create(product_id = product, quantity = quantity)
 
@@ -661,8 +674,7 @@ def addToCart(request):
     return JsonResponse(data)
 
 
-def get_cart(request):
-    return render(request, 'cart.html', {'cart': Cart(request)})    
+
 
 
 
@@ -680,13 +692,20 @@ def deleteWishlist(self, product):
             del self.wishlist[product_id]
         self.save()
 
+
+# def deleteWishlist(request, id):
+#     customer=request.user.customer
+#     Wishlist.objects.filter(customer_id=customer.id, product=Product.objects.get(id=id)).delete()
+#     messages.success(request, 'Product Remove From Wishlist...')
+#     return HttpResponseRedirect('/wishlist')
+
 def addToWishlist(request):
 
     product_id = request.POST.get("product_id", None)
     # customer_id = request.POST.get("customer_id", None)
     print(product_id)
 
-    # product = Product.objects.get(pk = product_id)
+    product = Product.objects.get(pk = product_id)
     
     # customer = Customer.objects.get(pk = customer_id)
 
@@ -697,5 +716,3 @@ def addToWishlist(request):
     return JsonResponse(data)
 
 
-def get_wishlist(request):
-    return render(request, 'wishlist.html', {'wishlist': Wishlist(request)})        

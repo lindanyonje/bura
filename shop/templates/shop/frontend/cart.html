@@ -48,14 +48,13 @@
                                    <td>{{object.created_at}}</td>
                             
                                    <td>
-                                    <a href="{% url 'add_cart' object.id %}"
-                                    class="btn btn-outline-dark btn-sm">
-                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                    <a href="#"
+                                      class="btn btn-outline-dark btn-sm">
+                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                    </a>
-                                       <a href="{% url'ajax_delete_cart' object.id %}"
-                                        class="btn btn-dark btn-sm">
-                                         <i class="fa fa-trash"></i>
-                                       </a>
+                                   <button onclick ="deleteWishlist('{{object.id}}')"
+                                     class="btn btn-danger btn-sm">
+                                   </button>   
 
                                    </td>  
                                </tr>
@@ -81,7 +80,7 @@
 
 
 {% endblock %}
-<!-- 
+
 {% block scripts %}
 
 <script>
@@ -95,7 +94,7 @@
         })
     });
 
-    function deleteProduct(product_id)
+    function deleteCart(product_id)
     {
         if(confirm("Are you sure you want to delete this product"))
 
@@ -139,5 +138,5 @@
 
 
 
-{% endblock %} -->
+{% endblock %}
 

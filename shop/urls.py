@@ -66,6 +66,8 @@ urlpatterns=[
     path('add/to/wishlist', views.addToWishlist, name="add_wishlist"),
     path('ajax/delete/cart',views.deleteCart,name="ajax_delete_cart"),
     path('ajax/delete/wishlist',views.deleteWishlist,name="ajax_delete_wishlist"),
+    path('cart/', views.get_cart, name="cart"),
+    path('wishlist/', views.get_wishlist, name="wishlist")
 
     
 
