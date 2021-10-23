@@ -646,7 +646,8 @@ def deleteCart(self, product):
     """
     Remove a product from the cart.
     """
-    product_id = str(product.id)
+    # product_id = str(product_id)
+    product_id = request.POST.get("product_id", None)
     if product_id in self.cart:
         # Subtract 1 from the quantity
         self.cart[product_id]['quantity'] -= 1
@@ -664,8 +665,8 @@ def addToCart(request):
     print(product_id)
 
     product = Product.objects.get(pk = product_id)
-    
 
+   
 
     Cart.objects.create(product_id = product, quantity = quantity)
 
@@ -683,7 +684,8 @@ def deleteWishlist(self, product):
     """
     Remove a product from the wishlist.
     """
-    product_id = str(product.id)
+    # product_id = str(product_id)
+    product_id = request.POST.get("product_id", None)
     if product_id in self.wishlist:
         # Subtract 1 from the quantity
         self.wishlist[product_id]['quantity'] -= 1
@@ -706,6 +708,7 @@ def addToWishlist(request):
     print(product_id)
 
     product = Product.objects.get(pk = product_id)
+    # product = Product.objects.get(pk = id)
     
     # customer = Customer.objects.get(pk = customer_id)
 

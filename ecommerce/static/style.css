@@ -216,3 +216,13 @@ a[data-toggle="collapse"] {
     background-color: #4CAF50; /* Green */
     color:white;
   }
+
+  ul li {
+    list-style-type: none;
+  }
+
+  
+.footer-image{
+    height: 0px;
+    width: 0px;
+}
