@@ -113,7 +113,7 @@ $.ajaxSetup({
 $("#deleteCart").click(function(){
 
    let product_id = '{{product.id}}';
-   let quantity = 1;
+   let quantity = -1;
 
    console.log("Here")
 
@@ -141,6 +141,40 @@ $("#deleteCart").click(function(){
     });
     
 });
+
+
+$("#cartToWishlist").click(function(){
+
+let product_id = '{{product.id}}';
+let quantity = 1;
+
+console.log("Here")
+
+
+$.ajax({
+     type: "POST",
+     url: "{% url 'cart_wishlist' %}",
+     dataType: "json",
+     data:{
+         'product_id':product_id,
+         'customer_id':customer_id,
+     },
+     success:function(data){
+     //     Remove the product from cart to wishlist and show success
+     Notiflix.Notify.Success('Wishlist added successfully');
+
+     },
+     error: function(data){
+         
+         console.log(data);
+         Notiflix.Notify.Failure('Something went wrong.');
+
+     }
+
+ });
+ 
+});
+
 
 
 

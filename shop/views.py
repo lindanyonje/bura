@@ -707,8 +707,8 @@ def addToWishlist(request):
     # customer_id = request.POST.get("customer_id", None)
     print(product_id)
 
-    product = Product.objects.get(pk = product_id)
-    # product = Product.objects.get(pk = id)
+    # product = Product.objects.get(pk = product_id)
+    product = Product.objects.get(pk = id)
     
     # customer = Customer.objects.get(pk = customer_id)
 
@@ -719,3 +719,40 @@ def addToWishlist(request):
     return JsonResponse(data)
 
 
+
+def wishlistToCart(request):
+
+    product_id = request.POST.get("product_id", None)
+    quantity = request.POST.get("quantity", None)
+    print(product_id)
+
+    # product = Product.objects.get(pk = product_id)
+    product = Product.objects.get(pk = id)
+    
+
+   
+
+    Cart.objects.create(product_id = product, quantity = quantity)
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+def cartToWishlist(request):
+
+    product_id = request.POST.get("product_id", None)
+    quantity = request.POST.get("quantity", None)
+    print(product_id)
+
+    # product = Product.objects.get(pk = product_id)
+    product = Product.objects.get(pk = id)
+    
+
+   
+
+    Cart.objects.create(product_id = product, quantity = quantity)
+
+    data ={}
+
+    return JsonResponse(data)
