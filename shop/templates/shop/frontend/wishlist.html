@@ -13,13 +13,6 @@
         
         <div class="container">
         
-            <div class="row my-5">
-        
-                <a href="{% url 'add_wishlist' %}" class="btn btn-dark ml-auto" >
-                    <i class ="fa fa-plus" aria-hidden="true"> New Product </i>
-                </a>
-                        
-            </div>
         
             <div class="row justify-content-center my-5">
         
@@ -41,8 +34,7 @@
             
                                 <thead>
                                     <tr>
-                                        <th>Product_id</th>
-                                        <th>Customer_id</th>
+                                        <th>Product</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -50,17 +42,18 @@
                                 <tbody>
                                     {% for object in wishlist %}
                                        <tr>
-                                           <td>{{object.product_id}}</td>
-                                           <td>{{object.customer_id}}</td>
+                                           <td>{{object.product_id}}
+                                               <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
+                                           </td>
                                            <td>{{object.created_at}}</td>
                                     
                                            <td>
-                                            <a href="{% url 'add_cart' %}"
-                                            class="btn btn-outline-dark btn-sm">
+                                            
+                                            <button id="wishlistToCart" class="btn btn-outline-dark btn-sm" data-id="{{object.id}}">
+                                                
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                            
-                                           </a>
-                                            
+                                            </button>
+                                           
                                             <button onclick ="deleteWishlist('{{object.id}}')"
                                                class="btn btn-danger btn-sm">
                                                <i class="fa fa-trash"></i>
@@ -113,9 +106,7 @@ $("#deleteWishlist").click(function(){
 
 let product_id = '{{product.id}}';
 let customer_id= '{{customer.id}}';
-let quantity = -1;
 
-console.log("Here")
 
 
 $.ajax({
@@ -128,7 +119,7 @@ $.ajax({
      },
      success:function(data){
      //     Remove the category from html and show success
-     Notiflix.Notify.Success('Wishlist deleted successfully');
+        Notiflix.Notify.Success('Wishlist deleted successfully');
 
      },
      error: function(data){
@@ -144,8 +135,7 @@ $.ajax({
 
 $("#wishlistToCart").click(function(){
 
-let product_id = '{{product.id}}';
-let quantity = 1;
+let id = $(this).data("id");
 
 console.log("Here")
 
@@ -155,12 +145,16 @@ $.ajax({
      url: "{% url 'wishlist_cart' %}",
      dataType: "json",
      data:{
-         'product_id':product_id,
-         'customer_id':customer_id,
+         'id':id,
      },
      success:function(data){
      //     Remove the product from wishlist to cart and show success
-     Notiflix.Notify.Success('added to cart ');
+     Notiflix.Notify.Success('Product added to cart');
+
+     setTimeout(function(){ 
+         window.location.reload()
+        }, 3000);
+
 
      },
      error: function(data){
@@ -173,7 +167,6 @@ $.ajax({
  });
  
 });
-
 
 </script>
 

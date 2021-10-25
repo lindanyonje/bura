@@ -1,16 +1,16 @@
 {% load static %}
 
 <a href= "{% url 'front_product_details' product.id %}" style="text-decoration: none;">
-    <div class="product-card bg-dark text-white">
+    <div class="product-card bg-light text-dark">
 		<div class="product-badge">Hot</div>
 		<div class="product-tumb">
 			<img src="{{product.image.url}}" alt="">
 		</div>
-		<div class="product-details">
+		<div class="product-details ">
 			<span class="product-category">{{product.category_id}}</span>
-			<h4 class="text-white"><a href= "{% url 'front_product_details' product.id %}"  >{{product.name}}</a></h4>
-			<p>{{product.description}}</p>
-			<div class="product-bottom-details">
+			<h4 class="text-dark"><a href= "{% url 'front_product_details' product.id %}"  >{{product.name}}</a></h4>
+			<p class="text-dark">{{product.description|truncatewords:10}}</p>
+			<div class="product-bottom-details ">
 				<div class="product-price">Kshs {{product.cost}}</div>
 				<div class="product-review">{{product.review}}</div>
 				<!-- <div class="customer-review">Kshs {{customer.review}}</div>
