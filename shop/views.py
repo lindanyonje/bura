@@ -723,6 +723,7 @@ def addToWishlist(request):
 def wishlistToCart(request):
 
     id = request.POST.get("id", None)
+    
     quantity = 1
 
     wishlist_item = Wishlist.objects.get(pk = id)
@@ -740,17 +741,19 @@ def wishlistToCart(request):
 
 def cartToWishlist(request):
 
-    product_id = request.POST.get("product_id", None)
-    quantity = request.POST.get("quantity", None)
-    print(product_id)
+    id = request.POST.get("id", None)
 
-    # product = Product.objects.get(pk = product_id)
-    product = Product.objects.get(pk = id)
-    
+    quantity = 1
 
-   
+    cart_item = Cart.objects.get(pk = id)
 
-    Cart.objects.create(product_id = product, quantity = quantity)
+    product =  cart_item.product_id
+
+    Wishlist.objects.create(product_id = product, quantity = quantity)
+
+    # Cart.objects.create(product_id = product, quantity = quantity)
+
+    cart_item.delete()
 
     data ={}
 

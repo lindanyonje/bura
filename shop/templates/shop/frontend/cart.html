@@ -31,23 +31,31 @@
                                 <th>Order_id</th>
                                 <th>Product_id</th>
                                 <th>Quantity</th>
-                                <th>Created At</th>
+                                <!-- <th>Created At</th> -->
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for object in cart%}
                                <tr>
+                                   
+                                   <td>{{object.product_id}}
+
+                                    <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
+
+                                   </td>
                                    <td>{{object.order_id}}</td>
-                                   <td>{{object.product_id}}</td>
                                    <td>{{object.quantity}}</td>
-                                   <td>{{object.created_at}}</td>
+                                   <!-- <td>{{object.created_at}}</td> -->
                             
                                    <td>
-                                    <a href="{% url 'add_wishlist' %}"
-                                      class="btn btn-outline-dark btn-sm">
-                                      <i class="fa fa-heart" aria-hidden="true"></i>
-                                   </a>
+                                    
+                                    <button id="cartToWishlist" class="btn btn-outline-dark btn-sm" data-id="{{object.id}}">
+                                                
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+
+                                    </button>
+
                                    <button onclick ="deleteWishlist('{{object.id}}')"
                                      class="btn btn-danger btn-sm">
                                      <i class="fa fa-trash"></i>
@@ -107,9 +115,8 @@ $.ajaxSetup({
 $("#deleteCart").click(function(){
 
    let product_id = '{{product.id}}';
-   let quantity = -1;
-
-   console.log("Here")
+   
+//    console.log("Here")
 
 
    $.ajax({
@@ -139,8 +146,7 @@ $("#deleteCart").click(function(){
 
 $("#cartToWishlist").click(function(){
 
-let product_id = '{{product.id}}';
-let quantity = 1;
+let id = $(this).data("id");
 
 console.log("Here")
 
@@ -150,12 +156,16 @@ $.ajax({
      url: "{% url 'cart_wishlist' %}",
      dataType: "json",
      data:{
-         'product_id':product_id,
-         'customer_id':customer_id,
+         'id':id,
      },
      success:function(data){
-     //     Remove the product from cart to wishlist and show success
-     Notiflix.Notify.Success('Wishlist added successfully');
+     //     Remove the product from wishlist to cart and show success
+     Notiflix.Notify.Success('Product added to wishlist');
+
+     setTimeout(function(){ 
+         window.location.reload()
+        }, 3000);
+
 
      },
      error: function(data){
@@ -168,8 +178,6 @@ $.ajax({
  });
  
 });
-
-
 
 
 </script>
