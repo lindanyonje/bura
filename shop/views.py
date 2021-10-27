@@ -632,9 +632,13 @@ def deleteProduct(request):
 def deleteReview(request):
 
     customer_id= request.POST.get('id',None)
+
     product_id= request.POST.get('id',None)
-    Review=Review.objects.get(id=Review_id)
+
+    Review= Review.objects.get(id=Review_id)
+
     Review.delete()
+    
     data= {
         'deleted':True
     }
@@ -642,31 +646,16 @@ def deleteReview(request):
     return JsonResponse(data)    
 
 
-def deleteCart(self, product):
-    """
-    Remove a product from the cart.
-    """
-    # product_id = str(product_id)
-    product_id = request.POST.get("product_id", None)
-    if product_id in self.cart:
-        # Subtract 1 from the quantity
-        self.cart[product_id]['quantity'] -= 1
-        # If the quantity is now 0, then delete the item
-        if self.cart[product_id]['quantity'] == 0:
-            del self.cart[product_id]
-        self.save()
 
-
-
-def addToCart(request):
+def deleteCart(request):
 
     product_id = request.POST.get("product_id", None)
+
     quantity = request.POST.get("quantity", None)
+
     print(product_id)
 
     product = Product.objects.get(pk = product_id)
-
-   
 
     Cart.objects.create(product_id = product, quantity = quantity)
 
@@ -679,39 +668,52 @@ def addToCart(request):
 
 
 
+def addToCart(request):
 
-def deleteWishlist(self, product):
-    """
-    Remove a product from the wishlist.
-    """
-    # product_id = str(product_id)
     product_id = request.POST.get("product_id", None)
-    if product_id in self.wishlist:
-        # Subtract 1 from the quantity
-        self.wishlist[product_id]['quantity'] -= 1
-        # If the quantity is now 0, then delete the item
-        if self.wishlist[product_id]['quantity'] == 0:
-            del self.wishlist[product_id]
-        self.save()
+
+    quantity = request.POST.get("quantity", None)
+
+    print(product_id)
+
+    product = Product.objects.get(pk = product_id)
+
+    Cart.objects.create(product_id = product, quantity = quantity)
+
+    data ={}
+
+    return JsonResponse(data)
 
 
-# def deleteWishlist(request, id):
-#     customer=request.user.customer
-#     Wishlist.objects.filter(customer_id=customer.id, product=Product.objects.get(id=id)).delete()
-#     messages.success(request, 'Product Remove From Wishlist...')
-#     return HttpResponseRedirect('/wishlist')
+
+
+
+
+def deleteWishlist(request):
+
+    product_id = request.POST.get("product_id", None)
+   
+    print(product_id)
+
+    product = Product.objects.get(pk = id)
+    
+    Wishlist.objects.create(product_id = product)
+
+    data ={}
+
+    return JsonResponse(data)
+
+
 
 def addToWishlist(request):
 
     product_id = request.POST.get("product_id", None)
-    # customer_id = request.POST.get("customer_id", None)
+    
     print(product_id)
 
-    # product = Product.objects.get(pk = product_id)
+   
     product = Product.objects.get(pk = id)
     
-    # customer = Customer.objects.get(pk = customer_id)
-
     Wishlist.objects.create(product_id = product)
 
     data ={}
