@@ -1,6 +1,6 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart
 from django.views import View
 from django.views.generic import ListView
@@ -694,10 +694,10 @@ def deleteWishlist(request):
     product_id = request.POST.get("product_id", None)
    
     print(product_id)
-
-    product = Product.objects.get(pk = id)
     
-    Wishlist.objects.create(product_id = product)
+    wishlist_object = Wishlist.objects.get(id = product_id)
+    print(wishlist_object)
+    wishlist_object.delete()
 
     data ={}
 
@@ -712,7 +712,7 @@ def addToWishlist(request):
     print(product_id)
 
    
-    product = Product.objects.get(pk = id)
+    product = Product.objects.get(pk =product_id)
     
     Wishlist.objects.create(product_id = product)
 

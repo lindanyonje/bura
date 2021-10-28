@@ -50,13 +50,12 @@
                                     
                                            <td>
                                             
-                                            <button id="wishlistToCart" class="btn btn-outline-dark btn-sm" data-id="{{object.id}}">
+                                            <button class="btn btn-outline-dark btn-sm wishlistToCart" data-id="{{object.id}}">
                                                 
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                             </button>
                                            
-                                            <button id= "deleteWishlist"onclick ="deleteWishlist('{{object.id}}')"
-                                               class="btn btn-danger btn-sm">
+                                            <button class="btn btn-outline-dark btn-sm deleteWishlist" data-id="{{object.id}}">
                                                <i class="fa fa-trash"></i>
                                             </button>   
         
@@ -103,10 +102,12 @@ $.ajaxSetup({
 });
 
 
-$("#deleteWishlist").click(function(){
+$(".deleteWishlist").click(function(){
 
-let product_id = '{{product.id}}';
-let customer_id= '{{customer.id}}';
+let product_id =$(this).data('id');
+
+console.log(product_id)
+// let customer_id= '{{customer.id}}';
 
 
 
@@ -116,11 +117,13 @@ $.ajax({
      dataType: "json",
      data:{
          'product_id':product_id,
-         'customer_id':customer_id,
+         
+        //  'customer_id':customer_id,
      },
      success:function(data){
      //     Remove the category from html and show success
         Notiflix.Notify.Success('Wishlist deleted successfully');
+        window.location.reload();
 
      },
      error: function(data){
@@ -134,7 +137,7 @@ $.ajax({
  
 });
 
-$("#wishlistToCart").click(function(){
+$(".wishlistToCart").click(function(){
 
 let id = $(this).data("id");
 

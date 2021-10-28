@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for object in cart%}
+                            {% for object in cart %}
                                <tr>
                                    
                                    <td>{{object.product_id}}
@@ -81,7 +81,7 @@
     </div>
 
     <div class="btn-group">
-        <button type="button" class="btn btn-dark">CONTINUE SHOPPING</button>
+        <button type="button" class="btn btn-light">CONTINUE SHOPPING</button>
        
       </div>
       
@@ -159,7 +159,7 @@ $.ajax({
          'id':id,
      },
      success:function(data){
-     //     Remove the product from wishlist to cart and show success
+     //     Remove the product from cart to Wishlist and show success
      Notiflix.Notify.Success('Product added to wishlist');
 
      setTimeout(function(){ 

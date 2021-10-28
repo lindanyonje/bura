@@ -252,10 +252,10 @@ $("#addCart").click(function(){
 
 $("#addWishlist").click(function(){
 
-let product_id = '{{product.id}}';
+let product_id = $(this).data('product');
 let customer_id= '{{customer.id}}';
 
-console.log("Here")
+console.log(product_id)
 
 
 $.ajax({
@@ -264,7 +264,7 @@ $.ajax({
      dataType: "json",
      data:{
          'product_id':product_id,
-         'customer_id':customer_id,
+         
      },
      success:function(data){
      //     Remove the category from html and show success
