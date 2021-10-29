@@ -10,7 +10,7 @@
 
     <div class="row justify-content-center my-5">
 
-        <div class="col-lg-12">
+        <div class="col-lg-6">
 
             <div class="card">
 
@@ -29,7 +29,8 @@
                         <thead>
                             <tr>
                                 <th>Order_id</th>
-                                <th>Product_id</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
                                 <th>Quantity</th>
                                 <!-- <th>Created At</th> -->
                                 <th>Actions</th>
@@ -37,14 +38,15 @@
                         </thead>
                         <tbody>
                             {% for object in cart %}
-                               <tr>
+                               <tr id="cart_{{object.id}}">
                                    
-                                   <td>{{object.product_id}}
+                                   <td>
 
                                     <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
 
                                    </td>
-                                   <td>{{object.order_id}}</td>
+                                   <td>{{object.product_id.name}}</td>
+                                   <td>KES {{object.product_id.cost}}</td>
                                    <td>{{object.quantity}}</td>
                                    <!-- <td>{{object.created_at}}</td> -->
                             
@@ -77,21 +79,41 @@
 
         </div>
 
+        <div class="col-lg-6">
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h5 class="font-weight-bold">Summary</h5>
+                    <hr>
+
+                    <h6>Total: 0.0</h6>
+                    <h6>Discount: 0.0</h6>
+                    <h6>Value Added Tax(VAT): 0.0</h6>
+
+                    <hr>
+                    <h4 class="font-weight-bold mb-5">Grand Total: 0.0</h4>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-light">CONTINUE SHOPPING</button>
+                       
+                      </div>
+                      
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-primary">PROCEED TO CHECKOUT</button>
+                       
+                      </div>
+                
+                
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
         
     </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn btn-light">CONTINUE SHOPPING</button>
-       
-      </div>
-      
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary">PROCEED TO CHECKOUT</button>
-       
-      </div>
-
-
-</div>
 
 
 {% endblock %}
@@ -115,11 +137,7 @@ $.ajaxSetup({
 $(".deleteCart").click(function(){
 
 
-let product_id =$(this).data('id');
-
-
-console.log(product_id)
-//    console.log("Here")
+let cart_id =$(this).data('id');
 
 
    $.ajax({
@@ -127,13 +145,14 @@ console.log(product_id)
         url: "{% url 'ajax_delete_cart' %}",
         dataType: "json",
         data:{
-            'product_id':product_id,
-            // 'quantity':quantity,
-            'order-id':order_id,
+            'cart_id':cart_id,
+            
         },
         success:function(data){
         //     Remove the category from html and show success
-        Notiflix.Notify.Success('Cart deleted successfully');
+            Notiflix.Notify.Success('Cart deleted successfully');
+            cart_row = "#cart_"+ cart_id;
+            $(cart_row).remove();
 
         },
         error: function(data){

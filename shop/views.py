@@ -81,7 +81,7 @@ class CheckOut(View):
         phone = request.POST.get('phone')
         customer = request.session.get('customer')
         cart = request.session.get('cart')
-        products = Products.get_products_by_id(list(cart.keys()))
+        products = Product.get_products_by_id(list(cart.keys()))
         print(address, phone, customer, cart, products)
   
         for product in products:
@@ -649,15 +649,10 @@ def deleteReview(request):
 
 def deleteCart(request):
 
-    product_id = request.POST.get("product_id", None)
-
-    quantity = request.POST.get("quantity", None)
-
-    print(product_id)
-
-    product = Product.objects.get(pk = product_id)
-
-    Cart.objects.create(product_id = product, quantity = quantity)
+    cart_id = request.POST.get('cart_id')
+    cart_item= Cart.objects.get(pk = cart_id)
+    cart_item.delete()
+    
 
     data ={}
 
