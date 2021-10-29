@@ -745,13 +745,13 @@ def cartToWishlist(request):
 
     id = request.POST.get("id", None)
 
-    quantity = 1
+    # quantity = 1
 
     cart_item = Cart.objects.get(pk = id)
 
     product =  cart_item.product_id
 
-    Wishlist.objects.create(product_id = product, quantity = quantity)
+    Wishlist.objects.create(product_id = product)
 
     # Cart.objects.create(product_id = product, quantity = quantity)
 
