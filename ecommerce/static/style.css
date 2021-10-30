@@ -226,3 +226,34 @@ a[data-toggle="collapse"] {
     max-height: 70px!important;
     object-fit: cover!important;
 }
+
+
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: BlinkMacSystemFont, futura, "Roboto", sans-serif;
+}
+
+.plusminus.horiz {
+    width: 132px;
+    height: 44px;
+  }
+  .plusminus.horiz button:first-child {
+    left: 0;
+  }
+  .plusminus.horiz button:last-child {
+    right: 0;
+  }
+  .plusminus.horiz:after {
+    bottom: 0;
+  }
+  .plusminus.horiz input[type="number"] {
+    position: absolute;
+    top: 0;
+    left: 44px;
+  }

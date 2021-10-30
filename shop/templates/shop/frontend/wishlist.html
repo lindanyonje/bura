@@ -34,6 +34,7 @@
             
                                 <thead>
                                     <tr>
+                                        <th>Item</th>
                                         <th>Product</th>
                                         <th>Actions</th>
                                         <!-- <th>Created At</th> -->
@@ -43,11 +44,15 @@
                                 <tbody>
                                     {% for object in wishlist %}
                                        <tr>
-                                           <td>{{object.product_id}}
-                                               <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
+
+                                           <td>
+
+                                             <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
+
                                            </td>
-                                           <!-- <td>{{object.created_at}}</td> -->
-                                    
+
+                                           <td>{{object.product_id}}</td>     
+                                           
                                            <td>
                                             
                                             <button class="btn btn-outline-dark btn-sm wishlistToCart" data-id="{{object.id}}">
