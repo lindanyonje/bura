@@ -45,6 +45,80 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
   <script src="{% static 'js/notiflix.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+    
+    $.ajaxSetup({
+        headers:{
+            'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+    });
+    
+    $(".addCart, #addCart").click(function(){
+    
+       let product_id = $(this).data('product');
+       let quantity = 1;
+    
+    
+    
+       $.ajax({
+            type: "POST",
+            url: "{% url 'add_cart' %}",
+            dataType: "json",
+            data:{
+                'product_id':product_id,
+                'quantity':quantity,
+            },
+            success:function(data){
+            //     Remove the category from html and show success
+            Notiflix.Notify.Success('Cart added successfully');
+    
+            },
+            error: function(data){
+                
+                Notiflix.Notify.Failure('Something went wrong.');
+    
+            }
+    
+        });
+        
+    });
+    
+    
+    $(".addWishlist, #addWishlist").click(function(){
+    
+    let product_id = $(this).data('product');
+    let customer_id= '{{customer.id}}';
+    
+  
+    
+    
+    $.ajax({
+         type: "POST",
+         url: "{% url 'add_wishlist' %}",
+         dataType: "json",
+         data:{
+             'product_id':product_id,
+             
+         },
+         success:function(data){
+         //     Remove the category from html and show success
+         Notiflix.Notify.Success('Wishlist added successfully');
+    
+         },
+         error: function(data){
+             
+            
+             Notiflix.Notify.Failure('Something went wrong.');
+    
+         }
+    
+     });
+     
+    });
+    
+    </script>
 
     {% block 'scripts' %}
     {% endblock 'scripts' %}

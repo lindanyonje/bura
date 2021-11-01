@@ -12,6 +12,7 @@ from django .contrib.auth.decorators import login_required
 from django.forms import forms
 from django.shortcuts import get_object_or_404
 
+from django.db.models import Q
 
 
 # Create your views here.
@@ -20,11 +21,21 @@ def home(request):
 
     context = {}
 
+    category = Category.objects.get(name="Electronics")
+
+
+
 
     context['products'] = Product.objects.all()[:3]
     context['categories'] = Category.objects.all()
+    context['wishlist'] = Wishlist.objects.all()
+    context['cart'] = Cart.objects.all()
+    # context['classified_products'] = Product.objects.filter(category_id=category)[:1]
+    
 
     return render(request, 'shop/frontend/home.html', context)
+
+
 
 def adminDashboard(request):
 
@@ -97,6 +108,19 @@ class CheckOut(View):
   
         return redirect('cart')
 
+
+class SearchResult(ListView):
+    m0del = Product
+    template_name = 'shop/frontend/layouts/search_results.html'
+
+    def get_queryset(self):
+        query =self.request.GET.get('search_data')
+        object_list = Product.objects.filter(Q(name__icontains=query))
+        # object_list = Product.objects.filter(
+        #     Q(name__icontains=query | Q(state__icontains=query))
+            
+        # )
+        return object_list
 
   
 class OrderView(View):
@@ -671,7 +695,7 @@ def addToCart(request):
 
     print(product_id)
 
-    product = Product.objects.get(pk = product_id)
+    product = Product.objects.get(id = product_id)
 
     Cart.objects.create(product_id = product, quantity = quantity)
 

@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <a href= "{% url 'front_product_details' product.id %}" style="text-decoration: none;">
@@ -18,8 +19,8 @@
 				<div class="product-links">
 
 					<a href="#"><i class="fa fa-comments" aria-hidden="true"></i></a>
-					<a href="{% url 'add_wishlist' %}" data-id="{{product.id}}"><i class="fa fa-heart"></i></a>
-					<a href="{% url 'add_wishlist' %}"><i class="fa fa-shopping-cart"></i></a>
+					<a href="javascript:void(0)" data-product="{{product.id}}" class="addWishlist"><i class="fa fa-heart"></i></a>
+					<a href="javascript:void(0)" data-product="{{product.id}}" class="addCart"><i class="fa fa-shopping-cart"></i></a>
 					
 				</div>
 
