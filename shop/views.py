@@ -77,6 +77,7 @@ def getProduct(request, id):
 
 def get_cart(request):
     cart_items = Cart.objects.all()
+    
     return render(request, 'shop/frontend/cart.html', {'cart': cart_items})    
 
 
@@ -693,16 +694,27 @@ def addToCart(request):
 
     quantity = request.POST.get("quantity", None)
 
-    print(product_id)
-
     product = Product.objects.get(id = product_id)
 
-    Cart.objects.create(product_id = product, quantity = quantity)
+    # Cart.objects.create(product_id = product, quantity = quantity)
 
-    data ={}
+    cart_product = Cart.objects.filter(product_id = product.id)
+    print(cart_product)
+    if not cart_product:
+   
+        Cart.objects.create(product_id = product, quantity= quantity)
+        data ={
+            'message' : "Product added to cart"
+        }
+    else:
+        data = {
+            'message' : "Product is already in cart"
+        }
 
     return JsonResponse(data)
 
+
+    
 
 
 
