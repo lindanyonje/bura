@@ -212,10 +212,7 @@ a[data-toggle="collapse"] {
     transition-duration: 0.4s;
   }
   
-  .btn:hover {
-    background-color: #4CAF50; /* Green */
-    color:white;
-  }
+
 
   ul li {
     list-style-type: none;

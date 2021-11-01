@@ -104,7 +104,7 @@
          },
          success:function(data){
          //     Remove the category from html and show success
-         Notiflix.Notify.Success('Wishlist added successfully');
+            Notiflix.Notify.Success(data['message']);
     
          },
          error: function(data){

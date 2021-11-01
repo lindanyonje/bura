@@ -49,15 +49,13 @@
                                    <td>KES {{object.product_id.cost}}</td>
                                    <td>
 
-                                         <div class="plusminus horiz">
 
-                                            <button></button>
+                                            <button class="btn btn-outline-danger border-0 btn-sm" onclick="minusCartQuantity('{{object.id}}')"><i class="fa fa-minus"></i></button>
 
-                                            <input type="number" name="productQty" value="1" min="1" max="10">
+                                            <input  name="productQty" id="cartQuantity_{{object.id}}" value="{{object.quantity}}" min="1" class="w-25">
 
-                                            <button></button> 
+                                            <button class="btn btn-light btn-sm" onclick="addCartQuantity('{{object.id}}')"><i class="fa fa-plus"></i></button> 
 
-                                         </div>
 
                                    </td>
                                    
@@ -266,6 +264,33 @@ $(document).on('ready', function(){
   $('<div class="plusminus horiz"><button></button><input type="number" name="qty" value="1" min="1" max="5"><button></button></div>').numberPicker().appendTo('body');
   
 });
+
+function addCartQuantity(id){
+
+    let input = "#cartQuantity_"+id;
+    let current_val = $(input).val();
+    console.log(current_val);
+    current_val = parseInt(current_val) +1;
+    $(input).val(current_val);
+
+    Notiflix.Notify.Success('Cart quantity added');
+
+}
+
+function minusCartQuantity(id){
+
+let input = "#cartQuantity_"+id;
+let current_val = $(input).val();
+console.log(current_val);
+if(parseInt(current_val) > 1 ){
+    current_val = parseInt(current_val) - 1;
+    $(input).val(current_val);
+
+    Notiflix.Notify.Success('Cart quantity deducted');
+}
+
+
+}
 
 </script>
 

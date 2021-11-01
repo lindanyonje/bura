@@ -727,15 +727,21 @@ def deleteWishlist(request):
 def addToWishlist(request):
 
     product_id = request.POST.get("product_id", None)
-    
-    print(product_id)
-
    
-    product = Product.objects.get(pk =product_id)
-    
-    Wishlist.objects.create(product_id = product)
+    product = Product.objects.get(pk =product_id) 
 
-    data ={}
+    wishlist_product = Wishlist.objects.filter(product_id = product.id)
+    print(wishlist_product)
+    if not wishlist_product:
+   
+        Wishlist.objects.create(product_id = product)
+        data ={
+            'message' : "Product added to wishlist"
+        }
+    else:
+        data = {
+            'message' : "Product is already in wishlist"
+        }
 
     return JsonResponse(data)
 
