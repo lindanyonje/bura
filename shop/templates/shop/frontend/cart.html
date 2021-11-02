@@ -29,9 +29,9 @@
                         <thead>
                             <tr>
                                 <th>Item</th>
-                                <th>Product </th>
-                                <th>Price</th>
+                                <th>Product </th>                          
                                 <th>Quantity</th>
+                                <th>Price</th>
                                 <!-- <th>Created At</th> -->
                                 <th>Actions</th>
                             </tr>
@@ -46,33 +46,27 @@
 
                                    </td>
                                    <td>{{object.product_id.name}}</td>
-                                   <td>KES {{object.product_id.cost}}</td>
-                                   <td>
+                                    <td>
 
+                                            <button class="btn btn-outline-danger border-0 btn-sm btnChanged" onclick="minusCartQuantity('{{object.id}}')"><i class="fa fa-minus"></i></button>
 
-                                            <button class="btn btn-outline-danger border-0 btn-sm" onclick="minusCartQuantity('{{object.id}}')"><i class="fa fa-minus"></i></button>
+                                            <input  class="selected_quantity" name="productQty" id="cartQuantity_{{object.id}}" value="{{object.quantity}}" min="1" class="w-25">
 
-                                            <input  name="productQty" id="cartQuantity_{{object.id}}" value="{{object.quantity}}" min="1" class="w-25">
+                                            <button class="btn btn-light btn-sm btnChanged" onclick="addCartQuantity('{{object.id}}')"><i class="fa fa-plus"></i></button> 
 
-                                            <button class="btn btn-light btn-sm" onclick="addCartQuantity('{{object.id}}')"><i class="fa fa-plus"></i></button> 
+                                    </td>
+                                   <td class="row_cost" id="{{object.id}}" data-product-cost="{{object.product_id.cost}}">KES {{object.product_id.cost}}</td>
+                                               
+                                   <td>                                    
+                                        <button  class="btn btn-outline-dark btn-sm cartToWishlist" data-id="{{object.id}}">
+                                                    
+                                            <i class="fa fa-heart" aria-hidden="true"></i>
 
-
-                                   </td>
-                                   
-                            
-                                   <td>
+                                        </button>
                                     
-                                    <button  class="btn btn-outline-dark btn-sm cartToWishlist" data-id="{{object.id}}">
-                                                
-                                        <i class="fa fa-heart" aria-hidden="true"></i>
-
-                                    </button>
-
-                                  
-                                    <button class="btn btn-outline-danger btn-sm deleteCart" data-id="{{object.id}}">
-                                        <i class="fa fa-trash"></i>
-                                     </button>   
- 
+                                        <button class="btn btn-outline-danger btn-sm deleteCart" data-id="{{object.id}}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>   
                                    </td>  
                                </tr>
                             {% endfor %}   
@@ -135,34 +129,70 @@
 <script>
 
    
-$(document).ready(function(){
+    $(document).ready(function(){
 
-$.ajaxSetup({
-    headers:{
-        'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
-    }
-})
-});
+    $.ajaxSetup({
+        headers:{
+            'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+    });
 
-$(".deleteCart").click(function(){
-
-
-let cart_id =$(this).data('id');
+    $(".deleteCart").click(function(){
 
 
-   $.ajax({
+    let cart_id =$(this).data('id');
+
+
+    $.ajax({
+            type: "POST",
+            url: "{% url 'ajax_delete_cart' %}",
+            dataType: "json",
+            data:{
+                'cart_id':cart_id,
+                
+            },
+            success:function(data){
+            //     Remove the category from html and show success
+                Notiflix.Notify.Success('Cart deleted successfully');
+                cart_row = "#cart_"+ cart_id;
+                $(cart_row).remove();
+
+            },
+            error: function(data){
+                
+                console.log(data);
+                Notiflix.Notify.Failure('Something went wrong.');
+
+            }
+
+        });
+        
+    });
+
+
+    $(".cartToWishlist").click(function(){
+
+    let id = $(this).data("id");
+
+    console.log("Here")
+
+
+    $.ajax({
         type: "POST",
-        url: "{% url 'ajax_delete_cart' %}",
+        url: "{% url 'cart_wishlist' %}",
         dataType: "json",
         data:{
-            'cart_id':cart_id,
-            
+            'id':id,
         },
         success:function(data){
-        //     Remove the category from html and show success
-            Notiflix.Notify.Success('Cart deleted successfully');
-            cart_row = "#cart_"+ cart_id;
-            $(cart_row).remove();
+        //     Remove the product from cart to Wishlist and show success
+        Notiflix.Notify.Success('Product added to wishlist');
+
+        setTimeout(function(){ 
+            window.location.reload()
+            }, 3000);
+
 
         },
         error: function(data){
@@ -174,124 +204,113 @@ let cart_id =$(this).data('id');
 
     });
     
-});
-
-
-$(".cartToWishlist").click(function(){
-
-let id = $(this).data("id");
-
-console.log("Here")
-
-
-$.ajax({
-     type: "POST",
-     url: "{% url 'cart_wishlist' %}",
-     dataType: "json",
-     data:{
-         'id':id,
-     },
-     success:function(data){
-     //     Remove the product from cart to Wishlist and show success
-     Notiflix.Notify.Success('Product added to wishlist');
-
-     setTimeout(function(){ 
-         window.location.reload()
-        }, 3000);
-
-
-     },
-     error: function(data){
-         
-         console.log(data);
-         Notiflix.Notify.Failure('Something went wrong.');
-
-     }
-
- });
- 
-});
-
-
-//Number Picker Plugin - TobyJ
-(function ($) {
-  $.fn.numberPicker = function() {
-    var dis = 'disabled';
-    return this.each(function() {
-      var picker = $(this),
-          p = picker.find('button:last-child'),
-          m = picker.find('button:first-child'),
-          input = picker.find('input'),                 
-          min = parseInt(input.attr('min'), 10),
-          max = parseInt(input.attr('max'), 10),
-          inputFunc = function(picker) {
-            var i = parseInt(input.val(), 10);
-            if ( (i <= min) || (!i) ) {
-              input.val(min);
-              p.prop(dis, false);
-              m.prop(dis, true);
-            } else if (i >= max) {
-              input.val(max);
-              p.prop(dis, true); 
-              m.prop(dis, false);
-            } else {
-              p.prop(dis, false);
-              m.prop(dis, false);
-            }
-          },
-          changeFunc = function(picker, qty) {
-            var q = parseInt(qty, 10),
-                i = parseInt(input.val(), 10);
-            if ((i < max && (q > 0)) || (i > min && !(q > 0))) {
-              input.val(i + q);
-              inputFunc(picker);
-            }
-          };
-      m.on('click', function(){changeFunc(picker,-1);});
-      p.on('click', function(){changeFunc(picker,1);});
-      input.on('change', function(){inputFunc(picker);});
-      inputFunc(picker); //init
     });
-  };
-}(jQuery));
 
 
-$(document).on('ready', function(){
-  
-  $('.plusminus').numberPicker();
-  
-  //add dynamically:
-  $('<div class="plusminus horiz"><button></button><input type="number" name="qty" value="1" min="1" max="5"><button></button></div>').numberPicker().appendTo('body');
-  
-});
+    //Number Picker Plugin - TobyJ
+    (function ($) {
+    $.fn.numberPicker = function() {
+        var dis = 'disabled';
+        return this.each(function() {
+        var picker = $(this),
+            p = picker.find('button:last-child'),
+            m = picker.find('button:first-child'),
+            input = picker.find('input'),                 
+            min = parseInt(input.attr('min'), 10),
+            max = parseInt(input.attr('max'), 10),
+            inputFunc = function(picker) {
+                var i = parseInt(input.val(), 10);
+                if ( (i <= min) || (!i) ) {
+                input.val(min);
+                p.prop(dis, false);
+                m.prop(dis, true);
+                } else if (i >= max) {
+                input.val(max);
+                p.prop(dis, true); 
+                m.prop(dis, false);
+                } else {
+                p.prop(dis, false);
+                m.prop(dis, false);
+                }
+            },
+            changeFunc = function(picker, qty) {
+                var q = parseInt(qty, 10),
+                    i = parseInt(input.val(), 10);
+                if ((i < max && (q > 0)) || (i > min && !(q > 0))) {
+                input.val(i + q);
+                inputFunc(picker);
+                }
+            };
+        m.on('click', function(){changeFunc(picker,-1);});
+        p.on('click', function(){changeFunc(picker,1);});
+        input.on('change', function(){inputFunc(picker);});
+        inputFunc(picker); //init
+        });
+    };
+    }(jQuery));
 
-function addCartQuantity(id){
+
+    $(document).on('ready', function(){
+    
+    $('.plusminus').numberPicker();
+    
+    //add dynamically:
+    $('<div class="plusminus horiz"><button></button><input type="number" name="qty" value="1" min="1" max="5"><button></button></div>').numberPicker().appendTo('body');
+    
+    });
+
+    function addCartQuantity(id){
+
+        let input = "#cartQuantity_"+id;
+        let current_val = $(input).val();
+        // console.log(current_val);
+        current_val = parseInt(current_val) +1;
+        $(input).val(current_val);
+
+        Notiflix.Notify.Success('Cart quantity added');
+
+    }
+
+    function minusCartQuantity(id){
 
     let input = "#cartQuantity_"+id;
     let current_val = $(input).val();
     console.log(current_val);
-    current_val = parseInt(current_val) +1;
-    $(input).val(current_val);
+    if(parseInt(current_val) > 1 ){
+        current_val = parseInt(current_val) - 1;
+        $(input).val(current_val);
 
-    Notiflix.Notify.Success('Cart quantity added');
-
-}
-
-function minusCartQuantity(id){
-
-let input = "#cartQuantity_"+id;
-let current_val = $(input).val();
-console.log(current_val);
-if(parseInt(current_val) > 1 ){
-    current_val = parseInt(current_val) - 1;
-    $(input).val(current_val);
-
-    Notiflix.Notify.Success('Cart quantity deducted');
-}
+        Notiflix.Notify.Success('Cart quantity deducted');
+    }
 
 
-}
+    }
+
+    let row_cost = $('.row_cost').data('product-cost');
+
+    $('.btnChanged').each(function(){
+        $(this).on('click', function(event){
+            let selected_quantity = $('.selected_quantity').val();
+        
+            var total_price = selected_quantity * row_cost;
+            $('.row_cost').text(total_price);
+            let id = $('.row_cost').attr('id');
+            let string_id = '#'+id;
+            console.log("CURRENT VALUE");
+            console.log(string_id);
+        });
+
+    });
+
+    var quantity, price
+
+    // function calculateRowCost(quantity, price){
+    //     var total_price = quantity * price;
+    //     $('.row_cost').val(total_price);
+    //     $('.row_cost').text(total_price);
+    //     console.log_("CURRENT VALUE");
+    //     console.log($('.row_cost').val());
+    // }
 
 </script>
-
 {% endblock %}
