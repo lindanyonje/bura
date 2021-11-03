@@ -132,6 +132,14 @@ class OrderView(View):
         print(orders)
         return render(request, 'orders.html', {'orders': orders})
 
+# To be reviewed
+
+class SimpleFormView(FormView):
+    login_required= True
+    model = Feedback
+    template_name= "shop/admin/feedback.html"
+
+
 
 class CategoryList(ListView):
     
@@ -340,7 +348,8 @@ class VoucherCreate(CreateView):
 class VoucherUpdate(UpdateView):
 
     
-    login_required= Truemodel = Voucher
+    login_required= True
+    model = Voucher
     fields = '__all__' 
     template_name= "shop/admin/voucher_form.html"
     success_url = 'vouchers/'

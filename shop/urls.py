@@ -70,7 +70,9 @@ urlpatterns=[
     path('wishlist/', views.get_wishlist, name="wishlist"),
     path('add/wishlist/cart',views.wishlistToCart,name="wishlist_cart"),
     path('add/cart/wishlist',views.cartToWishlist,name="cart_wishlist"),
-    path('search/', views.SearchResult.as_view(), name="search_product")
+    path('search/', views.SearchResult.as_view(), name="search_product"),
+    path('simpleform/', views.SimpleFormView.as_view(), name="feedback"),
+
 
     
 

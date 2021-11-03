@@ -136,7 +136,23 @@ class Voucher(models.Model):
     voucher_tag=models.CharField(max_length=100, null=False, blank=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
-  
+
+
+class Checkout(models.Model):
+     customer = models.ForeignKey('customer', on_delete=models.CASCADE)
+     phonenumber = models.CharField(max_length=20, null=False)
+     total = models.FloatField(default=0)
+     order_number = models.CharField(max_length=10, null=False)
+     amount_paid = models.FloatField(default=0, )
+     shipping_cost = models.FloatField(default=0)
+     address = models.CharField(max_length=300, null=True, blank=True)
+     created_at = models.DateTimeField(auto_now_add=True)
+     updated_at = models.DateTimeField(auto_now=True)
+     CHECKOUT_STATUS = (
+         ('PENDING', 'Pending'),
+         ('PAID', 'Paid'),
+     )
+     status = models.CharField(choices=CHECKOUT_STATUS, max_length=100, default='PENDING')  
 
 
 
