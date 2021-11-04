@@ -1,7 +1,7 @@
 from django  import forms
 from .models import Feedback
 
-class Form(forms.Form):
+class FeedbackForm(forms.Form):
     # specify fields to be displayed.
 
     name = forms.CharField()

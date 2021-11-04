@@ -1,7 +1,7 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
-from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart
+from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
-from django.forms import forms
+from django.forms import FeedbackForm
 from django.shortcuts import get_object_or_404
 
 from django.db.models import Q
@@ -65,12 +65,14 @@ def getCategoryProducts(request, id):
 def getProduct(request, id):
 
     product = Product.objects.get(pk = id)
+    commentForm = FeedbackForm()
     
 
     context = {
         'product' : product,
         'related_products' : Product.objects.filter(category_id = product.id),
-        'reviews' : Review.objects.filter(product_id = product.id)
+        'reviews' : Review.objects.filter(product_id = product.id),
+        'form' : commentForm
     }
 
     return render(request, 'shop/frontend/detail_product.html', context)
@@ -84,34 +86,54 @@ def get_cart(request):
 def get_wishlist(request):
     wishlist = Wishlist.objects.all()
 
-    return render(request, 'shop/frontend/wishlist.html', {'wishlist': wishlist})   
+    return render(request, 'shop/frontend/wishlist.html', {'wishlist': wishlist})
 
-class CheckOut(View):
 
-    def post(self, request):
-        address = request.POST.get('address')
-        phone = request.POST.get('phone')
-        customer = request.session.get('customer')
-        cart = request.session.get('cart')
-        products = Product.get_products_by_id(list(cart.keys()))
-        print(address, phone, customer, cart, products)
+
+def checkout(request):
+
+    if request.method == "GET":
+
+        return render(request, 'shop/frontend/checkout.html', context={})
+
+    else:
+        customer=request.POST.get('customer')
+        Phone=request.POST.get('phone_number')
+        Total=request.POST.get('Total')
+        order_number=request.POST.get('order_number')
+        shipping_cost=request.POST.get('shipping_cost')
+        Address=request.POST.get('address')
+        print(Checkout)
+
+        return render(request, 'shop/frontend/checkout.html', context={})
+        
+
+
+
+    # def post(self, request):
+    #     address = request.POST.get('address')
+    #     phone = request.POST.get('phone')
+    #     customer = request.session.get('customer')
+    #     cart = request.session.get('cart')
+    #     products = Product.get_products_by_id(list(cart.keys()))
+    #     print(address, phone, customer, cart, products)
   
-        for product in products:
-            print(cart.get(str(product.id)))
-            order = Order(customer=Customer(id=customer),
-                          product=product,
-                          price=product.price,
-                          address=address,
-                          phone=phone,
-                          quantity=cart.get(str(product.id)))
-            order.save()
-        request.session['cart'] = {}
+    #     for product in products:
+    #         print(cart.get(str(product.id)))
+    #         order = Order(customer=Customer(id=customer),
+    #                       product=product,
+    #                       price=product.price,
+    #                       address=address,
+    #                       phone=phone,
+    #                       quantity=cart.get(str(product.id)))
+    #         order.save()
+    #     request.session['cart'] = {}
   
-        return redirect('cart')
+    #     return redirect('cart')
 
 
 class SearchResult(ListView):
-    m0del = Product
+    model = Product
     template_name = 'shop/frontend/layouts/search_results.html'
 
     def get_queryset(self):
