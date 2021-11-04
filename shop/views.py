@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
-from django.forms import FeedbackForm
+from .forms import FeedbackForm
 from django.shortcuts import get_object_or_404
 
 from django.db.models import Q
@@ -107,29 +107,6 @@ def checkout(request):
 
         return render(request, 'shop/frontend/checkout.html', context={})
         
-
-
-
-    # def post(self, request):
-    #     address = request.POST.get('address')
-    #     phone = request.POST.get('phone')
-    #     customer = request.session.get('customer')
-    #     cart = request.session.get('cart')
-    #     products = Product.get_products_by_id(list(cart.keys()))
-    #     print(address, phone, customer, cart, products)
-  
-    #     for product in products:
-    #         print(cart.get(str(product.id)))
-    #         order = Order(customer=Customer(id=customer),
-    #                       product=product,
-    #                       price=product.price,
-    #                       address=address,
-    #                       phone=phone,
-    #                       quantity=cart.get(str(product.id)))
-    #         order.save()
-    #     request.session['cart'] = {}
-  
-    #     return redirect('cart')
 
 
 class SearchResult(ListView):
