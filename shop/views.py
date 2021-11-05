@@ -1,7 +1,7 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
-from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout
+from.models import Category, Delivery, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -103,9 +103,21 @@ def checkout(request):
         order_number=request.POST.get('order_number')
         shipping_cost=request.POST.get('shipping_cost')
         Address=request.POST.get('address')
-        print(Checkout)
+        order = Order.objects.create(
 
-        return render(request, 'shop/frontend/checkout.html', context={})
+        )
+        delivery= Delivery.objects.create(
+            order_id = order.id,
+            # customer_address_id = 
+
+        )
+
+        context = {
+            'order' : order,
+            'delivery' : delivery
+        }
+
+        return render(request, 'shop/frontend/receipt.html', context)
         
 
 
