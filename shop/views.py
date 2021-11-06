@@ -108,7 +108,7 @@ def checkout(request):
         )
         delivery= Delivery.objects.create(
             order_id = order.id,
-            # customer_address_id = 
+            # customer_address_id = CustomerAddress.id
 
         )
 
@@ -117,7 +117,7 @@ def checkout(request):
             'delivery' : delivery
         }
 
-        return render(request, 'shop/frontend/receipt.html', context)
+        return render(request, 'shop/frontend/order.html', context)
         
 
 
@@ -135,17 +135,24 @@ class SearchResult(ListView):
         return object_list
 
   
-class OrderView(View):
+# class OrderView(View):
+#     model = Order
+#     template_name= 'shop/frontend/layouts/order.html'
+
   
-    def get(self, request):
-        customer = request.session.get('customer')
-        orders = Order.get_orders_by_customer(customer)
-        print(orders)
-        return render(request, 'orders.html', {'orders': orders})
+#     def get(self, request):
+#         customer = request.session.get('customer')
+#         orders = Order.get_orders_by_customer(customer)
+#         shipping_cost = request.POST.get('shipping_cost')
+#         order_number = request.POST.get('order_number')
+#         status= request.POST.get('status')
 
-# To be reviewed
+#         print(orders)
+#         return render(request, 'order.html', {'orders': orders})
 
-class SimpleFormView(FormView):
+# # To be reviewed
+
+class FeedbackFormView(FormView):
     login_required= True
     model = Feedback
     template_name= "shop/admin/feedback.html"

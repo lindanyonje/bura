@@ -110,7 +110,7 @@ class Payment(models.Model):
 
 class Delivery(models.Model):
     order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True)
-    customer_address_id=models.ForeignKey(CustomerAddress,on_delete=models.CASCADE,blank=True,null=True)
+    customer_address_id=models.ForeignKey('CustomerAddress',on_delete=models.CASCADE,blank=True,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
 
