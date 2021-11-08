@@ -34,11 +34,11 @@
                     </thead>
                     
                     <tbody>
-                        {% for object in cart%}
+                        {% for object in cart %}
 
                            <tr>
                                <td>{{object.created_at}}</td>
-                               <td>{{object. order_number}}</td>
+                               <td>{{object.order_number}}</td>
                                <td>{{object.customer_address}}</td>
                            </tr>
                         {% endfor %}   
@@ -46,13 +46,6 @@
 
                 </table> 
                 <hr>
-
-                {% for objects in cart %}
-
-                
-       
-             {% endfor %}
-       
 
         
                 </div>

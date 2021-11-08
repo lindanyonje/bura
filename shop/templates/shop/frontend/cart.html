@@ -31,6 +31,7 @@
                                 <th>Item</th>
                                 <th>Product </th>                          
                                 <th>Quantity</th>
+                                <th></th>
                                 <th>Price</th>
                                 <!-- <th>Created At</th> -->
                                 <th>Actions</th>
@@ -38,7 +39,7 @@
                         </thead>
                         <tbody>
                             {% for object in cart %}
-                               <tr id="cart_{{object.id}}">
+                               <tr id="cart_{{object.id}}" class="tr">
                                    
                                    <td>
 
@@ -55,7 +56,7 @@
                                             <button class="btn btn-light btn-sm btnChanged" onclick="addCartQuantity('{{object.id}}')"><i class="fa fa-plus"></i></button> 
 
                                     </td>
-                                   <td  id="row_cost_{{object.id}}" class="cost_per_row" data-product-cost="{{object.product_id.cost}}">KES {{object.product_id.cost}}</td>
+                                   <td>KES </td><td  id="row_cost_{{object.id}}" class="cost_per_row" data-product-cost="{{object.product_id.cost}}">{{object.product_id.cost}}</td>
                                                
                                    <td>                                    
                                         <button  class="btn btn-outline-dark btn-sm cartToWishlist" data-id="{{object.id}}">
@@ -96,17 +97,18 @@
                     <h6>Value Added Tax(VAT): 0.0</h6>
 
                     <hr>
-                    <h4 class="font-weight-bold mb-5" id="grand_total">Grand Total: 0.0</h4>
+                    <h4 class="font-weight-bold mb-5" id="grand_total" class="grand_total">Grand Total: 0.0</h4>
 
                      <div class="btn-group">
                         <button type="button" class="btn btn-light">CONTINUE SHOPPING</button>
                        
                       </div>
+
+                      <button onclick="checkout()" class="btn btn-primary btn-sm">
+                        PROCEED TO CHECK OUT
+                      </button>
                       
-                      <a href="{% url 'checkout' %}"
-                        class="btn btn-primary btn-sm">PROCEED TO CHECK OUT
-                      </a>
-                
+                      
                 </div>
                 
                 </div>
@@ -126,15 +128,38 @@
 
 <script>
 
+    var cart_total = 0;
    
     $(document).ready(function(){
+    
 
     $.ajaxSetup({
         headers:{
             'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
         }
-    })
     });
+
+    grand_total();
+    });
+
+    function checkout(){
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'checkout' %}",
+            dataType: "json",
+            data:{
+                'Total':cart_total,
+                
+            },
+            success: function(data){
+                window.location.href = "/checkout/details/"+data['order']
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
 
     $(".deleteCart").click(function(){
 
@@ -301,16 +326,37 @@
 
     }
 
-    var product_cost = 1;
-    $('.cost_per_row').each(function(){
-        
-        
-        console.log(product_cost+1);
-    });
+    function grand_total(){
+            var sum = 0;
+            console.log("Here")
+            $(".cost_per_row").each(function(){
+                console.log($(this).html())
+                sum += parseFloat($(this).html());
+            });
+            console.log(sum)
+            $('#grand_total').html("KES "+sum);
+            cart_total = sum;
+         }
 
+    // function grand_total(){
+
+    //     $(".grand_total").on('change', function(){
+    //         var parent = $(this).closest('tr');
+    //         // var price  = parseFloat($('.cost_per_row',parent).text());
+    //         var cost_per_row = parseFloat($('.cost_per_row ',parent).val());
+
+    //         $('.grand_total',parent).text(cost_per_row );
+
+    //         calc_total();
+    //     });
+
+        
     
 
-       
+    // }
+
+   
+
 
 </script>
 {% endblock %}

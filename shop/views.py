@@ -78,7 +78,7 @@ def getProduct(request, id):
     return render(request, 'shop/frontend/detail_product.html', context)
 
 def get_cart(request):
-    cart_items = Cart.objects.all()
+    cart_items = Cart.objects.filter(order_id__isnull = True )
     
     return render(request, 'shop/frontend/cart.html', {'cart': cart_items})    
 
@@ -97,27 +97,36 @@ def checkout(request):
         return render(request, 'shop/frontend/checkout.html', context={})
 
     else:
-        customer=request.POST.get('customer')
-        Phone=request.POST.get('phone_number')
+        # customer=request.POST.get('customer')
+        # Phone=request.POST.get('phone_number')
         Total=request.POST.get('Total')
-        order_number=request.POST.get('order_number')
-        shipping_cost=request.POST.get('shipping_cost')
-        Address=request.POST.get('address')
+        order_number= "BURA_123_56"
+        # shipping_cost=request.POST.get('shipping_cost')
+        # Address=request.POST.get('address')
         order = Order.objects.create(
+            total = Total,
+            order_number = order_number
 
         )
-        delivery= Delivery.objects.create(
-            order_id = order.id,
-            # customer_address_id = CustomerAddress.id
 
-        )
+        cart_items = Cart.objects.filter(order_id__isnull = True).update(order_id = order.id)
 
         context = {
-            'order' : order,
-            'delivery' : delivery
+            'order' : order.id,
         }
 
-        return render(request, 'shop/frontend/order.html', context)
+        return JsonResponse(context)
+
+
+def checkoutDetails(request, id):
+
+    order = Order.objects.get(pk = id)
+
+    context = {
+            'order' : order.id,
+        }
+
+    return render(request, 'shop/frontend/checkout.html', context)
         
 
 
@@ -134,23 +143,7 @@ class SearchResult(ListView):
         # )
         return object_list
 
-  
-# class OrderView(View):
-#     model = Order
-#     template_name= 'shop/frontend/layouts/order.html'
 
-  
-#     def get(self, request):
-#         customer = request.session.get('customer')
-#         orders = Order.get_orders_by_customer(customer)
-#         shipping_cost = request.POST.get('shipping_cost')
-#         order_number = request.POST.get('order_number')
-#         status= request.POST.get('status')
-
-#         print(orders)
-#         return render(request, 'order.html', {'orders': orders})
-
-# # To be reviewed
 
 class FeedbackFormView(FormView):
     login_required= True
