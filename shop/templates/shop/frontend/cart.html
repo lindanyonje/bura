@@ -144,21 +144,23 @@
 
     function checkout(){
 
-        $.ajax({
-            type: "POST",
-            url: "{% url 'checkout' %}",
-            dataType: "json",
-            data:{
-                'Total':cart_total,
+        window.location.href = "/checkout/details/"+cart_total
+
+        // $.ajax({
+        //     type: "POST",    
+        //     url: "{% url 'checkout' %}",
+        //     dataType: "json",
+        //     data:{
+        //         'Total':cart_total,
                 
-            },
-            success: function(data){
-                window.location.href = "/checkout/details/"+data['order']
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
+        //     },
+        //     success: function(data){
+                
+        //     },
+        //     error: function(data){
+        //         console.log(data);
+        //     }
+        // });
     }
 
    

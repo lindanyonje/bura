@@ -78,7 +78,7 @@ def getProduct(request, id):
     return render(request, 'shop/frontend/detail_product.html', context)
 
 def get_cart(request):
-    cart_items = Cart.objects.filter(order_id__isnull = True )
+    cart_items = Cart.objects.filter(order_id__isnull = True)
     
     return render(request, 'shop/frontend/cart.html', {'cart': cart_items})    
 
@@ -90,22 +90,43 @@ def get_wishlist(request):
 
 
 
-def checkout(request):
+def checkoutDetails(request, total):
 
+
+    context = {
+            'total' : total,
+        }
+
+    return render(request, 'shop/frontend/checkout.html', context)
+
+
+def finalizeCheckout(request):
     if request.method == "GET":
 
-        return render(request, 'shop/frontend/checkout.html', context={})
+        return render(request, 'shop/frontend/cart.html', context={})
 
     else:
-        # customer=request.POST.get('customer')
-        # Phone=request.POST.get('phone_number')
-        Total=request.POST.get('Total')
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        total=request.POST.get('total')
         order_number= "BURA_123_56"
         # shipping_cost=request.POST.get('shipping_cost')
-        # Address=request.POST.get('address')
+        address=request.POST.get('address')
+        delivery_method = request.POST.get("delivery_method")
+        payment_mode = request.POST.get("paymentMode")
+
+        customer = Customer.objects.filter(email= email).first()
+        if customer is None:
+            customer = Customer.objects.create(
+                name = name,
+                email = email,
+                password = email,
+            )
         order = Order.objects.create(
-            total = Total,
-            order_number = order_number
+            total = total,
+            order_number = order_number,
+            status = "Pending",
+            customer_id = customer
 
         )
 
@@ -117,16 +138,17 @@ def checkout(request):
 
         return JsonResponse(context)
 
+def orderSummary(request, id):
 
-def checkoutDetails(request, id):
+    order = Order.objects.get(id = id)
 
-    order = Order.objects.get(pk = id)
+    return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
 
-    context = {
-            'order' : order.id,
-        }
 
-    return render(request, 'shop/frontend/checkout.html', context)
+
+
+
+
 
 
 

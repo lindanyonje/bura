@@ -1,7 +1,8 @@
 {% extends 'shop/frontend/layouts/master.html' %}
 
-
 {% load static %}
+
+{% load widget_tweaks %}
 
 {% block content %}
 
@@ -26,22 +27,36 @@
 
                     <thead>
                         <tr>
-                            <th>Order Date</th>
-                            <th>Order no</th>
-                            <th>Shipping address</th>
+                            <th>Item</th>
+                            <th>Product </th>                          
+                            <th>Quantity</th>
+                            <th>Price</th>
                         </tr>
 
                     </thead>
                     
                     <tbody>
+                        
                         {% for object in cart %}
+                        <tr id="cart_{{object.id}}" class="tr">
+                            
+                            <td>
 
-                           <tr>
-                               <td>{{object.created_at}}</td>
-                               <td>{{object.order_number}}</td>
-                               <td>{{object.customer_address}}</td>
-                           </tr>
-                        {% endfor %}   
+                             <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
+
+                            </td>
+                            <td>{{object.product_id.name}}</td>
+
+                             <td>   
+                                <input  class="selected_quantity" name="productQty" id="cartQuantity_{{object.id}}" value="{{object.quantity}}" min="1" class="w-25">
+                             </td>
+
+                            <td>KES </td><td  id="row_cost_{{object.id}}" class="cost_per_row" data-product-cost="{{object.product_id.cost}}">{{object.product_id.cost}}</td>
+                                        
+                            
+                        </tr>
+                     {% endfor %}   
+                        
                     </tbody>
 
                 </table> 

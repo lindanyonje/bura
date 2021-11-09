@@ -72,9 +72,11 @@ urlpatterns=[
     path('add/cart/wishlist',views.cartToWishlist,name="cart_wishlist"),
     path('search/', views.SearchResult.as_view(), name="search_product"),
     path('feedback/', views.FeedbackFormView.as_view(), name="feedback"),
-    path('checkout/', views.checkout, name="checkout"),
-    path('checkout/details/<id>', views.checkoutDetails, name="checkout_details"),
-    path('Order/', views.get_Order, name="receipt"),
+    # path('checkout/', views.checkout, name="checkout"),
+    path('checkout/details/<total>', views.checkoutDetails, name="checkout_details"),
+    path('complete/checkout/', views.finalizeCheckout, name="complete.checkout"),
+    path('order/receipt/<id>', views.orderSummary, name="receipt"),
+
 
 
 

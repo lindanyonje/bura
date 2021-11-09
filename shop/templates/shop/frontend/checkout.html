@@ -11,7 +11,6 @@
 
     <h4 class="mt-5" >CHECKOUT</h4>
 
-
     <div class="row justify-content-center my-5">
 
         <div class="col-lg-8">
@@ -25,38 +24,26 @@
     
                 <div class="card-body">
 
-                    <form>
+                    <form id="checkoutForm">
                         <div class="form-row">
                           <div class="col">
-                            <input type="text" class="form-control" placeholder="First name">
+                            <label for="inputEmail4">Your name</label>
+
+                            <input type="text" class="form-control" name="name" placeholder="Full name">
                           </div>
-                          <div class="col">
-                            <input type="text" class="form-control" placeholder="Last name">
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">Your Email</label>
+                            <input type="email" class="form-control" name="email" id="inputEmail4" placeholder="Email">
                           </div>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                              <label for="inputEmail4">Email</label>
-                              <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                            </div>
-                            <div class="form-group col-md-6">
-                              <label for="inputPassword4">Password</label>
-                              <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                            </div>
-                          </div>
                           <div class="form-group">
                             <label for="inputAddress">Address</label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                          </div>
-                          <div class="form-group">
-                            <label for="inputAddress2">Address 2</label>
-                            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                            <input type="text" class="form-control" id="inputAddress" name="address" placeholder="1234 Main St">
                           </div>
                           <div class="form-row">
                             <div class="form-group col-md-6">
                               <label for="inputRegion">Region</label>
-                              <select id="inputRegion" class="form-control">
+                              <select id="inputRegion" name="region" class="form-control">
                                 <option selected>Select..</option>
                                 <option>Kiambu</option>
                                 <option>Juja</option>
@@ -67,7 +54,7 @@
                             </div>
                             <div class="form-group col-md-4">
                               <label for="inputCity">City</label>
-                              <select id="inputCity" class="form-control">
+                              <select id="inputCity" name="city" class="form-control">
                                 <option selected>Select..</option>
                                 <option>Nairobi</option>
                                 <option>Kisumu</option>
@@ -78,20 +65,11 @@
                             </div>
                             <div class="form-group col-md-2">
                               <label for="inputZip">Zip</label>
-                              <input type="text" class="form-control" id="inputZip">
+                              <input type="text" name="zip" class="form-control" id="inputZip">
                             </div>
                           </div>
-                          <div class="form-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="gridCheck">
-                              <label class="form-check-label" for="gridCheck">
-                               Remember Me
-                              </label>
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-primary">SAVE</button>
+                          <!-- <button type="submit" class="btn btn-primary">SAVE</button> -->
 
-                      </form>
                                         
 
     
@@ -103,7 +81,6 @@
                     <h4 class="card-title">2. DELIVERY METHOD</h4>
                 </div>
                 <div class="card-body">
-                    <form>
                         
                         
                         <fieldset class="form-group">
@@ -111,13 +88,13 @@
                             
                             <div class="col-sm-10">
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                <input class="form-check-input" type="radio" name="delivery_method" id="gridRadios1" value="pick_up" checked>
                                 <label class="form-check-label" for="gridRadios1">
                                  Pick Up Station
                                 </label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                <input class="form-check-input" type="radio" name="delivery_method" id="gridRadios2" value="delivery">
                                 <label class="form-check-label" for="gridRadios2">
                                   Delivery to your home or office
                                 </label>
@@ -133,12 +110,11 @@
                                 
                             </div>
                         </div>
-                          <div class="btn-group mt-4">
+                          <!-- <div class="btn-group mt-4">
                             <button type="button" class="btn btn-primary text-center">PROCEED TO NEXT STEP</button>
                            
-                          </div>
+                          </div> -->
                         
-                      </form>
 
                 </div>
             </div>
@@ -153,7 +129,6 @@
 
                     <h6>How do you want to pay for your order?</h6>
                     
-                    <form>
                         
                         
                         <fieldset class="form-group">
@@ -161,8 +136,8 @@
                             
                             <div class="col-sm-2">
                               <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                <label class="form-check-label" for="gridRadios1">
+                                <input class="form-check-input" type="radio" name="paymentMode" id="gridRadios3" value="pay_now" checked>
+                                <label class="form-check-label" for="gridRadios3">
                                  Pay Now
                                 </label>
                               </div>
@@ -180,8 +155,8 @@
 
                           <div class="col-sm-10">
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                              <label class="form-check-label" for="gridRadios1">
+                              <input class="form-check-input" type="radio" name="paymentMode" id="gridRadios4" value="on_delivery" checked>
+                              <label class="form-check-label" for="gridRadios4">
                                M-Pesa On Delivery
                               </label>
                             </div>
@@ -194,6 +169,8 @@
                         </div>
                           
                         </div>
+                        <input type="text" name="total" value="{{total}}">
+
 
                         
                       </form>
@@ -204,7 +181,7 @@
                           <label for="voucher" class="sr-only">Enter voucher code here</label>
                           <input type="password" class="form-control" id="voucher" placeholder="Enter voucher code here">
                         </div>
-                        <button type="submit" class="btn btn-primary mb-2">ADD VOUCHER</button>
+                        <button type="submit" class="btn btn-primary btn-sm mb-2">ADD VOUCHER</button>
                       </form>
 
                       <div class="col-sm-12">
@@ -215,20 +192,20 @@
                                 <h6>Value Added Tax(VAT): 0.0</h6>
             
                                 <hr>
-                                <h4 class="font-weight-bold mb-5" id="grand_total">Grand Total: 0.0</h4>
            
                               
 
                         </div>
 
-                        <div class="btn-group mt-4">
+                        <div class="d-flex flex-row justify-content-end my-4">
 
                           <!-- <a href="{% url 'receipt' %}"
                             class="btn btn-primary btn-sm">CONFIRM ORDER
-                          </a>        -->
-                        
-                        
-                          <button onclick="Order()" class="btn btn-primary btn-sm">
+                          </a>       
+                         -->
+                         <h4 class="font-weight-bold my-auto mr-2" id="grand_total">Grand Total: KES {{total}}</h4>
+
+                          <button id="confirm_order" class="btn btn-primary mr-2">
                             CONFIRM ORDER
                           </button>
                         </div>
@@ -299,28 +276,24 @@ $(document).ready(function(){
     });
 
 
-  function order(){
-
+  $('#confirm_order').on('click', function(){
+    // console.log("Who summoned me?");
+    // console.log($("#checkoutForm").serialize()); 
+    
     $.ajax({
         type: "POST",
-        url: "{% url 'receipt' %}",
+        url: "{% url 'complete.checkout' %}",
         dataType: "json",
-        data:{
-          shipping_cost='shipping_cost',
-          total='total',
-          order_number= "BURA_123_56", 
-
-            
-        },
+        data: $("#checkoutForm").serialize(),
         success: function(data){
-            window.location.href = "Order"
+            window.location.href = "/order/receipt/"+data['order']
         },
         error: function(data){
             console.log(data);
         }
     });
 }
-
+);
 
 </script>
 
