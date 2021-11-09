@@ -37,6 +37,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {% for object in cart %}
                                <tr id="cart_{{object.id}}" class="tr">
@@ -70,7 +71,9 @@
                                         </button>   
                                    </td>  
                                </tr>
-                            {% endfor %}   
+
+                            {% endfor %} 
+
                         </tbody>
     
                     </table>
@@ -146,21 +149,7 @@
 
         window.location.href = "/checkout/details/"+cart_total
 
-        // $.ajax({
-        //     type: "POST",    
-        //     url: "{% url 'checkout' %}",
-        //     dataType: "json",
-        //     data:{
-        //         'Total':cart_total,
-                
-        //     },
-        //     success: function(data){
-                
-        //     },
-        //     error: function(data){
-        //         console.log(data);
-        //     }
-        // });
+       
     }
 
    

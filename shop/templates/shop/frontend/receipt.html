@@ -20,10 +20,24 @@
                 <div class="col-lg-6">
         
                     <h4 class="card-title">Your Order Confirmed</h4>
-                    <p>Hello {{object.customer_id}},<br> Your order has been confirmed </p>
+                    <p>Hello {{object.customer_id}} <br> Your order has been confirmed </p>
+
                     <hr>
 
-                    <table class="table table-striped table-hover"></table>
+                                        
+                    {% for object in cart %}
+
+                        <div class="col-lg-6">
+
+                            {% include 'shop/frontend/layouts/cart.html' %}
+
+                        </div>
+
+                    {% endfor %}
+
+                    
+
+                    <!-- <table class="table table-striped table-hover"></table>
 
                     <thead>
                         <tr>
@@ -38,28 +52,29 @@
                     <tbody>
                         
                         {% for object in cart %}
-                        <tr id="cart_{{object.id}}" class="tr">
-                            
-                            <td>
+                            <tr id="cart_{{object.id}}" class="tr">
+                                
+                                <td>
 
-                             <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
+                                    <img src="{{object.product_id.image.url}}" height="50px" width="50px" class="img-fluid">
 
-                            </td>
-                            <td>{{object.product_id.name}}</td>
+                                </td>
 
-                             <td>   
-                                <input  class="selected_quantity" name="productQty" id="cartQuantity_{{object.id}}" value="{{object.quantity}}" min="1" class="w-25">
-                             </td>
+                                <td>{{object.product_id.name}}</td>
 
-                            <td>KES </td><td  id="row_cost_{{object.id}}" class="cost_per_row" data-product-cost="{{object.product_id.cost}}">{{object.product_id.cost}}</td>
-                                        
-                            
-                        </tr>
+                                <td>   
+                                    <input  class="selected_quantity" name="productQty" id="cartQuantity_{{object.id}}" value="{{object.quantity}}" min="1" class="w-25">
+                                </td>
+
+                                <td>KES </td> <td  id="row_cost_{{object.id}}" class="cost_per_row" data-product-cost="{{object.product_id.cost}}">{{object.product_id.cost}}</td>
+                                            
+                                
+                            </tr>
                      {% endfor %}   
                         
                     </tbody>
 
-                </table> 
+                </table>  -->
                 <hr>
 
         
