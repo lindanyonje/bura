@@ -127,6 +127,20 @@ def checkoutDetails(request, id):
         }
 
     return render(request, 'shop/frontend/checkout.html', context)
+
+
+
+def get_Order(request, order_id):
+
+    order = Order.objects.get(id =order_id)
+    # order = get_object_or_404(Order, pk=Order.id)
+    shipping_cost=request.POST.get('shipping_cost'),
+    total=request.POST.get('total'),
+    order_number= "BURA_123_56",
+    
+
+    return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
+
         
 
 

@@ -74,7 +74,7 @@ urlpatterns=[
     path('feedback/', views.FeedbackFormView.as_view(), name="feedback"),
     path('checkout/', views.checkout, name="checkout"),
     path('checkout/details/<id>', views.checkoutDetails, name="checkout_details"),
-    path('order/', views.Order, name="order"),
+    path('Order/', views.get_Order, name="receipt"),
 
 
 
