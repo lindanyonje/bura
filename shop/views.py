@@ -92,11 +92,9 @@ def get_wishlist(request):
 
 def checkoutDetails(request, total):
 
-
     context = {
             'total' : total,
         }
-
     return render(request, 'shop/frontend/checkout.html', context)
 
 
@@ -110,11 +108,10 @@ def finalizeCheckout(request):
         email=request.POST.get('email')
         total=request.POST.get('total')
         order_number= "BURA_123_56"
-        # shipping_cost=request.POST.get('shipping_cost')
         address=request.POST.get('address')
         delivery_method = request.POST.get("delivery_method")
         payment_mode = request.POST.get("paymentMode")
-
+        
         customer = Customer.objects.filter(email= email).first()
         if customer is None:
             customer = Customer.objects.create(
@@ -145,13 +142,6 @@ def orderSummary(request, id):
     return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
 
 
-
-
-
-
-
-
-
 def get_Order(request, order_id):
 
     order = Order.objects.get(id =order_id)
@@ -162,8 +152,6 @@ def get_Order(request, order_id):
     
 
     return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
-
-        
 
 
 class SearchResult(ListView):

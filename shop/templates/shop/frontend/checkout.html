@@ -68,12 +68,9 @@
                               <input type="text" name="zip" class="form-control" id="inputZip">
                             </div>
                           </div>
-                          <!-- <button type="submit" class="btn btn-primary">SAVE</button> -->
 
-                                        
-
-    
                 </div>
+
             </div>
 
             <div class=" card">
@@ -110,12 +107,7 @@
                                 
                             </div>
                         </div>
-                          <!-- <div class="btn-group mt-4">
-                            <button type="button" class="btn btn-primary text-center">PROCEED TO NEXT STEP</button>
-                           
-                          </div> -->
-                        
-
+                          
                 </div>
             </div>
 
@@ -129,8 +121,6 @@
 
                     <h6>How do you want to pay for your order?</h6>
                     
-                        
-                        
                         <fieldset class="form-group">
                           <div class="row">
                             
@@ -145,10 +135,10 @@
                             </div>
 
                             <div class="col-sm-10">
-                                <img class="footer-image mx-4 img-fluid" src="{% static 'kcb.png' %}" alt="KCB">
-                                <img class="footer-image mx-4 img-fluid" src="{% static 'M-pesa.jpg' %}" alt="M-PESA">
-                                <img class="footer-image mx-4 img-fluid" src="{% static 'airtel.png' %}" alt="Airtel">
-                                <img class="footer-image mx-4 img-fluid" src="{% static 'visa.png' %}" alt="VISA">
+                                <img class="footer-image mx-3 img-fluid" src="{% static 'kcb.png' %}" alt="KCB">
+                                <img class="footer-image mx-3 img-fluid" src="{% static 'M-pesa.jpg' %}" alt="M-PESA">
+                                <img class="footer-image mx-3 img-fluid" src="{% static 'airtel.png' %}" alt="Airtel">
+                                <img class="footer-image mx-3 img-fluid" src="{% static 'visa.png' %}" alt="VISA">
                             </div>
                           </div>
                           <hr>
@@ -166,20 +156,19 @@
                            
                             <img class="footer-image mx-4 img-fluid" src="{% static 'M-pesa.jpg' %}" alt="M-PESA">
                            
-                        </div>
+                          </div>
                           
                         </div>
+
                         <input type="text" name="total" value="{{total}}">
 
-
-                        
                       </form>
 
                       <form class="form-inline">
                         
                         <div class="form-group mx-sm-3 mb-2">
                           <label for="voucher" class="sr-only">Enter voucher code here</label>
-                          <input type="password" class="form-control" id="voucher" placeholder="Enter voucher code here">
+                          <input type="password" class="form-control" id="voucher" name="voucher" placeholder="Enter voucher code here">
                         </div>
                         <button type="submit" class="btn btn-primary btn-sm mb-2">ADD VOUCHER</button>
                       </form>
@@ -199,15 +188,12 @@
 
                         <div class="d-flex flex-row justify-content-end my-4">
 
-                          <!-- <a href="{% url 'receipt' %}"
-                            class="btn btn-primary btn-sm">CONFIRM ORDER
-                          </a>       
-                         -->
                          <h4 class="font-weight-bold my-auto mr-2" id="grand_total">Grand Total: KES {{total}}</h4>
 
                           <button id="confirm_order" class="btn btn-primary mr-2">
                             CONFIRM ORDER
                           </button>
+
                         </div>
                 
 
@@ -277,9 +263,7 @@ $(document).ready(function(){
 
 
   $('#confirm_order').on('click', function(){
-    // console.log("Who summoned me?");
-    // console.log($("#checkoutForm").serialize()); 
-    
+  
     $.ajax({
         type: "POST",
         url: "{% url 'complete.checkout' %}",
