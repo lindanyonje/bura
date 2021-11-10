@@ -143,3 +143,8 @@ LOGIN_REDIRECT_URL= '/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '4a8db5c322fb8f'
+EMAIL_HOST_PASSWORD = 'ad82aaf073a424'
+EMAIL_PORT = '2525'

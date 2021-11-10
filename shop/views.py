@@ -13,6 +13,8 @@ from .forms import FeedbackForm
 from django.shortcuts import get_object_or_404
 
 from django.db.models import Q
+from django.core.mail import send_mail
+
 
 
 # Create your views here.
@@ -137,9 +139,27 @@ def finalizeCheckout(request):
 
 def orderSummary(request, id):
 
-    order = Order.objects.get(id = id)
+    
 
-    return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
+    order = Order.objects.get(id = id)
+    cart = Cart.objects.filter(order_id = order)
+
+    try:
+        
+        send_mail(
+
+            'Bura Order Success',
+            'Your order has been made successfully. You can use the order number '+ order.order_number+" to track it's progress. Thank you for choosing Bura.",
+            'admin@gmail.com',
+            [order.customer_id.email],
+            fail_silently= False,
+            
+
+        )
+    except:
+        print("Email sending failed.")
+
+    return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id, 'cart' : cart})
 
 
 def get_Order(request, order_id):
