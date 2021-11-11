@@ -149,7 +149,9 @@ def orderSummary(request, id):
         send_mail(
 
             'Bura Order Success',
-            'Your order has been made successfully. You can use the order number '+ order.order_number+" to track it's progress. Thank you for choosing Bura.",
+            'Your order has been made successfully.' 
+            'You can use the order number '+ order.order_number+" to track it's progress"
+            'Thank you for choosing Bura',
             'admin@gmail.com',
             [order.customer_id.email],
             fail_silently= False,
