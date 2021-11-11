@@ -77,10 +77,6 @@ urlpatterns=[
     path('complete/checkout/', views.finalizeCheckout, name="complete.checkout"),
     path('order/receipt/<id>', views.orderSummary, name="receipt"),
 
-
-
-
-
 ]
 
 if settings.DEBUG:
