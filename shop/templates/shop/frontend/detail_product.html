@@ -21,10 +21,20 @@
 
       </div>
 
+      
+
       <div class="col-lg-6 col-md-6 col-sm-12 ">
 
          <!-- <div class="product-badge">Official Store</div> -->
          <h1>{{product.name}}</h1>
+         <p>
+            {% for index in rating %}
+
+            ★
+
+            {% endfor %}
+
+         </p>
          <h2>Kshs {{product.cost}}</h2>
 
          <hr>
@@ -67,9 +77,10 @@
             <div class="col-lg-6 col-md-6 col-sm-12">
                <h5>Name:{{product.name}}</h5>
                <p>Cost: Kshs {{product.cost}}</p>
+               <p> {{product.status}}</p>
                <p>Description: {{product.description}}</p>
                <p>Review: {{product.review}}</p>
-               <p>Status: {{product.status}}</p>
+             
             </div>
             
          </div>
@@ -92,9 +103,9 @@
             <div class="card-body">
              
                <div class="">
-                  <p>Rating:{{product.rating}}</p>
+                  
+                  <p>Customer:{{ user.get_username }}</p>
                   <p>Review:{{product.review}}</p>
-                  <p>Customer:{{user.get_username}}</p>
    
                   <form action="POST">
                      <div class="form-group ">

@@ -1,7 +1,7 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
-from.models import Category, Delivery, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout
+from .models import Category, Delivery, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout,Review
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
-from .forms import FeedbackForm
+from .forms import FeedbackForm, ReviewForm
 from django.shortcuts import get_object_or_404
 
 from django.db.models import Q
@@ -73,8 +73,9 @@ def getProduct(request, id):
     context = {
         'product' : product,
         'related_products' : Product.objects.filter(category_id = product.id),
-        'reviews' : Review.objects.filter(product_id = product.id),
-        'form' : commentForm
+        # 'reviews' : Review.objects.filter(product_id = product.id),
+        'form' : commentForm,
+        'rating': range(product.rating)
     }
 
     return render(request, 'shop/frontend/detail_product.html', context)
@@ -138,8 +139,6 @@ def finalizeCheckout(request):
         return JsonResponse(context)
 
 def orderSummary(request, id):
-
-    
 
     order = Order.objects.get(id = id)
     cart = Cart.objects.filter(order_id = order)
@@ -554,50 +553,56 @@ class CustomerDelete(DeleteView):
     success_url = '/customers'
 
 
-
-class ReviewList(ListView):
-
-    login_required= True
-    model =Review
-    template_name= "shop/admin/review_list.html"
-
-class ReviewDetail(DetailView):
-
-    login_required= True
-    model = Review
-    template_name= "shop/admin/review_form.html"
-
-class ReviewCreate(CreateView): 
-
-    login_required= True 
-    model = Review
-    template_name= "shop/admin/review_form.html"
-    success_url = '/reviews'
+class Review(FormView):
+        model = Review
+        fields = ['rating',]
+        template_name= "'shop/frontend/review.html'"
+        success_url = '/rating'
 
 
-    #specify the fields to be displayed
+# class ReviewList(ListView):
 
-    fields = '__all__'
+#     login_required= True
+#     model =Review
+#     template_name= "shop/admin/review_list.html"
 
-    #function to ridirect user
+# class ReviewDetail(DetailView):
 
-    def get_success_url(self):
-        return reverse('review_list')
+#     login_required= True
+#     model = Review
+#     template_name= "shop/admin/review_form.html"
 
-class ReviewUpdate(UpdateView):
+# class ReviewCreate(CreateView): 
 
-    login_required= True
-    model = Review
-    fields = '__all__'
-    template_name= "shop/admin/review_form.html"
-    success_url = '/reviews'
+#     login_required= True 
+#     model = Review
+#     template_name= "shop/admin/review_form.html"
+#     success_url = '/reviews'
 
-class ReviewDelete(DeleteView):
 
-    login_required= True
-    model = Review
-    template_name= "shop/admin/review_confirm_delete.html"
-    success_url = '/reviews'  
+#     #specify the fields to be displayed
+
+#     fields = '__all__'
+
+#     #function to ridirect user
+
+#     def get_success_url(self):
+#         return reverse('review_list')
+
+# class ReviewUpdate(UpdateView):
+
+#     login_required= True
+#     model = Review
+#     fields = '__all__'
+#     template_name= "shop/admin/review_form.html"
+#     success_url = '/reviews'
+
+# class ReviewDelete(DeleteView):
+
+#     login_required= True
+#     model = Review
+#     template_name= "shop/admin/review_confirm_delete.html"
+#     success_url = '/reviews'  
 
 
 class CartList(ListView):
@@ -863,3 +868,40 @@ def cartToWishlist(request):
     data ={}
 
     return JsonResponse(data)
+
+
+
+def review(request, id): # view for displaying and storing the form
+    product = get_object_or_404(Product, id=Product.id)
+
+    review= Review.objects.all()
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit = False)
+            review.product = Product
+            review.save()
+            Product.has_review = True
+            Product.save()
+            if Product.review==0:
+                Product.rating = review.rating
+            else:
+                Product.rating = (Product.rating*Product.review + review.rating)/(Product.review + 1)
+            Product.review += 1
+            Product.save()
+            review.success(request, 'your review has been sent correctly !')
+            return redirect(Product)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'shop/frontend/review.html', {'review': review})
+
+def review(request, id): # view for recording the rating
+    review = get_object_or_404(Review, id=id)
+    rating = request.POST.get('rating')
+    review.rating= rating
+    review.save()
+    review.success(request, 'your review has been sent correctly!')
+    return redirect(Product)  
+  

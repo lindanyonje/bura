@@ -52,6 +52,7 @@ class Product(models.Model):
     description=models.TextField(null=False, blank=False)
     image=models.FileField(upload_to='images')
     featured=models.BooleanField(default=False)
+    rating=models.IntegerField(default=0, blank=True)
     status=models.CharField(max_length=100, null=False, blank=True, default='Unverified')
     category_id=models.ForeignKey('category',on_delete=models.CASCADE,blank=True,null=True)
     seller_id=models.ForeignKey('seller',on_delete=models.CASCADE,blank=True,null=True)

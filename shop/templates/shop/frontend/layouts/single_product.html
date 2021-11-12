@@ -12,9 +12,18 @@
 			<h4 class="text-dark"><a href= "{% url 'front_product_details' product.id %}"  >{{product.name}}</a></h4>
 			<p class="text-dark">{{product.description|truncatewords:10}}</p>
 			<div class="product-bottom-details ">
+				
+
 				<div class="product-price">Kshs {{product.cost}}</div>
-				<div class="product-review">{{product.review}}</div>
-				<div class="customer-feedback">Kshs {{customer.feedback}}</div>
+				<p>
+					{% for index in rating %}
+		
+					★
+		
+					{% endfor %}
+		
+				 </p>
+				<div class="customer-feedback">{{customer.feedback}}</div>
 				
 				<div class="product-links">
 
@@ -31,3 +40,22 @@
 
 
 </a>
+
+
+<script>
+
+    $(".rating").on('click', function(e){
+    let value = $(this).data('value');
+    $.ajax({
+        url: "rating",
+        type: 'POST',
+        data: {'rating': value},
+        success: function (d){
+        // some processing
+        }
+    })
+    });
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

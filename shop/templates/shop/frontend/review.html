@@ -1,0 +1,52 @@
+{% extends 'shop/frontend/layouts/master.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<form method="post" action="">
+
+    {% csrf_token %}
+
+    {% for field in form %}
+
+    <div class="fieldWrapper form-group">
+       {{ field.label_tag }}
+       {{ field }}
+    </div>
+
+    {% endfor %}
+
+    <input type="submit" class="btn btn-lg btn-outline-primary btn-block btn-login text-uppercase font-weight-bold mb-2" value="rating" />
+</form>
+
+    <div class="rating rating2">
+        <a href="#5" title="Give 5 stars" data-value="5">★</a>
+        <a href="#4" title="Give 4 stars" data-value="4">★</a>
+        <a href="#3" title="Give 3 stars" data-value="3">★</a>
+        <a href="#2" title="Give 2 stars" data-value="2">★</a>
+        <a href="#1" title="Give 1 star" data-value="1">★</a>
+    </div>
+
+{% endblock content %}
+
+
+<script>
+
+    $(".rating").on('click', function(e){
+    let value = $(this).data('value');
+    $.ajax({
+        url: "rating",
+        type: 'POST',
+        data: {'rating': value},
+        success: function (d){
+        // some processing
+        }
+    })
+    });
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

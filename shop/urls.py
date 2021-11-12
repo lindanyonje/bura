@@ -50,10 +50,10 @@ urlpatterns=[
     path('create/customer', CustomerCreate.as_view(),name= 'Customer_create'),
     path('update/customer/<pk>/',CustomerUpdate.as_view(),name='Customer_update'),
     path('delete/customer/<pk>/',CustomerDelete.as_view(),name='Customer_delete'),
-    path('reviews/',ReviewList.as_view(),name="Reviews"),
-    path('create/review', ReviewCreate.as_view(),name= 'review_create'),
-    path('update/review/<pk>/',ReviewUpdate.as_view(),name='review_update'),
-    path('delete/review/<pk>/',ReviewDelete.as_view(),name='review_delete'),
+    # path('reviews/',ReviewList.as_view(),name="Reviews"),
+    # path('create/review', ReviewCreate.as_view(),name= 'review_create'),
+    # path('update/review/<pk>/',ReviewUpdate.as_view(),name='review_update'),
+    # path('delete/review/<pk>/',ReviewDelete.as_view(),name='review_delete'),
     path('ajax/delete/category',views.deleteCategory,name="ajax_delete_category"),
     path('ajax/delete/Seller',views.deleteSeller,name="ajax_delete_seller"),
     path('ajax/delete/product',views.deleteProduct,name="ajax_delete_product"),
@@ -76,6 +76,8 @@ urlpatterns=[
     path('checkout/details/<total>', views.checkoutDetails, name="checkout_details"),
     path('complete/checkout/', views.finalizeCheckout, name="complete.checkout"),
     path('order/receipt/<id>', views.orderSummary, name="receipt"),
+    path('review/product/<id>', views.review, name="rating"),
+    
 
 ]
 
