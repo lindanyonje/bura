@@ -13,8 +13,6 @@
 			<p class="text-dark">{{product.description|truncatewords:10}}</p>
 			<div class="product-bottom-details ">
 				
-
-				<div class="product-price">Kshs {{product.cost}}</div>
 				<p>
 					{% for index in rating %}
 		
@@ -23,6 +21,9 @@
 					{% endfor %}
 		
 				 </p>
+
+				<div class="product-price">Kshs {{product.cost}}</div>
+				
 				<div class="customer-feedback">{{customer.feedback}}</div>
 				
 				<div class="product-links">
