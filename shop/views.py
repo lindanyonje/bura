@@ -175,6 +175,18 @@ def get_Order(request, order_id):
     return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
 
 
+def createFeedback(request):    
+    form=FeedbackForm()
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form. is_valid():
+            form.save()
+
+    context= {'form':form}
+    return render(request, 'shop/frontend/feedback_form.html',   context)
+
+
+
 class SearchResult(ListView):
     model = Product
     template_name = 'shop/frontend/layouts/search_results.html'
@@ -194,7 +206,6 @@ class FeedbackFormView(FormView):
     login_required= True
     model = Feedback
     template_name= "shop/admin/feedback.html"
-
 
 
 class CategoryList(ListView):
