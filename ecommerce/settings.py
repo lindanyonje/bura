@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig', #Registering your app
     'widget_tweaks',
+    'django_filters',
     
 ]
     

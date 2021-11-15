@@ -77,6 +77,7 @@ urlpatterns=[
     path('complete/checkout/', views.finalizeCheckout, name="complete.checkout"),
     path('order/receipt/<id>', views.orderSummary, name="receipt"),
     path('review/product/<id>', views.review, name="rating"),
+    path('complete/order', views.ordercomplete, name="order_complete"),
     
 
 ]

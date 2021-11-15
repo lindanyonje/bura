@@ -185,6 +185,13 @@ def createFeedback(request):
     context= {'form':form}
     return render(request, 'shop/frontend/feedback_form.html',   context)
 
+def ordercomplete(request, id):
+    
+    order = Order.objects.get(id = id)
+    cart = Cart.objects.filter(order_id = order)
+   
+    
+
 
 
 class SearchResult(ListView):
