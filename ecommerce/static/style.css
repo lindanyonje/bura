@@ -293,3 +293,14 @@ body {
           .rating2 a {
               float:none
           }
+
+
+          .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+          }
+
+          .tooltip:hover .tooltiptext {
+            visibility: visible;
+          }

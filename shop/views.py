@@ -1,7 +1,7 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
-from .models import Category, Delivery, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout,Review
+from .models import Category, Delivery, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
-from .forms import FeedbackForm, ReviewForm
+from .forms import FeedbackForm
 from django.shortcuts import get_object_or_404
 
 from django.db.models import Q
@@ -141,7 +141,7 @@ def finalizeCheckout(request):
 def orderSummary(request, id):
 
     order = Order.objects.get(id = id)
-    cart = Cart.objects.filter(order_id = order)
+    # cart = Cart.objects.filter(order_id = order)
 
     try:
         
@@ -160,7 +160,7 @@ def orderSummary(request, id):
     except:
         print("Email sending failed.")
 
-    return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id, 'cart' : cart})
+    return render(request, 'shop/frontend/receipt.html',  { 'order' : order})
 
 
 def get_Order(request, order_id):

@@ -49,7 +49,13 @@
                                <tr>
                                    <td>{{object.id}}</td>
                                    <td>{{object.total}}</td>
-                                   <td>{{object.status}}</td>
+                                   <td>{{object.status}}
+                                       {% if object.status == "Pending" %}
+
+                                       <button class="btn btn-outline-dark btn-sm" tooltip="Mark as complete"><i class="fa fa-check"></i>
+                                    </button>
+                                        {% endif %}
+                                   </td>
                                    <td>{{object.shipping_cost}}</td>
                                    <td>{{object.order_number}}</td>
                                    <td>{{object.customer_id}}</td>

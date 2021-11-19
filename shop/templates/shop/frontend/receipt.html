@@ -14,7 +14,6 @@
 
             <div class= "card-body">
 
-                <h3>{{object.name}}</h3>
         
                 <div class="container">
                 
@@ -23,8 +22,9 @@
                 
                         <div class="col-lg-8">
                 
-                            <h4 class="card-title"> <b>Your Order Confirmed </b></h4>
-                            <p> <b>Hello {{user.get_username}},</b> <br> Your order has been confirmed ! </p>
+                            <h4 class="card-title"> <b>Order Confirmed</b></h4>
+                            <h6 class="card-title font-weight-bold"> Order Number: {{order.order_number}}</h6>
+                            <p> <b>Hello {{user.get_username}},</b> Your order has been confirmed ! </p>
         
                             <hr>
         
@@ -35,7 +35,7 @@
         
                     <div  class="row justify-content-center" id= "cart_{{object.id}}" >
         
-                        {% for object in cart%}
+                        {% for object in order.carts.all %}
         
                         <div class="col-lg-4" >
         
@@ -71,12 +71,12 @@
                             <h5 class="font-weight-bold">Summary</h5>
                             <hr>
         
-                            <h6>Total: 0.0</h6>
+                            <h6>Total: {{order.total}}</h6>
                             <h6>Discount: 0.0</h6>
                             <h6>Value Added Tax(VAT): 0.0</h6>
         
                             <hr>
-                            <h4 class="font-weight-bold mb-5" id="grand_total" class="grand_total">Grand Total: 0.0</h4>
+                            <h4 class="font-weight-bold mb-5" id="grand_total" class="grand_total">Grand Total: {{order.total}}</h4>
                             <hr>
         
                         </div>
