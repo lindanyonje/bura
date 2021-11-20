@@ -52,8 +52,11 @@
                                    <td>{{object.status}}
                                        {% if object.status == "Pending" %}
 
-                                       <button class="btn btn-outline-dark btn-sm" tooltip="Mark as complete"><i class="fa fa-check"></i>
-                                    </button>
+                                     <button class="btn btn-outline-dark btn-sm" tooltiptext="Mark as complete"><i class="fa fa-check"></i> 
+                                        <span class="tooltiptext">Mark as complete</span>
+                                     </button>
+
+                                         
                                         {% endif %}
                                    </td>
                                    <td>{{object.shipping_cost}}</td>
@@ -134,3 +137,48 @@
 
 {% endblock %}
 
+{% block 'scripts' %}
+
+<script>
+ 
+ $(document).ready(function(){
+    
+
+    $.ajaxSetup({
+        headers:{
+            'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+$(document).on('click','.btn btn-outline-dark btn-sm',function(){
+    alert("order complete");
+
+    
+    $.ajax({
+            type: "POST",
+            url: "{% url 'Order' %}",
+            dataType: "json",
+            data:{
+                'order_id':order_id,
+                
+            },
+            success:function(data){
+            //     Changes order from pending to complete
+            Notiflix.Notify.Success('order completed');
+    
+            },
+            error: function(data){
+                
+                Notiflix.Notify.Failure('Something went wrong.');
+    
+            }
+    
+        });
+});
+
+});
+
+</script>
+
+
+{% endblock %}
