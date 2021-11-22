@@ -157,6 +157,15 @@ def orderSummary(request, id):
             
 
         )
+
+    #   datatuple = (
+    #     ('Subject', 'Message.', 'from@example.com', ['john@example.com']),
+    #     ('Subject', 'Message.', 'from@example.com', ['jane@example.com']),
+    #   )
+      
+    #   send_mass_mail(datatuple)
+
+
     except:
         print("Email sending failed.")
 
@@ -923,3 +932,18 @@ def review(request, id): # view for recording the rating
     review.success(request, 'your review has been sent correctly!')
     return redirect(Product)  
   
+
+def markAsComplete(request):
+
+    order_id = request.POST.get('order_id')
+    print(order_id)
+
+    order = Order.objects.get(pk = order_id)
+    order.status = "Completed"
+    order.save()
+
+    data = {
+        'success' : True
+        }
+
+    return JsonResponse(data)

@@ -49,10 +49,10 @@
                                <tr>
                                    <td>{{object.id}}</td>
                                    <td>{{object.total}}</td>
-                                   <td>{{object.status}}
+                                   <td id="status_{{object.id}}">{{object.status}}
                                        {% if object.status == "Pending" %}
 
-                                     <button class="btn btn-outline-dark btn-sm" tooltiptext="Mark as complete"><i class="fa fa-check"></i> 
+                                     <button class="btn btn-outline-dark btn-sm" id="btn_complete_{{object.id}}" onclick="markAsComplete('{{object.id}}')" tooltiptext="Mark as complete"><i class="fa fa-check"></i> 
                                         <span class="tooltiptext">Mark as complete</span>
                                      </button>
 
@@ -137,7 +137,7 @@
 
 {% endblock %}
 
-{% block 'scripts' %}
+{% block scripts %}
 
 <script>
  
@@ -150,33 +150,42 @@
         }
     });
 
-$(document).on('click','.btn btn-outline-dark btn-sm',function(){
-    alert("order complete");
-
     
-    $.ajax({
-            type: "POST",
-            url: "{% url 'Order' %}",
-            dataType: "json",
-            data:{
-                'order_id':order_id,
-                
-            },
-            success:function(data){
-            //     Changes order from pending to complete
-            Notiflix.Notify.Success('order completed');
-    
-            },
-            error: function(data){
-                
-                Notiflix.Notify.Failure('Something went wrong.');
-    
-            }
-    
-        });
-});
 
 });
+
+function markAsComplete(order_id){
+
+
+
+$.ajax({
+    type: "POST",
+    url: "{% url 'mark_as_complete' %}",
+    dataType: "json",
+    data:{
+        'order_id':order_id,
+        
+    },
+    success:function(data){
+    //     Changes order from pending to complete
+
+    button = "#btn_complete_"+order_id
+    status = "#status_"+order_id
+    // $(button).addClass("d-none");
+    $(status).html("Completed")
+    // Notiflix.Notify.Success('order completed');
+
+    },
+    error: function(data){
+
+        console.log(data);
+        
+        // Notiflix.Notify.Failure('Something went wrong.');
+
+    }
+
+});
+}
 
 </script>
 
