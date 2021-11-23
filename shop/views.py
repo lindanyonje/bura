@@ -10,12 +10,16 @@ from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
 from .forms import FeedbackForm
-from django.shortcuts import get_object_or_404
-
+from django.conf import settings
 from django.db.models import Q
 from django.core.mail import send_mail
 
 
+#html email required stuff
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 
@@ -170,6 +174,47 @@ def orderSummary(request, id):
         print("Email sending failed.")
 
     return render(request, 'shop/frontend/receipt.html',  { 'order' : order})
+
+
+def sendanemail(request):
+    if request.method == "POST":
+        to= request.POST.get=('toemail')
+        content= request.POST.get=('content')
+
+        html_content = render_to_string("email_template.html", {'title':'test email', 'content':content})
+        text_content= strip_tags(html_content)
+
+        email= EmailMultiAlternatives(
+            #subject
+            "testing",
+            #context
+            text_content,
+            #from email
+            settings.EMAIL_HOST_USER,
+            #recepients list
+            [to]
+        )
+
+        email.attach_alternative(html_content, "text/html")
+        email.send()
+
+        return render(
+            request,
+            'email.html',
+            {
+                'title': 'send an email'
+            }
+        )
+    else:
+        return render(
+            request,
+            'email.html',
+            {
+                'title': 'send an email'
+            }
+
+        )    
+
 
 
 def get_Order(request, order_id):

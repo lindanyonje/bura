@@ -79,6 +79,8 @@ urlpatterns=[
     path('review/product/<id>', views.review, name="rating"),
     path('complete/order', views.ordercomplete, name="order_complete"),
     path('order/mark/completed', views.markAsComplete, name="mark_as_complete"),
+
+    path('send/email', views.sendanemail, name="email"),
     
 
 ]
