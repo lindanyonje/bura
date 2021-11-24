@@ -124,14 +124,21 @@ USE_L10N = True
 USE_TZ = True
 
 # MY EMAIL SENDING VARIABLES
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST ='smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER= "your email address"
-EMAIL_HOST_PASSWORD= "your password"
+EMAIL_HOST_USER='burahaven@gmail.com'
+EMAIL_HOST_PASSWORD= 'bura123haven'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+# EMAIL_HOST = 'smtp.mailtrap.io'
+# EMAIL_HOST_USER = '4a8db5c322fb8f'
+# EMAIL_HOST_PASSWORD = 'ad82aaf073a424'
+# EMAIL_PORT = '2525'
 
 
 
@@ -155,8 +162,3 @@ LOGIN_REDIRECT_URL= '/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '4a8db5c322fb8f'
-EMAIL_HOST_PASSWORD = 'ad82aaf073a424'
-EMAIL_PORT = '2525'

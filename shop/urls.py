@@ -75,12 +75,12 @@ urlpatterns=[
     # path('checkout/', views.checkout, name="checkout"),
     path('checkout/details/<total>', views.checkoutDetails, name="checkout_details"),
     path('complete/checkout/', views.finalizeCheckout, name="complete.checkout"),
-    path('order/receipt/<id>', views.orderSummary, name="receipt"),
+    # path('order/receipt/<id>', views.orderSummary, name="receipt"),
     path('review/product/<id>', views.review, name="rating"),
     path('complete/order', views.ordercomplete, name="order_complete"),
     path('order/mark/completed', views.markAsComplete, name="mark_as_complete"),
 
-    path('send/email', views.sendanemail, name="email"),
+    path('send/', views.sendanemail, name="email"),
     
 
 ]

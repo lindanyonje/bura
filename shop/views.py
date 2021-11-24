@@ -142,25 +142,25 @@ def finalizeCheckout(request):
 
         return JsonResponse(context)
 
-def orderSummary(request, id):
+# def orderSummary(request, id):
 
-    order = Order.objects.get(id = id)
-    # cart = Cart.objects.filter(order_id = order)
+#     order = Order.objects.get(id = id)
+#     # cart = Cart.objects.filter(order_id = order)
 
-    try:
+#     try:
         
-        send_mail(
+#         send_mail(
 
-            'Bura Order Success',
-            'Your order has been made successfully.' 
-            'You can use the order number '+ order.order_number+" to track it's progress"
-            'Thank you for choosing Bura',
-            'admin@gmail.com',
-            [order.customer_id.email],
-            fail_silently= False,
+#             'Bura Order Success',
+#             'Your order has been made successfully.' 
+#             'You can use the order number '+ order.order_number+" to track it's progress"
+#             'Thank you for choosing Bura',
+#             'admin@gmail.com',
+#             [order.customer_id.email],
+#             fail_silently= False,
             
 
-        )
+#         )
 
     #   datatuple = (
     #     ('Subject', 'Message.', 'from@example.com', ['john@example.com']),
@@ -170,29 +170,36 @@ def orderSummary(request, id):
     #   send_mass_mail(datatuple)
 
 
-    except:
-        print("Email sending failed.")
+    # except:
+    #     print("Email sending failed.")
 
-    return render(request, 'shop/frontend/receipt.html',  { 'order' : order})
+    # return render(request, 'shop/frontend/receipt.html',  { 'order' : order})
 
 
-def sendanemail(request):
+def sendanemail(request, note_id):
+    
+    order = Order.objects.get(id = note_id)
+
     if request.method == "POST":
-        to= request.POST.get=('toemail')
+        # to= request.POST.get=('toemail')
         content= request.POST.get=('content')
 
-        html_content = render_to_string("email_template.html", {'title':'test email', 'content':content})
+        html_content = render_to_string("shop/frontend/email_template.html", {'title':'test email', 'content':content})
         text_content= strip_tags(html_content)
 
         email= EmailMultiAlternatives(
             #subject
-            "testing",
+            'Bura Order Success',
+            
             #context
             text_content,
+            'Your order has been made successfully.' 
+            # 'You can use the order number '+ order.order_number+" to track it's progress"
+            'Thank you for choosing Bura',
             #from email
             settings.EMAIL_HOST_USER,
             #recepients list
-            [to]
+            [order.customer_id.email]
         )
 
         email.attach_alternative(html_content, "text/html")
@@ -200,7 +207,7 @@ def sendanemail(request):
 
         return render(
             request,
-            'email.html',
+            'shop/frontend/email.html',
             {
                 'title': 'send an email'
             }
@@ -208,7 +215,7 @@ def sendanemail(request):
     else:
         return render(
             request,
-            'email.html',
+            'shop/frontend/email.html',
             {
                 'title': 'send an email'
             }
