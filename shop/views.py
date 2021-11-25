@@ -153,7 +153,7 @@ def finalizeCheckout(request):
 
 #             'Bura Order Success',
 #             'Your order has been made successfully.' 
-#             'You can use the order number '+ order.order_number+" to track it's progress"
+            # 'You can use the order number '+ order.order_number+" to track it's progress"
 #             'Thank you for choosing Bura',
 #             'admin@gmail.com',
 #             [order.customer_id.email],
@@ -176,16 +176,19 @@ def finalizeCheckout(request):
     # return render(request, 'shop/frontend/receipt.html',  { 'order' : order})
 
 
-def sendanemail(request, note_id):
+def sendanemail(request):
     
-    order = Order.objects.get(id = note_id)
+    # order = Order.objects.get(id = note_id)
 
     if request.method == "POST":
-        # to= request.POST.get=('toemail')
+        to= request.POST.get=('toemail')
         content= request.POST.get=('content')
 
         html_content = render_to_string("shop/frontend/email_template.html", {'title':'test email', 'content':content})
+        
         text_content= strip_tags(html_content)
+
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 
         email= EmailMultiAlternatives(
             #subject
@@ -193,13 +196,12 @@ def sendanemail(request, note_id):
             
             #context
             text_content,
-            'Your order has been made successfully.' 
-            # 'You can use the order number '+ order.order_number+" to track it's progress"
-            'Thank you for choosing Bura',
+        
             #from email
             settings.EMAIL_HOST_USER,
+
             #recepients list
-            [order.customer_id.email]
+             ['lindaatieno@gmail.com']
         )
 
         email.attach_alternative(html_content, "text/html")
