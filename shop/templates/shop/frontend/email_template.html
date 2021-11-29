@@ -19,7 +19,9 @@
     
     <h1>{{Content}}</h1>
 
-    <p>Your order hass been made successfully.</p> 
+    <h4 class="card-title"> <b>Order Confirmed!</b></h4>
+
+   
     <!-- <p>You can use   to track it </p>
     <p>Thank you for choosing Bura</p>  -->
 
@@ -39,12 +41,13 @@
                         <div class="row justify-content-center my-5">
                     
                             <div class="col-lg-8">
-                    
-                                <h4 class="card-title"> <b>Order Confirmed</b></h4>
-                                
-                                <p> <b>Hello {{user.get_username}},</b>Great news. Your parcel on it's way! </p> <img src="https://img.icons8.com/emoji/48/000000/open-hands-emoji.png"/>
 
-                                <h6 class="card-title font-weight-bold"> Order Number: {{order.order_number}}</h6>
+                                <p>Your order hass been made successfully.</p> 
+                    
+                                
+                                <p> <b>Hello {{ user.get_username }},</b>Great news. Your parcel on it's way! </p> <img src="https://img.icons8.com/emoji/48/000000/open-hands-emoji.png"/>
+
+                                <h6 class="card-title font-weight-bold"> Order Number: {{order.order_number}} </h6>
                                 
                                 <hr>
             
