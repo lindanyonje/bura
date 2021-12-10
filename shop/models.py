@@ -14,7 +14,7 @@ class Customer(models.Model):
         return self.name
 
 class CustomerAddress(models.Model):
-    customer_id=models.ForeignKey('customer',on_delete=models.CASCADE,blank=True,null=True)
+    customer_id=models.ForeignKey('Customer',on_delete=models.CASCADE,blank=True,null=True)
     address=models.TextField(null=False, blank=False)
     pin=models.CharField(max_length=100, null=True, blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -52,6 +52,7 @@ class Product(models.Model):
     description=models.TextField(null=False, blank=False)
     image=models.FileField(upload_to='images')
     featured=models.BooleanField(default=False)
+    rating=models.IntegerField(default=0, blank=True)
     status=models.CharField(max_length=100, null=False, blank=True, default='Unverified')
     category_id=models.ForeignKey('category',on_delete=models.CASCADE,blank=True,null=True)
     seller_id=models.ForeignKey('seller',on_delete=models.CASCADE,blank=True,null=True)
@@ -90,7 +91,7 @@ class Order(models.Model):
         return self.order_number
 
 class Cart(models.Model):
-    order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True)
+    order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True, related_name='carts')
     product_id=models.ForeignKey('product',on_delete=models.CASCADE,blank=True,null=True)
     quantity=models.IntegerField(null= False, blank= False) 
     created_at=models.DateTimeField(auto_now_add=True)
@@ -110,7 +111,7 @@ class Payment(models.Model):
 
 class Delivery(models.Model):
     order_id= models.ForeignKey('order',on_delete=models.CASCADE,blank=True,null=True)
-    customer_address_id=models.ForeignKey(CustomerAddress,on_delete=models.CASCADE,blank=True,null=True)
+    customer_address_id=models.ForeignKey('CustomerAddress',on_delete=models.CASCADE,blank=True,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
 
@@ -136,7 +137,24 @@ class Voucher(models.Model):
     voucher_tag=models.CharField(max_length=100, null=False, blank=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now_add=True)
-  
+
+
+class Checkout(models.Model):
+     customer = models.ForeignKey('customer', on_delete=models.CASCADE)
+     phonenumber = models.CharField(max_length=20, null=False)
+     total = models.FloatField(default=0)
+     order_number = models.CharField(max_length=10, null=False)
+     amount_paid = models.FloatField(default=0, )
+     shipping_cost = models.FloatField(default=0)
+     address = models.CharField(max_length=300, null=True, blank=True)
+     created_at = models.DateTimeField(auto_now_add=True)
+     updated_at = models.DateTimeField(auto_now=True)
+     
+     CHECKOUT_STATUS = (
+         ('PENDING', 'Pending'),
+         ('PAID', 'Paid'),
+     )
+     status = models.CharField(choices=CHECKOUT_STATUS, max_length=100, default='PENDING')  
 
 
 

@@ -3,14 +3,7 @@ from . import views
 from django.conf import settings
 
 from django.conf.urls.static import static
-from shop.views import CategoryDelete, CategoryUpdate, CategoryList,CategoryDetail ,CategoryCreate, adminDashboard
-from shop.views import SellerDelete, SellerUpdate, SellerList, SellerDetail,SellerCreate
-from shop.views import ProductDelete, ProductUpdate,ProductList, ProductDetail,ProductCreate
-from shop.views import OfferDelete, OfferUpdate, OfferList, OfferDetail,OfferCreate
-from shop.views import VoucherDelete, VoucherUpdate,VoucherList, VoucherDetail,VoucherCreate
-from shop.views import OrderDelete, OrderUpdate,OrderList, OrderDetail,OrderCreate
-from shop.views import PaymentDelete, PaymentUpdate,PaymentList, PaymentDetail,PaymentCreate
-from shop.views import CustomerDelete, CustomerUpdate,CustomerList, CustomerDetail,CustomerCreate
+from shop.views import *
 
 # you can use * to import all views instead of importing each one
 
@@ -57,13 +50,38 @@ urlpatterns=[
     path('create/customer', CustomerCreate.as_view(),name= 'Customer_create'),
     path('update/customer/<pk>/',CustomerUpdate.as_view(),name='Customer_update'),
     path('delete/customer/<pk>/',CustomerDelete.as_view(),name='Customer_delete'),
+    # path('reviews/',ReviewList.as_view(),name="Reviews"),
+    # path('create/review', ReviewCreate.as_view(),name= 'review_create'),
+    # path('update/review/<pk>/',ReviewUpdate.as_view(),name='review_update'),
+    # path('delete/review/<pk>/',ReviewDelete.as_view(),name='review_delete'),
     path('ajax/delete/category',views.deleteCategory,name="ajax_delete_category"),
     path('ajax/delete/Seller',views.deleteSeller,name="ajax_delete_seller"),
     path('ajax/delete/product',views.deleteProduct,name="ajax_delete_product"),
+    path('ajax/delete/review',views.deleteReview,name="ajax_delete_review"),
     path('category/products/<id>', views.getCategoryProducts, name="category_products"),
 
-    
+    ##Frontend urls
+    path('products/<id>/details', views.getProduct, name="front_product_details"),
+    path('add/to/cart', views.addToCart, name="add_cart"),
+    path('add/to/wishlist', views.addToWishlist, name="add_wishlist"),
+    path('ajax/delete/cart',views.deleteCart,name="ajax_delete_cart"),
+    path('ajax/delete/wishlist',views.deleteWishlist,name="ajax_delete_wishlist"),
+    path('cart/', views.get_cart, name="cart"),
+    path('wishlist/', views.get_wishlist, name="wishlist"),
+    path('add/wishlist/cart',views.wishlistToCart,name="wishlist_cart"),
+    path('add/cart/wishlist',views.cartToWishlist,name="cart_wishlist"),
+    path('search/', views.SearchResult.as_view(), name="search_product"),
+    path('feedback/', views.FeedbackFormView, name="feedback"),
+    # path('checkout/', views.checkout, name="checkout"),
+    path('checkout/details/<total>', views.checkoutDetails, name="checkout_details"),
+    path('complete/checkout/', views.finalizeCheckout, name="complete.checkout"),
+    # path('order/receipt/<id>', views.orderSummary, name="receipt"),
+    path('review/product/<id>', views.review, name="rating"),
+    path('complete/order', views.ordercomplete, name="order_complete"),
+    path('order/mark/completed', views.markAsComplete, name="mark_as_complete"),
 
+    path('send/', views.sendanemail, name="email"),
+    
 
 ]
 

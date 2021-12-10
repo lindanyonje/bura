@@ -1,7 +1,7 @@
 from django.db.models.fields import Field
 from django.http.response import JsonResponse
-from django.shortcuts import render
-from.models import Category, Seller, Product, Offer, Voucher, Order, Payment,Customer
+from django.shortcuts import render, redirect
+from .models import Category, Delivery, Seller, Product, Offer, Voucher, Order, Payment,Customer,Review, Wishlist, Feedback,Cart,Checkout
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -9,8 +9,17 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse
 from django.http import JsonResponse
 from django .contrib.auth.decorators import login_required
-from django.forms import forms
+from .forms import FeedbackForm
+from django.conf import settings
+from django.db.models import Q
+from django.core.mail import send_mail
 
+
+#html email required stuff
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 
@@ -18,11 +27,21 @@ def home(request):
 
     context = {}
 
+    category = Category.objects.get(name="Electronics")
+
+
+
 
     context['products'] = Product.objects.all()[:3]
     context['categories'] = Category.objects.all()
+    context['wishlist'] = Wishlist.objects.all()
+    context['cart'] = Cart.objects.all()
+    # context['classified_products'] = Product.objects.filter(category_id=category)[:1]
+    
 
     return render(request, 'shop/frontend/home.html', context)
+
+
 
 def adminDashboard(request):
 
@@ -49,25 +68,214 @@ def getCategoryProducts(request, id):
 
     return render(request, 'shop/frontend/category_products.html', context)
 
-def category_id(request):  
+def getProduct(request, id):
+
+    product = Product.objects.get(pk = id)
+    commentForm = FeedbackForm()
     
-    context = {}
 
-    context['products'] = Product.objects.all()[:3]
+    context = {
+        'product' : product,
+        'related_products' : Product.objects.filter(category_id = product.id),
+        # 'reviews' : Review.objects.filter(product_id = product.id),
+        'form' : commentForm,
+        'rating': range(product.rating)
+    }
 
-    return render(request,'Category_products.html', context)
+    return render(request, 'shop/frontend/detail_product.html', context)
 
-
-
-def product_id(request):  
+def get_cart(request):
+    cart_items = Cart.objects.filter(order_id__isnull = True)
     
-    context = {}
-
-    context['product_count'] =  Product.objects.all().count()
-
-    return render(request, 'detail-product.html', context)
+    return render(request, 'shop/frontend/cart.html', {'cart': cart_items})    
 
 
+def get_wishlist(request):
+    wishlist = Wishlist.objects.all()
+
+    return render(request, 'shop/frontend/wishlist.html', {'wishlist': wishlist})
+
+
+
+def checkoutDetails(request, total):
+
+    context = {
+            'total' : total,
+        }
+    return render(request, 'shop/frontend/checkout.html', context)
+
+
+def finalizeCheckout(request):
+    if request.method == "GET":
+
+        return render(request, 'shop/frontend/cart.html', context={})
+
+    else:
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        total=request.POST.get('total')
+        order_number= "BURA_123_56"
+        address=request.POST.get('address')
+        delivery_method = request.POST.get("delivery_method")
+        payment_mode = request.POST.get("paymentMode")
+        
+        customer = Customer.objects.filter(email= email).first()
+        if customer is None:
+            customer = Customer.objects.create(
+                name = name,
+                email = email,
+                password = email,
+            )
+        order = Order.objects.create(
+            total = total,
+            order_number = order_number,
+            status = "Pending",
+            customer_id = customer
+
+        )
+
+        cart_items = Cart.objects.filter(order_id__isnull = True).update(order_id = order.id)
+
+        context = {
+            'order' : order.id,
+        }
+
+        return JsonResponse(context)
+
+# def orderSummary(request, id):
+
+#     order = Order.objects.get(id = id)
+#     # cart = Cart.objects.filter(order_id = order)
+
+#     try:
+        
+#         send_mail(
+
+#             'Bura Order Success',
+#             'Your order has been made successfully.' 
+            # 'You can use the order number '+ order.order_number+" to track it's progress"
+#             'Thank you for choosing Bura',
+#             'admin@gmail.com',
+#             [order.customer_id.email],
+#             fail_silently= False,
+            
+
+#         )
+
+    #   datatuple = (
+    #     ('Subject', 'Message.', 'from@example.com', ['john@example.com']),
+    #     ('Subject', 'Message.', 'from@example.com', ['jane@example.com']),
+    #   )
+      
+    #   send_mass_mail(datatuple)
+
+
+    # except:
+    #     print("Email sending failed.")
+
+    # return render(request, 'shop/frontend/receipt.html',  { 'order' : order})
+
+
+def sendanemail(request):
+    
+    # order = Order.objects.get(id = note_id)
+
+    if request.method == "POST":
+        to= request.POST.get=('toemail')
+        content= request.POST.get=('content')
+
+        html_content = render_to_string("shop/frontend/email_template.html", {'title':'test email', 'content':content})
+        
+        text_content= strip_tags(html_content)
+
+        # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+
+        email= EmailMultiAlternatives(
+            #subject
+            'Bura Order Success',
+            
+            #context
+            text_content,
+        
+            #from email
+            settings.EMAIL_HOST_USER,
+
+            #recepients list
+             ['lindaatieno@gmail.com']
+        )
+
+        email.attach_alternative(html_content, "text/html")
+        email.send()
+
+        return render(
+            request,
+            'shop/frontend/email.html',
+            {
+                'title': 'send an email'
+            }
+        )
+    else:
+        return render(
+            request,
+            'shop/frontend/email.html',
+            {
+                'title': 'send an email'
+            }
+
+        )    
+
+
+
+def get_Order(request, order_id):
+
+    order = Order.objects.get(id =order_id)
+    # order = get_object_or_404(Order, pk=Order.id)
+    shipping_cost=request.POST.get('shipping_cost'),
+    total=request.POST.get('total'),
+    order_number= "BURA_123_56",
+    
+
+    return render(request, 'shop/frontend/receipt.html',  { 'order' : order.id})
+
+
+def createFeedback(request):    
+    form=FeedbackForm()
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form. is_valid():
+            form.save()
+
+    context= {'form':form}
+    return render(request, 'shop/frontend/feedback_form.html',   context)
+
+def ordercomplete(request, id):
+    
+    order = Order.objects.get(id = id)
+    cart = Cart.objects.filter(order_id = order)
+   
+    
+
+
+
+class SearchResult(ListView):
+    model = Product
+    template_name = 'shop/frontend/layouts/search_results.html'
+
+    def get_queryset(self):
+        query =self.request.GET.get('search_data')
+        object_list = Product.objects.filter(Q(name__icontains=query))
+        # object_list = Product.objects.filter(
+        #     Q(name__icontains=query | Q(state__icontains=query))
+            
+        # )
+        return object_list
+
+
+
+class FeedbackFormView(FormView):
+    login_required= True
+    model = Feedback
+    template_name= "shop/admin/feedback.html"
 
 
 class CategoryList(ListView):
@@ -277,7 +485,8 @@ class VoucherCreate(CreateView):
 class VoucherUpdate(UpdateView):
 
     
-    login_required= Truemodel = Voucher
+    login_required= True
+    model = Voucher
     fields = '__all__' 
     template_name= "shop/admin/voucher_form.html"
     success_url = 'vouchers/'
@@ -424,6 +633,146 @@ class CustomerDelete(DeleteView):
     template_name= "shop/admin/customer_confirm_delete.html"
     success_url = '/customers'
 
+
+class Review(FormView):
+        model = Review
+        fields = ['rating',]
+        template_name= "'shop/frontend/review.html'"
+        success_url = '/rating'
+
+
+# class ReviewList(ListView):
+
+#     login_required= True
+#     model =Review
+#     template_name= "shop/admin/review_list.html"
+
+# class ReviewDetail(DetailView):
+
+#     login_required= True
+#     model = Review
+#     template_name= "shop/admin/review_form.html"
+
+# class ReviewCreate(CreateView): 
+
+#     login_required= True 
+#     model = Review
+#     template_name= "shop/admin/review_form.html"
+#     success_url = '/reviews'
+
+
+#     #specify the fields to be displayed
+
+#     fields = '__all__'
+
+#     #function to ridirect user
+
+#     def get_success_url(self):
+#         return reverse('review_list')
+
+# class ReviewUpdate(UpdateView):
+
+#     login_required= True
+#     model = Review
+#     fields = '__all__'
+#     template_name= "shop/admin/review_form.html"
+#     success_url = '/reviews'
+
+# class ReviewDelete(DeleteView):
+
+#     login_required= True
+#     model = Review
+#     template_name= "shop/admin/review_confirm_delete.html"
+#     success_url = '/reviews'  
+
+
+class CartList(ListView):
+
+    login_required= True
+    model = Cart
+    template_name= "shop/admin/cart_list.html"
+
+class CartDetail(DetailView):
+
+    login_required= True
+    model =  Cart
+    template_name= "shop/admin/cart_details.html"
+
+
+class  CartCreate(CreateView):  
+
+    login_required= True
+    model =  Cart
+    fields='__all__'
+    template_name= "shop/admin/cart_form.html"
+
+    #specify the fields to be displayed
+
+    #function to ridirect user
+
+    def get_success_url(self):
+        return reverse('cart_list')
+
+class CartUpdate(UpdateView):
+
+    login_required= True
+    model =  Cart
+    fields = '__all__'
+    template_name= "shop/admin/cart_form.html"
+    success_url = '/cart'
+
+class CartDelete(DeleteView):
+
+    login_required= True
+    model =Cart
+    template_name= "shop/admin/cart_confirm_delete.html"
+    success_url = '/cart'
+
+
+
+class WishlistList(ListView):
+
+    login_required= True
+    model = Wishlist
+    template_name= "shop/admin/wishlist_list.html"
+
+class WishlistDetail(DetailView):
+
+    login_required= True
+    model = Wishlist
+
+class WishlistCreate(CreateView):
+
+    login_required= True  
+    model = Wishlist
+    template_name= "shop/admin/wishlist_form.html"
+    success_url = 'wishlists/'
+
+    #specify the fields to be displayed
+
+    fields = '__all__'
+
+    #function to ridirect user
+
+    def get_success_url(self):
+        return reverse('wishlist_list')
+
+class WishlistUpdate(UpdateView):
+
+    
+    login_required= Truemodel = Wishlist
+    fields = '__all__' 
+    template_name= "shop/admin/wishlist_form.html"
+    success_url = 'wishlists/'
+
+class WishlistDelete(DeleteView):
+
+    login_required= True
+    model = Voucher
+    success_url = '/wishlists'  
+
+
+
 @login_required
 
 def deleteCategory(request):
@@ -454,5 +803,201 @@ def deleteProduct(request):
     data= {
         'deleted':True
     }
+
+    return JsonResponse(data)
+
+def deleteReview(request):
+
+    customer_id= request.POST.get('id',None)
+
+    product_id= request.POST.get('id',None)
+
+    Review= Review.objects.get(id=Review_id)
+
+    Review.delete()
+    
+    data= {
+        'deleted':True
+    }
+
+    return JsonResponse(data)    
+
+
+
+def deleteCart(request):
+
+    cart_id = request.POST.get('cart_id')
+    cart_item= Cart.objects.get(pk = cart_id)
+    cart_item.delete()
+    
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+
+
+
+
+def addToCart(request):
+
+    product_id = request.POST.get("product_id", None)
+
+    quantity = request.POST.get("quantity", None)
+
+    product = Product.objects.get(id = product_id)
+
+    # Cart.objects.create(product_id = product, quantity = quantity)
+
+    cart_product = Cart.objects.filter(product_id = product.id)
+    print(cart_product)
+    if not cart_product:
+   
+        Cart.objects.create(product_id = product, quantity= quantity)
+        data ={
+            'message' : "Product added to cart"
+        }
+    else:
+        data = {
+            'message' : "Product is already in cart"
+        }
+
+    return JsonResponse(data)
+
+
+    
+
+
+
+
+
+def deleteWishlist(request):
+
+    product_id = request.POST.get("product_id", None)
+   
+    print(product_id)
+    
+    wishlist_object = Wishlist.objects.get(id = product_id)
+    print(wishlist_object)
+    wishlist_object.delete()
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+
+def addToWishlist(request):
+
+    product_id = request.POST.get("product_id", None)
+   
+    product = Product.objects.get(pk =product_id) 
+
+    wishlist_product = Wishlist.objects.filter(product_id = product.id)
+    print(wishlist_product)
+    if not wishlist_product:
+   
+        Wishlist.objects.create(product_id = product)
+        data ={
+            'message' : "Product added to wishlist"
+        }
+    else:
+        data = {
+            'message' : "Product is already in wishlist"
+        }
+
+    return JsonResponse(data)
+
+
+
+def wishlistToCart(request):
+
+    id = request.POST.get("id", None)
+    
+    quantity = 1
+
+    wishlist_item = Wishlist.objects.get(pk = id)
+
+    product =  wishlist_item.product_id
+
+    Cart.objects.create(product_id = product, quantity = quantity)
+
+    wishlist_item.delete()
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+def cartToWishlist(request):
+
+    id = request.POST.get("id", None)
+
+    # quantity = 1
+
+    cart_item = Cart.objects.get(pk = id)
+
+    product =  cart_item.product_id
+
+    Wishlist.objects.create(product_id = product)
+
+    # Cart.objects.create(product_id = product, quantity = quantity)
+
+    cart_item.delete()
+
+    data ={}
+
+    return JsonResponse(data)
+
+
+
+def review(request, id): # view for displaying and storing the form
+    product = get_object_or_404(Product, id=Product.id)
+
+    review= Review.objects.all()
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit = False)
+            review.product = Product
+            review.save()
+            Product.has_review = True
+            Product.save()
+            if Product.review==0:
+                Product.rating = review.rating
+            else:
+                Product.rating = (Product.rating*Product.review + review.rating)/(Product.review + 1)
+            Product.review += 1
+            Product.save()
+            review.success(request, 'your review has been sent correctly !')
+            return redirect(Product)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'shop/frontend/review.html', {'review': review})
+
+def review(request, id): # view for recording the rating
+    review = get_object_or_404(Review, id=id)
+    rating = request.POST.get('rating')
+    review.rating= rating
+    review.save()
+    review.success(request, 'your review has been sent correctly!')
+    return redirect(Product)  
+  
+
+def markAsComplete(request):
+
+    order_id = request.POST.get('order_id')
+    print(order_id)
+
+    order = Order.objects.get(pk = order_id)
+    order.status = "Completed"
+    order.save()
+
+    data = {
+        'success' : True
+        }
 
     return JsonResponse(data)

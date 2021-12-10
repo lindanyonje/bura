@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig', #Registering your app
     'widget_tweaks',
+    'django_filters',
+    
 ]
     
 
@@ -72,6 +74,8 @@ TEMPLATES = [
         },
     },
 ]
+
+WISHLIST_ITEM_MODEL = 'my_webshop.Product'
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
@@ -118,6 +122,24 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# MY EMAIL SENDING VARIABLES
+EMAIL_HOST ='smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+# EMAIL_HOST_USER='admin@gmail.com'
+# EMAIL_HOST_PASSWORD= 'bura123haven'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '4a8db5c322fb8f'
+EMAIL_HOST_PASSWORD = 'ad82aaf073a424'
+EMAIL_PORT = '2525'
+
 
 
 # Static files (CSS, JavaScript, Images)

@@ -49,7 +49,16 @@
                                <tr>
                                    <td>{{object.id}}</td>
                                    <td>{{object.total}}</td>
-                                   <td>{{object.status}}</td>
+                                   <td id="status_{{object.id}}">{{object.status}}
+                                       {% if object.status == "Pending" %}
+
+                                     <button class="btn btn-outline-dark btn-sm" id="btn_complete_{{object.id}}" onclick="markAsComplete('{{object.id}}')" tooltiptext="Mark as complete"><i class="fa fa-check"></i> 
+                                        <span class="tooltiptext">Mark as complete</span>
+                                     </button>
+
+                                         
+                                        {% endif %}
+                                   </td>
                                    <td>{{object.shipping_cost}}</td>
                                    <td>{{object.order_number}}</td>
                                    <td>{{object.customer_id}}</td>
@@ -128,3 +137,57 @@
 
 {% endblock %}
 
+{% block scripts %}
+
+<script>
+ 
+ $(document).ready(function(){
+    
+
+    $.ajaxSetup({
+        headers:{
+            'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    
+
+});
+
+function markAsComplete(order_id){
+
+
+
+$.ajax({
+    type: "POST",
+    url: "{% url 'mark_as_complete' %}",
+    dataType: "json",
+    data:{
+        'order_id':order_id,
+        
+    },
+    success:function(data){
+    //     Changes order from pending to complete
+
+    button = "#btn_complete_"+order_id
+    status = "#status_"+order_id
+    // $(button).addClass("d-none");
+    $(status).html("Completed")
+    // Notiflix.Notify.Success('order completed');
+
+    },
+    error: function(data){
+
+        console.log(data);
+        
+        // Notiflix.Notify.Failure('Something went wrong.');
+
+    }
+
+});
+}
+
+</script>
+
+
+{% endblock %}

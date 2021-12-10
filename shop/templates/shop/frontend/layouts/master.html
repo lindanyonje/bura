@@ -10,8 +10,14 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"></head>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/notiflix.css' %}">
+
+
+  {% block 'styles' %}
+  {% endblock 'styles' %}
 
 </head>
 
@@ -37,8 +43,87 @@
   
   <!--End Footer content-->
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>    
+  <script src="{% static 'js/notiflix.js' %}"></script>
+  
+  <script>
+    $(document).ready(function(){
+    
+    $.ajaxSetup({
+        headers:{
+            'X-CSRFToken': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+    });
+    
+    $(".addCart, #addCart").click(function(){
+    
+       let product_id = $(this).data('product');
+       let quantity = 1;
+    
+    
+    
+       $.ajax({
+            type: "POST",
+            url: "{% url 'add_cart' %}",
+            dataType: "json",
+            data:{
+                'product_id':product_id,
+                'quantity':quantity,
+            },
+            success:function(data){
+            //     Remove the category from html and show success
+            Notiflix.Notify.Success('Cart added successfully');
+    
+            },
+            error: function(data){
+                
+                Notiflix.Notify.Failure('Something went wrong.');
+    
+            }
+    
+        });
+        
+    });
+    
+    
+    $(".addWishlist, #addWishlist").click(function(){
+    
+    let product_id = $(this).data('product');
+    let customer_id= '{{customer.id}}';
+    
+  
+    
+    
+    $.ajax({
+         type: "POST",
+         url: "{% url 'add_wishlist' %}",
+         dataType: "json",
+         data:{
+             'product_id':product_id,
+             
+         },
+         success:function(data){
+         //     Remove the category from html and show success
+            Notiflix.Notify.Success(data['message']);
+    
+         },
+         error: function(data){
+             
+            
+             Notiflix.Notify.Failure('Something went wrong.');
+    
+         }
+    
+     });
+     
+    });
+
+    
+    </script>
+
+    {% block 'scripts' %}
+    {% endblock 'scripts' %}
 
 </body>
 </html>
